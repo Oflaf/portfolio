@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Olaf M. Portfolio</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/hk-grotesk" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/cascadia-code" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script> 
+
+<script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <style>
+        /* Klasa blokująca przewijanie */
+        body.stop-scrolling {
+            height: 100vh !important;
+            overflow: hidden !important;
+        }
+    </style>
+</head>
+
+<!-- Dodajemy klasę stop-scrolling od razu na start -->
+<body class="stop-scrolling">
+
+    <div id="custom-cursor"></div>
+    <div id="preloader" style="
+    position: fixed; 
+    top: 0; left: 0; 
+    width: 100%; height: 100%; 
+    background-color: #000; 
+    z-index: 99999; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+">
+    <div class="preloader-text" style="
+        font-family: 'Cascadia Mono ExtraLight', monospace;
+        font-size: clamp(20px, 4vw, 40px); 
+        color: white; 
+        letter-spacing: 5px; 
+        text-transform: uppercase;
+        opacity: 0; /* JS to odkryje */
+    ">
+        OLAF M. | PORTFOLIO
+    </div>
+</div>
+
+
+<section id="sky-section" class="bordered-section">
+    <div class="sky-container">
+        
+
+        <canvas id="webglCanvas"></canvas>
+        <div id="star-labels-container"></div>
+
+
+        <a href="index-pl.html" class="lang-link">
+    <img src="img/use_/lang.png" alt="Language / Język" class="lang-icon">
+    <span class="lang-text">PL</span> 
+    </a>
+        <div class="how-wrapper">
+            <img src="img/use_/how.png" alt="How?" class="how-icon">
+            
+            <div class="how-box">
+                <div class="how-title">HOW?</div>
+                <div class="how-text">
+                    This project is a custom WebGL2 engine where the sky, clouds, stars, the Sun, the Moon and the ocean are generated procedurally in GLSL shaders. Rendering runs on a single fullscreen quad, with most calculations — noise, lighting, day-night transitions and waves — executed directly on the GPU. JavaScript handles only the camera, time control and object labels. While building the system, I used artificial intelligence as a helpful tool for working through spatial calculations, optimizations and various mathematical transformations.
+                </div>
+            </div>
+        </div>
+
+         <div class="time-widget">
+            <div class="digital-clock" id="digital-clock">12:00</div>
+            <!-- NOWA DATA -->
+            <div class="current-date" id="current-date">02. gru.</div>
+
+            <div class="dial-wrapper"> <!-- NOWY WRAPPER DLA SLIDERA I IKONY -->
+                <div class="dial-container" id="dial-container">
+                    <div class="dial-ring"></div>
+                    <!-- Znacznik słońca/pozycji na okręgu -->
+                    <div class="dial-knob" id="dial-knob"></div>
+                </div>
+                <!-- NOWA IKONA RESETU -->
+                <div class="reset-icon" id="reset-icon">
+                     <!-- Zakładam, że img/use_/reset.png istnieje -->
+                     <img src="img/use_/reset.png" alt="Reset Time">
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="portfolio-title">OLAF M. | PORTFOLIO</div>
+        <div class="portfolio-subtitle">graphics designer & web designer</div>
+        <div class="portfolio-buttons">
+            <a href="#about" class="portfolio-btn">About me</a>
+            <a href="#contact" class="portfolio-btn">Contact</a>
+            <a href="#works" class="portfolio-btn">Works</a>
+        </div>
+        <div class="burned-text">
+            <span id="typed-text"></span><span id="cursor">|</span>
+        </div>
+        <div id="webgl-notice" class="webgl-notice">This effect was built using WebGL.</div>
+        
+        <!-- START: NOWY ELEMENT ZAPISU ZDJĘCIA -->
+         <a href="#" id="capture-canvas" class="capture-canvas-link">
+            <img src="img/use_/camera.png" alt="Zapisz zrzut" class="capture-icon">
+            <span class="capture-text">Save Sky</span>
+        </a>
+        <!-- END: NOWY ELEMENT ZAPISU ZDJĘCIA -->
+
+         <a href="https://www.instagram.com/solendz_caravan/" target="_blank" class="insta-link">
+            <img src="img/use_/insta.png" alt="Instagram">
+            <span>@solendz_caravan</span>
+        </a>
+
+    </div>
+</section>
+
+<section class="about-section" id="about">
+    <div class="theme-switch-icons">
+
+        <img src="img/use_/light.png" alt="Light Mode" id="light-icon" class="mode-icon active-mode-icon">
+
+        <img src="img/use_/dark.png" alt="Dark Mode" id="dark-icon" class="mode-icon">
+    </div>
+    <div class="about-top-row">
+        <div class="about-header">
+            <h1 class="hk-title">SEEING PEOPLE THRIVE IN WHAT TRULY IGNITES THEM IS WHAT DRIVES ME FORWARD</h1>
+            <p class="hk-subtitle">AFTER BURNING OUT CREATING WORK I DIDN’T TRULY BELIEVE IN, FACING THE HARD QUESTION OF WHAT I ACTUALLY WANT FROM LIFE MADE ME REALIZE THAT HELPING PEOPLE CHASE WHAT THEY DEEPLY AND PASSIONATELY BELIEVE IN IS WHAT GIVES ME A TRUE SENSE OF PURPOSE.</p>
+        </div>
+        <div class="about-image-container fade-in-on-scroll">
+            <div class="about-image"></div>
+        </div>
+    </div>
+
+    <div class="about-content">
+        <div class="about-text-wrapper">
+           <div class="about-column fade-in-on-scroll">
+               <h2 class="about-label">who am I?</h2>
+            </div>
+            <div class="about-column fade-in-on-scroll">
+                <p class="hk-text-body">I am a programmer by training and an artist by vocation, endlessly inspired by the world around me. Through photography, art, and the creation of digital experiences — websites and services alike — I distill its essence into modernist minimalism, where space, light, and narrative intertwine in subtle harmony. Every project I undertake is both an exercise in precision and a meditation on the nuanced beauty of everyday life.</p>
+            </div>
+            <div class="about-column fade-in-on-scroll">
+                <p class="hk-text-body">I develop websites that go beyond functionality, giving them a subtle, artistic character. I enjoy designing for artists and small brands, creating spaces where their ideas and products can shine. Each project is a blend of simplicity, elegance, and a touch of creative storytelling.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="gallery-section" id="works">
+    <div class="gallery-label">GALLERY</div>
+    <div class="gallery-note" id="gallery-text">
+    I work with both analog and digital photography, using my visual experience to design meaningful, atmospheric spaces for brands. By combining original imagery with thoughtful web design, I create online experiences that feel cohesive, authentic, and visually engaging.
+    </div>
+    <button id="mode-switch">mode: mono</button>
+
+    <div class="gallery-track">
+        <img src="img/gallery_/sea.jpg" alt="Sea" ondragstart="return false;">
+        <img src="img/gallery_/field.jpg" alt="Field" ondragstart="return false;">
+        <img src="img/gallery_/sea.jpg" alt="Sea Loop" ondragstart="return false;">
+        <img src="img/gallery_/field.jpg" alt="Field Loop" ondragstart="return false;">
+    </div>
+</section>
+
+
+<script src="sky.js"></script>
+<script src="gallery.js"></script>
+
+<script src="preloader.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+        const captureLink = document.getElementById('capture-canvas');
+        const webglCanvas = document.getElementById('webglCanvas'); // Cel: nasz canvas
+
+        if (captureLink && webglCanvas) {
+            captureLink.addEventListener('click', function(e) {
+                e.preventDefault(); // Zatrzymaj domyślne działanie linku (przejście do #)
+
+                // 1. Pobierz dane z canvasu jako URL obrazu (PNG)
+                // Upewnij się, że serwer obsługuje CORS dla toDataURL, jeśli pliki są z innego źródła.
+                // W tym przypadku (WebGL) to nie powinno być problemem.
+                try {
+                    const dataURL = webglCanvas.toDataURL('image/png');
+    
+                    // 2. Utwórz tymczasowy element <a>
+                    const tempLink = document.createElement('a');
+                    tempLink.href = dataURL;
+                    tempLink.download = 'sky_capture.png'; // Nazwa pliku do pobrania
+    
+                    // 3. Wymuś kliknięcie
+                    document.body.appendChild(tempLink);
+                    tempLink.click();
+                    document.body.removeChild(tempLink);
+                    
+                } catch (error) {
+                    console.error("Błąd podczas próby zapisu obrazu z canvas: ", error);
+                    alert("Nie udało się zapisać zrzutu. Upewnij się, że WebGL działa poprawnie.");
+                }
+            });
+        }
+    });
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const aboutSection = document.getElementById('about');
+    const skySection = document.getElementById('sky-section'); 
+    const lightIcon = document.getElementById('light-icon');
+    const darkIcon = document.getElementById('dark-icon');
+    const customCursor = document.getElementById('custom-cursor'); 
+    const body = document.body;
+
+    if (!aboutSection || !skySection || !lightIcon || !darkIcon) return;
+
+    // Ustawienie początkowe: sekcja jest ciemna, więc pokazujemy ikonę do przełączenia na jasny tryb
+    lightIcon.classList.add('active-mode-icon');
+    darkIcon.classList.remove('active-mode-icon');
+
+    // --- FUNKCJA ANIMACJI LITER (JUMP EFFECT) ---
+    function jumpText() {
+        // Celujemy we wszystkie elementy liter w sekcji about-section, które mają klasę .char-reveal
+        const allAboutChars = document.querySelectorAll("#about .char-reveal");
+        
+        if (allAboutChars.length === 0) return;
+
+        gsap.killTweensOf(allAboutChars); // Zabezpieczenie przed kumulacją animacji
+
+        // Animacja 'skoku'
+        gsap.fromTo(allAboutChars, 
+            { y: 0, scaleY: 1 }, 
+            {
+                y: -10, // Skok w górę
+                scaleY: 1.1, // Delikatne rozciągnięcie
+                duration: 0.15,
+                ease: "power2.out",
+                stagger: 0.0025,
+                onComplete: () => {
+                    // Powrót w dół z efektem sprężyny
+                    gsap.to(allAboutChars, {
+                        y: 0,
+                        scaleY: 1,
+                        duration: 0.3,
+                        ease: "bounce.out",
+                        stagger: 0.009,
+                        delay: 0.03 
+                    });
+                }
+            }
+        );
+    }
+    // --- KONIEC FUNKCJI ANIMACJI LITER ---
+
+
+    function toggleTheme() {
+        // 1. Przełączanie klasy w obu sekcjach i na BODY
+        aboutSection.classList.toggle('light-mode');
+        skySection.classList.toggle('light-mode');
+        body.classList.toggle('light-mode-active'); // Nowa klasa do zmiany backgroundu body
+
+        // 2. Przełączanie widoczności ikon i kolor kursora
+        if (aboutSection.classList.contains('light-mode')) {
+            lightIcon.classList.remove('active-mode-icon');
+            darkIcon.classList.add('active-mode-icon');
+            
+            // Kursor przełączony na ciemny na jasnym tle (jeśli mix-blend-mode to za mało)
+            // Jeśli zostawisz mix-blend-mode: difference na kursorze, ta linia nie jest konieczna
+            // customCursor.style.backgroundColor = '#000'; 
+        } else {
+            lightIcon.classList.add('active-mode-icon');
+            darkIcon.classList.remove('active-mode-icon');
+            // customCursor.style.backgroundColor = 'white'; 
+        }
+        
+        // 3. Uruchomienie animacji "skoku" liter
+        // Uruchamiamy po małym opóźnieniu, aby animacja pasowała do płynnego przejścia tła
+        setTimeout(jumpText, 200);
+    }
+
+    // Dodanie nasłuchiwania na kliknięcia obu ikon
+    lightIcon.addEventListener('click', toggleTheme);
+    darkIcon.addEventListener('click', toggleTheme);
+});
+</script>
+
+<script>
+    (function() {
+        if (history.scrollRestoration) {
+            history.scrollRestoration = 'manual';
+        }
+
+        window.onbeforeunload = function () {
+            window.scrollTo(0, 0);
+        }
+
+        window.addEventListener('load', function() {
+            window.scrollTo(0, 0);
+            
+            const preloader = document.getElementById('preloader');
+            const body = document.body;
+            
+            if (preloader) {
+                const observer = new MutationObserver(function(mutations) {
+                    mutations.forEach(function(mutation) {
+                        if (mutation.type === "attributes" && mutation.attributeName === "style") {
+                            const style = window.getComputedStyle(preloader);
+                            
+                            // Sprawdź czy element zniknął
+                            if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') {
+                                
+                                // 1. Odblokuj przewijanie
+                                body.classList.remove('stop-scrolling');
+                                
+                                // 2. URUCHOM ANIMACJĘ ZEGARA (NOWE)
+                                if (window.startClockAnimation) {
+                                    window.startClockAnimation();
+                                }
+
+                                observer.disconnect();
+                            }
+                        }
+                    });
+                });
+
+                observer.observe(preloader, { attributes: true });
+            } else {
+                body.classList.remove('stop-scrolling');
+                // Jeśli nie ma preloadera, uruchom zegar od razu
+                if (window.startClockAnimation) window.startClockAnimation();
+            }
+        });
+    })();
+</script>
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function() {
+    const modeSwitch = document.getElementById('mode-switch');
+    const gallerySection = document.querySelector('.gallery-section');
+
+    if (modeSwitch && gallerySection) {
+        modeSwitch.addEventListener('click', function() {
+            // Przełącz klasę w sekcji galerii
+            gallerySection.classList.toggle('color-mode');
+
+            // Zmień tekst w zależności od stanu
+            if (gallerySection.classList.contains('color-mode')) {
+                modeSwitch.textContent = 'mode: color';
+            } else {
+                modeSwitch.textContent = 'mode: mono';
+            }
+        });
+    }
+});
+
+</script>
+
+<script>
+    
+document.addEventListener("DOMContentLoaded", function() {
+    const cursor = document.getElementById('custom-cursor');
+    let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0;
+    const speed = 0.15; 
+
+    document.addEventListener('mousemove', function(e) {
+        mouseX = e.clientX; mouseY = e.clientY;
+    });
+
+    function animateCursor() {
+        cursorX += (mouseX - cursorX) * speed;
+        cursorY += (mouseY - cursorY) * speed;
+        cursor.style.left = cursorX + 'px';
+        cursor.style.top = cursorY + 'px';
+        requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    document.addEventListener('mousedown', () => cursor.classList.add('click-active'));
+    document.addEventListener('mouseup', () => cursor.classList.remove('click-active'));
+
+    const links = document.querySelectorAll('a, button, .portfolio-btn, input');
+    links.forEach(link => {
+        link.addEventListener('mouseenter', () => cursor.classList.add('hover-active'));
+        link.addEventListener('mouseleave', () => cursor.classList.remove('hover-active'));
+    });
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const noticeElement = document.getElementById('webgl-notice');
+    const text1 = "This effect was built using WebGL.";
+    const text2 = "It’s just a small taste of what I’m capable of.";
+    let isFirstText = true;
+
+    function toggleText() {
+        if (!noticeElement) return;
+        noticeElement.classList.add('blur-out');
+        setTimeout(() => {
+            noticeElement.textContent = isFirstText ? text2 : text1;
+            isFirstText = !isFirstText;
+            noticeElement.classList.remove('blur-out');
+        }, 800); 
+    }
+    setInterval(toggleText, 5000);
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const galleryTextElement = document.getElementById('gallery-text');
+    
+    // Treść tekstów
+    const textOriginal = "I work with both analog and digital photography, using my visual experience to design meaningful, atmospheric spaces for brands. By combining original imagery with thoughtful web design, I create online experiences that feel cohesive, authentic, and visually engaging.";
+    const textReplacement = "Investing in originality is ultimately an investment in your brand. Unique, thoughtfully crafted visuals don’t just elevate the look of a project — they shape how a brand is felt, remembered, and trusted. When every element is genuinely yours, the experience becomes unmistakably distinctive and emotionally resonant.";
+
+    let isOriginal = true;
+
+    function swapGalleryText() {
+        // 1. Aktywuj klasę rozmycia i znikania
+        galleryTextElement.classList.add('blur-out');
+
+        setTimeout(() => {
+            galleryTextElement.textContent = isOriginal ? textReplacement : textOriginal;
+            isOriginal = !isOriginal;
+            
+            galleryTextElement.classList.remove('blur-out');
+        }, 1000);
+    }
+
+    // Uruchom interwał co 10 sekund (10000 ms)
+    setInterval(swapGalleryText, 10000);
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const typedTextElement = document.getElementById('typed-text');
+    const cursorElement = document.getElementById('cursor');
+    
+    if (typedTextElement && cursorElement) {
+        const firstText = "Take Your Brand to New Heights.";
+        const secondText = "With me. Enjoy my Portfolio.";
+        let currentText = '', currentIndex = 0, isDeleting = false, isFirstTextComplete = false;
+        
+        setInterval(() => cursorElement.style.opacity = cursorElement.style.opacity === '0' ? '1' : '0', 500);
+
+        function typeWriter() {
+            let text = isFirstTextComplete ? secondText : firstText;
+            if (!isDeleting && currentIndex < text.length) {
+                currentText += text[currentIndex++];
+                typedTextElement.textContent = currentText;
+                setTimeout(typeWriter, 80);
+            } else if (!isDeleting && currentIndex === text.length) {
+                setTimeout(() => { isDeleting = true; typeWriter(); }, 2000);
+            } else if (isDeleting && currentIndex > 0) {
+                currentText = currentText.slice(0, -1);
+                currentIndex--;
+                typedTextElement.textContent = currentText;
+                setTimeout(typeWriter, 40);
+            } else {
+                isDeleting = false;
+                isFirstTextComplete = !isFirstTextComplete;
+                setTimeout(typeWriter, 1500);
+            }
+        }
+        setTimeout(typeWriter, 1000);
+    }
+
+    const burnedText = document.querySelector('.burned-text');
+    const skySection = document.getElementById('sky-section');
+
+    if (burnedText && skySection) {
+        window.addEventListener('scroll', function() {
+            const sectionHeight = skySection.offsetHeight;
+            const scrollY = window.scrollY;
+            if (scrollY > sectionHeight) return;
+
+            const progress = scrollY / sectionHeight;
+            const isMobile = window.innerWidth <= 1279;
+            const textStart = isMobile ? 0.05 : 0.03;
+            const textEnd = isMobile ? 0.7 : 0.9;
+
+            let textProgress = 0;
+            if (progress > textStart) {
+                textProgress = (progress - textStart) / (textEnd - textStart);
+                textProgress = Math.min(Math.max(textProgress, 0), 1);
+            }
+            const easeOut = 1 - Math.pow(1 - textProgress, 3);
+            burnedText.style.opacity = 1 - easeOut;
+            burnedText.style.filter = `url(#burn-effect) blur(${easeOut * (isMobile ? 4 : 8)}px)`;
+            burnedText.style.transform = `translate(-50%, -50%) scale(${1 - easeOut * (isMobile ? -0.2 : -0.5)})`;
+        });
+    }
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const animatedElements = document.querySelectorAll('.fade-in-on-scroll');
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                obs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.05 });
+    animatedElements.forEach(el => observer.observe(el));
+});
+</script>
+
+
+<script>
+
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    // 1. Zarejestruj ScrollToPlugin
+    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin); // Dodano ScrollToPlugin
+
+    // 2. Znajdź link "About me"
+    const aboutLink = document.querySelector('.portfolio-buttons a[href="#about"]');
+    
+    if (aboutLink) {
+        aboutLink.addEventListener('click', function(e) {
+            e.preventDefault(); // Zablokuj domyślne, sztywne przeniesienie
+
+            // Znajdź sekcję docelową (w tym przypadku #about)
+            const targetId = this.getAttribute("href");
+            const targetElement = document.querySelector(targetId);
+
+            if (targetElement) {
+                // Użyj GSAP do płynnego przewijania
+                gsap.to(window, {
+                    duration: 1.5, // Czas trwania animacji (1.5 sekundy daje ładny efekt)
+                    scrollTo: {
+                        y: targetElement, // Przewiń do elementu docelowego
+                        offsetY: 0 // Możesz dodać offset, jeśli masz stały nagłówek
+                    },
+                    ease: "power2.inOut" // Płynna krzywa animacji
+                });
+            }
+        });
+    }
+
+    // ----------------------------------------------------
+    // PONIŻEJ ZOSTAWIAM CAŁY TWÓJ ISTNIEJĄCY KOD GSAP Z ANIMACJĄ LITER
+    // ----------------------------------------------------
+
+    function splitTextToSpans(element) {
+        // ... (Twój istniejący kod splitTextToSpans)
+        const text = element.textContent.trim();
+        const words = text.split(" ");
+        element.innerHTML = "";
+
+        words.forEach((word, index) => {
+            const wordSpan = document.createElement("span");
+            wordSpan.className = "word-wrapper";
+            
+            const chars = word.split("");
+            chars.forEach(char => {
+                const charSpan = document.createElement("span");
+                charSpan.textContent = char;
+                charSpan.className = "char-reveal";
+                wordSpan.appendChild(charSpan);
+            });
+
+            element.appendChild(wordSpan);
+
+            if (index < words.length - 1) {
+                element.appendChild(document.createTextNode(" "));
+            }
+        });
+        
+        return element.querySelectorAll(".char-reveal");
+    }
+
+    const title = document.querySelector(".hk-title");
+    if (title) {
+        const titleChars = splitTextToSpans(title);
+        gsap.fromTo(titleChars, 
+            { opacity: 0, y: 30, filter: "blur(10px)" },
+            {
+                opacity: 1, y: 0, filter: "blur(0px)",
+                duration: 0.8, stagger: 0.02, ease: "power2.out",
+                scrollTrigger: { trigger: ".about-header", start: "top 80%" }
+            }
+        );
+    }
+
+    const subtitle = document.querySelector(".hk-subtitle");
+    if (subtitle) {
+        const subtitleChars = splitTextToSpans(subtitle);
+        gsap.fromTo(subtitleChars, 
+            { opacity: 0, y: 20 },
+            {
+                opacity: 1, y: 0,
+                duration: 0.6, stagger: 0.005, ease: "power1.out", delay: 0.2,
+                scrollTrigger: { trigger: ".about-header", start: "top 80%" }
+            }
+        );
+    }
+
+    const bodyTexts = document.querySelectorAll(".hk-text-body, .about-label");
+    
+    bodyTexts.forEach(textBlock => {
+        const chars = splitTextToSpans(textBlock);
+        
+        gsap.fromTo(chars,
+            { opacity: 0, y: 10 },
+            {
+                opacity: 1, y: 0,
+                duration: 0.4, 
+                stagger: 0.006, 
+                ease: "power1.out",
+                scrollTrigger: { 
+                    trigger: textBlock, 
+                    start: "top 90%" 
+                }
+            }
+        );
+    });
+});
+</script>
+
+</body>
+</html>
