@@ -1,0 +1,747 @@
+/* ========================================================= */
+/* GLOBAL & CUSTOM CURSOR STYLES (Bez zmian) */
+/* ========================================================= */
+* {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    box-sizing: border-box;
+}
+
+*::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    color: white;
+    min-height: 100vh; 
+    overflow-x: hidden; 
+    /* ZMIANA: Dodano płynne przejście tła dla animacji motywu */
+    transition: background-color 0.4s ease-in-out;
+}
+
+/* ZMIANA: Motyw jasny - KLASA DODANA PRZEZ JS */
+body.light-mode-active {
+    background-color: #fcfcfc !important;
+    color: #111;
+}
+
+body, a, button, input, textarea {
+    cursor: none !important; 
+}
+
+/* Własny kursor (Bez zmian) */
+#custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    pointer-events: none; 
+    z-index: 10000;
+    mix-blend-mode: difference; 
+    transform: translate(-50%, -50%) scale(1);
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+#custom-cursor.click-active,
+#custom-cursor.hover-active {
+    transform: translate(-50%, -50%) scale(3.5);
+    background-color: white;
+}
+
+@media (hover: none) and (pointer: coarse) {
+    #custom-cursor {
+        display: none;
+    }
+    body {
+        cursor: auto;
+    }
+}
+
+/* STYLE ANIMACJI PRZEJŚCIA (Bez zmian) */
+#transition-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    opacity: 1; 
+    visibility: visible; 
+    z-index: 100000; 
+    pointer-events: all; 
+}
+
+
+/* ========================================================= */
+/* STYLES NAGŁÓWKA NA STRONIE WORK (ZMIANY) */
+/* ========================================================= */
+
+.work-page-container {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+    max-width: 3000px; 
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 20px clamp(20px, 4vw, 80px); 
+}
+
+.work-header-title {
+    position: absolute;
+    top: 30px;
+    left: clamp(20px, 4vw, 80px); 
+    font-family: 'Cascadia Mono ExtraLight', monospace;
+    font-size: clamp(0.7rem, 3vw, 2.5rem);
+    font-weight: 200;
+    color: rgb(255, 255, 255);
+    letter-spacing: 2px;
+    z-index: 10;
+    pointer-events: none; 
+    /* ZMIANA: Pozwala na wyświetlanie elementów jeden pod drugim */
+    display: flex; 
+    flex-direction: column;
+    line-height: 1.2;
+    transition: color 0.4s ease-in-out;
+}
+
+/* Nowa klasa dla małego napisu */
+.header-subtitle {
+    font-family: 'Cascadia Mono ExtraLight', monospace;
+    font-size: 0.34em; /* Skaluje się względem głównego tytułu (będzie dużo mniejszy) */
+    font-weight: 100;
+    letter-spacing: 1px;
+    opacity: 0.7; /* Lekko przygaszony kolor */
+    margin-top: 5px;
+    text-transform: lowercase; /* Opcjonalnie: małe litery wyglądają nowocześnie */
+}
+
+/* --- 2. Zwiększenie odstępu między kartami a tekstem --- */
+
+
+
+body.light-mode-active .work-header-title {
+    color: #111;
+}
+
+/* ZMIANA: Kontener na Lang, Theme i Back */
+.header-controls {
+    position: absolute;
+    top: 30px;
+    right: clamp(20px, 4vw, 80px); 
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    z-index: 10;
+    pointer-events: all;
+}
+
+/* ZMIANA: Język (Lang Link) */
+.lang-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.lang-icon {
+    width: 18px;
+    height: auto;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.lang-text {
+    font-family: 'Cascadia Mono ExtraLight', monospace;
+    font-size: clamp(0.7rem, 1.1vw, 0.9rem);
+    color: rgba(255, 255, 255, 0.7);
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+}
+
+.lang-link:hover .lang-text { color: #fff; }
+.lang-link:hover .lang-icon { opacity: 1; transform: scale(1.1); }
+
+body.light-mode-active .lang-text { color: rgba(0, 0, 0, 0.7); }
+body.light-mode-active .lang-link:hover .lang-text { color: #000; }
+body.light-mode-active .lang-icon { filter: invert(1); } /* Inwertuj kolor ikony na jasnym tle */
+body.light-mode-active .lang-link:hover .lang-icon { filter: invert(0.8); }
+
+/* ZMIANA: Przełącznik Motywów */
+.theme-switch-icons {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.mode-icon {
+    width: 20px; 
+    height: 20px;
+    cursor: none; 
+    opacity: 0.7;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    display: none; 
+}
+
+.mode-icon.active-mode-icon {
+    display: block; 
+}
+
+.mode-icon:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* ZMIANA: Przycisk Back */
+.header-back-link {
+    /* Ustawienie pod elastyczny kontener flex */
+    position: relative; 
+    top: auto;
+    right: auto;
+    display: inline-block;
+    text-decoration: none;
+    z-index: 10;
+    pointer-events: all;
+    font-family: 'Cascadia Mono ExtraLight', monospace;
+    font-size: clamp(0.5rem, 1.2vw, 1rem);
+    font-weight: 200;
+    color: rgba(255, 255, 255, 0.7);
+    transition: all 0.3s ease;
+    letter-spacing: 2px;
+    padding: 0; 
+}
+
+body.light-mode-active .header-back-link {
+    color: rgba(0, 0, 0, 0.7);
+}
+body.light-mode-active .header-back-link:hover {
+    color: rgba(0, 0, 0, 0.9);
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+
+/* ========================================================= */
+/* SEKCJA PORTFOLIO - GŁÓWNE ZMIANY RESPONSIVE */
+/* ========================================================= */
+
+.portfolio-section {
+    flex-grow: 1;
+    display: flex;
+    width: 100%;
+    margin-top: 15vh; 
+    min-height: 80vh; 
+    padding-bottom: 5vh; 
+}
+
+/* LEWA STRONA: WIZUALIZACJE (4/6) */
+.portfolio-visuals {
+    flex: 4; 
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px; 
+    margin: 0 auto;
+    padding: 0;
+    overflow: visible; 
+    box-sizing: border-box;
+}
+
+.card-stack-wrapper {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-top: 64.58%; 
+    padding-left: 5%; 
+    padding-right: 5%; 
+    margin: 0 -5%; 
+}
+
+
+/* KONTEJNER STOSU KART */
+.card-stack {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1500px; 
+}
+
+/* POJEDYNCZA KARTA PORTFOLIO */
+.portfolio-card {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0; 
+    transform-origin: center center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease-out, border-color 0.4s ease;
+    visibility: hidden; 
+}
+
+.portfolio-card:hover {
+    transform: scale(1.01) rotateY(-1.5deg) !important; 
+    box-shadow: 0 20px 60px rgba(255, 255, 255, 0.15), 0 0 30px rgba(255, 255, 255, 0.3);
+}
+
+body.light-mode-active .portfolio-card {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+body.light-mode-active .portfolio-card:hover {
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 0 30px rgba(0, 0, 0, 0.1);
+}
+
+.portfolio-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    user-select: none;
+    pointer-events: none;
+}
+
+/* KONTROLA (Przyciski Next/Prev) */
+.portfolio-controls-mobile {
+    display: none; 
+}
+
+.portfolio-controls-desktop {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: flex; 
+    gap: 20px;
+    padding: 0;
+    margin-top: 0;
+}
+
+
+.nav-btn {
+    font-family: 'Cascadia Code', monospace;
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: white;
+    padding: 8px 16px; 
+    font-size: 13px;
+    letter-spacing: 1px;
+    cursor: none;
+    transition: all 0.3s ease;
+}
+
+body.light-mode-active .nav-btn {
+    border-color: rgba(0, 0, 0, 0.4);
+    color: #111;
+}
+
+.nav-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: white;
+}
+body.light-mode-active .nav-btn:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-color: #000;
+}
+
+/* PRAWA STRONA: OPIS (2/6) */
+.portfolio-info {
+    flex: 2; 
+
+    padding-left: clamp(30px, 12vw, 100px); 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: white;
+    position: relative; 
+}
+
+.info-header {
+    margin-bottom: 20px;
+}
+
+.info-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 4rem);
+    font-weight: 700;
+    margin: 0;
+    display: inline-block;
+    vertical-align: top;
+    transition: color 0.4s ease;
+}
+body.light-mode-active .info-title {
+    color: #111;
+}
+
+.info-date {
+    font-family: 'HK Grotesk', sans-serif;
+    font-size: clamp(0.8rem, 1vw, 1rem);
+    color: #aaa;
+    font-weight: 300;
+    display: inline-block;
+    transition: color 0.4s ease;
+}
+body.light-mode-active .info-date {
+    color: #555;
+}
+
+.info-description-1 {
+    font-family: 'HK Grotesk', sans-serif;
+    font-size: clamp(0.9rem, 1.2vw, 1.2rem);
+    line-height: 1.6;
+    color: #ccc;
+    max-width: 90%;
+    margin-bottom: 1.2em; 
+    transition: color 0.4s ease;
+}
+.info-description-2 {
+    font-family: 'HK Grotesk', sans-serif;
+    font-size: clamp(0.9rem, 1.2vw, 1.2rem);
+    line-height: 1.6;
+    color: #ccc;
+    max-width: 90%;
+    transition: color 0.4s ease;
+}
+body.light-mode-active .info-description-1,
+body.light-mode-active .info-description-2 {
+    color: #444;
+}
+
+.info-counter {
+    margin-top: 30px;
+    font-family: 'Cascadia Code', monospace;
+    font-size: 14px;
+    color: #aaa;
+    transition: color 0.4s ease;
+}
+body.light-mode-active .info-counter {
+    color: #555;
+}
+
+.info-counter #current-index {
+    color: white;
+    font-weight: bold;
+    transition: color 0.4s ease;
+}
+body.light-mode-active .info-counter #current-index {
+    color: #111;
+}
+
+#info-title, #info-date, .info-description-1, .info-description-2 {
+    transition: opacity 0.4s, filter 0.4s;
+}
+
+/* ========================================================= */
+/* MEDIA QUERY (TABLET/MOBILE) */
+/* ========================================================= */
+@media (max-width: 1024px) {
+    .portfolio-section {
+        flex-direction: column;
+        margin-top: 5vh; 
+        min-height: auto; 
+    }
+    
+    .portfolio-visuals {
+        max-width: 100%; 
+        padding: 0;
+        overflow-x: hidden; 
+        box-sizing: border-box;
+    }
+
+    .card-stack-wrapper {
+        width: 80vw; 
+        margin: 15px auto; 
+        padding-top: 51.66vw; 
+        height: 0;
+        padding-left: 0; 
+        padding-right: 0; 
+        overflow: hidden; 
+    }
+    
+    /* --- ZMIANA TUTAJ --- */
+    .portfolio-info {
+        flex: 2; 
+        /* Usunięto asymetryczny padding-left: clamp(...) */
+        padding: 0 20px; /* Symetryczne odstępy po bokach */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center; /* Centruje elementy wewnątrz (np. tytuł) */
+        color: white;
+        position: relative; 
+        width: 100%; /* Pewność, że kontener ma pełną szerokość */
+        box-sizing: border-box;
+    }
+    
+    .info-header {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%; /* Header też na pełną szerokość */
+        display: flex;
+        align-items: center; /* Centrowanie tytułu i daty */
+        text-align: center;
+    }
+    
+    .info-title {
+        display: block; 
+        width: 100%;
+        text-align: center;
+    }
+
+    .info-date {
+        display: block;
+        margin-top: 8px; 
+        margin-left: 0;
+        text-align: center;
+    }
+
+    /* --- ZMIANA TUTAJ: Opisy --- */
+    .info-description-1,
+    .info-description-2 {
+        width: 90%; /* Zamiast max-width, dajemy stałą szerokość responsywną */
+        max-width: 600px; /* Opcjonalnie: żeby na tabletach nie były zbyt szerokie */
+        margin-left: auto;   /* Margines auto po lewej */
+        margin-right: auto;  /* Margines auto po prawej - to centruje blok */
+        margin-bottom: 1.2em;
+        margin-top: 10px;
+        text-align: justify; /* Justowanie tekstu wewnątrz bloku */
+    }
+
+    .portfolio-controls-desktop {
+        display: none;
+    }
+    
+    .portfolio-controls-mobile {
+        display: flex;
+        position: relative; 
+        justify-content: center;
+        width: 100%;
+        margin-top: 20px; /* Lekki odstęp od tekstu */
+        padding: 10px 0;
+    }
+
+    .header-controls {
+        top: 20px;
+        right: 15px;
+        gap: 15px;
+    }
+
+    .work-header-title {
+        left: 15px;
+        top: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .work-page-container {
+        padding: 15px 15px; 
+    }
+    
+    .card-stack-wrapper {
+        width: 90vw; 
+        margin: 10px auto; 
+        padding-top: 58.12vw; 
+    }
+    
+    /* Zmiana pozycji i rozmiaru kontrolek nagłówka */
+    .header-controls {
+        top: 15px;
+        right: 15px;
+        gap: 10px;
+    }
+}
+
+
+#transition-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    opacity: 1; /* Musi być 1 na start! */
+    visibility: visible; 
+    z-index: 100000; 
+    pointer-events: all; 
+}
+
+/* 1. Tryb Ciemny (Domyślny) - Tło Czarne -> Zaznaczenie Białe, Tekst Czarny */
+::selection {
+    background-color: #ffffff; /* Białe tło zaznaczenia */
+    color: #000000;            /* Czarny tekst */
+    text-shadow: none;
+}
+
+::-moz-selection { /* Wsparcie dla Firefoxa */
+    background-color: #ffffff;
+    color: #000000;
+    text-shadow: none;
+}
+
+/* 2. Tryb Jasny (body.light-mode-active) - Tło Białe/Fcfcfc -> Zaznaczenie Czarne, Tekst Biały */
+body.light-mode-active ::selection {
+    background-color: #000000; /* Czarne tło zaznaczenia */
+    color: #ffffff;            /* Biały tekst */
+}
+
+body.light-mode-active ::-moz-selection {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+
+.contact-section {
+    width: 100%;
+    background-color: #000;
+    padding-top: 60px;
+    padding-bottom: 80px;
+    transition: background-color 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.contact-content-wrapper {
+    width: 95%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.contact-left {
+    width: 45%;
+    padding-right: 20px;
+}
+
+.contact-right {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    padding-top: 15px;
+}
+
+/* Form Styles */
+.minimal-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.form-row {
+    position: relative;
+    width: 100%;
+}
+
+.minimal-form input,
+.minimal-form textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 15px 0;
+    font-family: 'Cascadia Code', monospace; /* Spójność z resztą strony */
+    font-size: 14px;
+    color: #fff;
+    transition: border-color 0.3s ease, color 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+    border-radius: 0;
+}
+
+.minimal-form input:focus,
+.minimal-form textarea:focus {
+    outline: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.minimal-form input::placeholder,
+.minimal-form textarea::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+    font-family: 'HK Grotesk', sans-serif;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 1px;
+    transition: color 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Submit Button */
+.submit-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    padding: 15px 40px;
+    font-family: 'Cascadia Code', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    cursor: none; /* Żeby działał Twój custom cursor */
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    margin-top: 10px;
+    width: fit-content;
+}
+
+.submit-btn:hover {
+    background: #fff;
+    color: #000;
+    border-color: #fff;
+}
+
+/* --- LIGHT MODE FOR CONTACT --- */
+.contact-section.light-mode,
+body.light-mode-active .contact-section {
+    background-color: #fcfcfc;
+}
+
+body.light-mode-active .minimal-form input,
+body.light-mode-active .minimal-form textarea {
+    color: #111;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+body.light-mode-active .minimal-form input:focus,
+body.light-mode-active .minimal-form textarea:focus {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+}
+
+body.light-mode-active .minimal-form input::placeholder,
+body.light-mode-active .minimal-form textarea::placeholder {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+body.light-mode-active .submit-btn {
+    color: #111;
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
+body.light-mode-active .submit-btn:hover {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+}
+
+/* --- RESPONSIVE (Takie samo jak w Self Theme) --- */
+@media (max-width: 1024px) {
+    .contact-content-wrapper { flex-direction: column; }
+    .contact-left { width: 100%; margin-bottom: 30px; }
+    .contact-right { width: 100%; padding-top: 0; }
+}
+
+@media (max-width: 768px) {
+    .contact-section { padding-top: 30px; padding-bottom: 40px; }
+    .contact-left { margin-bottom: 15px; }
+    .submit-btn { width: 100%; text-align: center; }
+}

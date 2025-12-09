@@ -14,10 +14,9 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script> 
 
-<script type="importmap">
+    <script type="importmap">
         {
             "imports": {
                 "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
@@ -26,619 +25,821 @@
         }
     </script>
 
-    <style>
-        /* Klasa blokująca przewijanie */
-        body.stop-scrolling {
-            height: 100vh !important;
-            overflow: hidden !important;
-        }
-    </style>
+    
 </head>
 
 <!-- Dodajemy klasę stop-scrolling od razu na start -->
 <body class="stop-scrolling">
+    
+    <!-- ELEMENT PRZEJŚCIA Z FADE-TO-BLACK -->
+    <div id="transition-overlay"></div> 
 
     <div id="custom-cursor"></div>
     <div id="preloader" style="
-    position: fixed; 
-    top: 0; left: 0; 
-    width: 100%; height: 100%; 
-    background-color: #000; 
-    z-index: 99999; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center;
-">
-    <div class="preloader-text" style="
-        font-family: 'Cascadia Mono ExtraLight', monospace;
-        font-size: clamp(20px, 4vw, 40px); 
-        color: white; 
-        letter-spacing: 5px; 
-        text-transform: uppercase;
-        opacity: 0; /* JS to odkryje */
+        position: fixed; 
+        top: 0; left: 0; 
+        width: 100%; height: 100%; 
+        background-color: #000; 
+        z-index: 99999; 
+        display: flex; 
+        justify-content: center; 
+        align-items: center;
     ">
-        OLAF M. | PORTFOLIO
+        <div class="preloader-text" style="
+            font-family: 'Cascadia Mono ExtraLight', monospace;
+            font-size: clamp(20px, 4vw, 40px); 
+            color: white; 
+            letter-spacing: 5px; 
+            text-transform: uppercase;
+            opacity: 0; 
+        ">
+            OLAF M. | PORTFOLIO
+        </div>
+    </div>
+
+    <section id="sky-section" class="bordered-section">
+        <div class="sky-container">
+            
+            <canvas id="webglCanvas"></canvas>
+            <div id="star-labels-container"></div>
+
+            <a href="index-pl.html" class="lang-link">
+                <img src="img/use_/lang.png" alt="Language / Język" class="lang-icon">
+                <span class="lang-text">PL</span> 
+            </a>
+
+            <div class="how-wrapper">
+                <img src="img/use_/how.png" alt="How?" class="how-icon">
+                <div class="how-box">
+                    <div class="how-title">HOW?</div>
+                    <div class="how-text">
+                        This project is a custom WebGL2 engine where the sky, clouds, stars, the Sun, the Moon and the ocean are generated procedurally in GLSL shaders. Rendering runs on a single fullscreen quad, with most calculations — noise, lighting, day-night transitions and waves — executed directly on the GPU. JavaScript handles only the camera, time control and object labels. While building the system, I used artificial intelligence as a helpful tool for working through spatial calculations, optimizations and various mathematical transformations.
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-widget">
+                <div class="digital-clock" id="digital-clock">12:00</div>
+                <div class="current-date" id="current-date">02. gru.</div>
+
+                <div class="dial-wrapper"> 
+                    <div class="dial-container" id="dial-container">
+                        <div class="dial-ring"></div>
+                        <div class="dial-knob" id="dial-knob"></div>
+                    </div>
+                    <div class="reset-icon" id="reset-icon">
+                         <img src="img/use_/reset.png" alt="Reset Time">
+                    </div>
+                </div>
+            </div>
+
+            <div class="portfolio-title">OLAF M. | PORTFOLIO</div>
+            <div class="portfolio-subtitle">graphics designer & web designer</div>
+            <div class="portfolio-buttons">
+                <a href="#about" class="portfolio-btn">About me</a>
+                <a href="#contact" class="portfolio-btn">Contact</a>
+                <a href="works.html" class="portfolio-btn works-link" id="works-link">Works</a>
+            </div>
+            <div class="burned-text">
+                <span id="typed-text"></span><span id="cursor">|</span>
+            </div>
+            <div id="webgl-notice" class="webgl-notice">This effect was built using WebGL.</div>
+            
+             <a href="https://www.instagram.com/solendz_caravan/" target="_blank" class="insta-link">
+                <img src="img/use_/insta.png" alt="Instagram">
+                <span>@solendz_caravan</span>
+            </a>
+
+        </div>
+    </section>
+
+    <section class="about-section" id="about">
+        <div class="theme-switch-icons">
+            <img src="img/use_/light.png" alt="Light Mode" id="light-icon" class="mode-icon active-mode-icon">
+            <img src="img/use_/dark.png" alt="Dark Mode" id="dark-icon" class="mode-icon">
+        </div>
+        <div class="about-top-row">
+            <div class="about-header">
+                <h1 class="hk-title">SEEING PEOPLE THRIVE IN WHAT TRULY IGNITES THEM IS WHAT DRIVES ME FORWARD</h1>
+                <p class="hk-subtitle">AFTER BURNING OUT CREATING WORK I DIDN’T TRULY BELIEVE IN, FACING THE HARD QUESTION OF WHAT I ACTUALLY WANT FROM LIFE MADE ME REALIZE THAT HELPING PEOPLE CHASE WHAT THEY DEEPLY AND PASSIONATELY BELIEVE IN IS WHAT GIVES ME A TRUE SENSE OF PURPOSE.</p>
+            </div>
+            <div class="about-image-container fade-in-on-scroll">
+                <div class="about-image"></div>
+            </div>
+        </div>
+
+        <div class="about-content">
+            <div class="about-text-wrapper">
+               <div class="about-column fade-in-on-scroll">
+                   <h2 class="about-label">who am I?</h2>
+                </div>
+                <div class="about-column fade-in-on-scroll">
+                    <p class="hk-text-body">I am a programmer by training and an artist by vocation, endlessly inspired by the world around me. Through photography, art, and the creation of digital experiences — websites and services alike — I distill its essence into modernist minimalism, where space, light, and narrative intertwine in subtle harmony. Every project I undertake is both an exercise in precision and a meditation on the nuanced beauty of everyday life.</p>
+                </div>
+                <div class="about-column fade-in-on-scroll">
+                    <p class="hk-text-body">I develop websites that go beyond functionality, giving them a subtle, artistic character. I enjoy designing for artists and small brands, creating spaces where their ideas and products can shine. Each project is a blend of simplicity, elegance, and a touch of creative storytelling.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NOWE ZDJĘCIE (szerokość 100%) -->
+    <div class="full-width-image-container fade-in-on-scroll hover-reveal-container">
+    <img src="img/use_/2me.jpg" alt="Atmospheric Shot - Vienna">
+    
+    <div class="photo-caption">
+        <p class="caption-text">
+            This photograph was taken during my road trip across Europe with one of my closest friends. It captures a late-night moment in Vienna, where I’m trying to call home from a classic phone booth to wish my girlfriend goodnight after my phone had died. The journey took us through many European countries in my first car — a Mercedes W124 with the OM602 diesel engine — which we had lovingly brought back to life together, servicing and preparing it for the adventure.
+        </p>
     </div>
 </div>
 
-
-<section id="sky-section" class="bordered-section">
-    <div class="sky-container">
-        
-
-        <canvas id="webglCanvas"></canvas>
-        <div id="star-labels-container"></div>
-
-
-        <a href="index-pl.html" class="lang-link">
-    <img src="img/use_/lang.png" alt="Language / Język" class="lang-icon">
-    <span class="lang-text">PL</span> 
-    </a>
-        <div class="how-wrapper">
-            <img src="img/use_/how.png" alt="How?" class="how-icon">
+    <section class="self-theme-section" id="self-theme">
+        <div class="theme-content-wrapper">
             
-            <div class="how-box">
-                <div class="how-title">HOW?</div>
-                <div class="how-text">
-                    This project is a custom WebGL2 engine where the sky, clouds, stars, the Sun, the Moon and the ocean are generated procedurally in GLSL shaders. Rendering runs on a single fullscreen quad, with most calculations — noise, lighting, day-night transitions and waves — executed directly on the GPU. JavaScript handles only the camera, time control and object labels. While building the system, I used artificial intelligence as a helpful tool for working through spatial calculations, optimizations and various mathematical transformations.
+            <!-- LEWA STRONA: TYTUŁ -->
+<div class="theme-left">
+    <h2 class="hk-title">Self Theme</h2>
+
+    <!-- Tekst widoczny tylko powyżej 1024px -->
+    <p class="hk-text-body fade-in-on-scroll desktop-only-desc">
+        I’m driven by curiosity — I love to explore, question, discover, and solve. This passion naturally pulls me toward people and projects rooted in depth and authenticity. I’m fascinated by the moment where intuition meets logic and when spontaneous wonder evolves into thoughtful, minimalist form. Creating isn’t just a craft for me; it’s a way of understanding myself and what genuinely moves others.
+    </p>
+</div>
+
+            <!-- PRAWA STRONA: LISTA -->
+            <div class="theme-right">
+                
+                <!-- Usunięto fade-in-on-scroll ze wszystkich wierszy poniżej -->
+                <div class="theme-row">
+                    <div class="theme-subject">Born</div>
+                    <div class="theme-answer">2005, Poland, Europe</div>
                 </div>
-            </div>
-        </div>
 
-         <div class="time-widget">
-            <div class="digital-clock" id="digital-clock">12:00</div>
-            <!-- NOWA DATA -->
-            <div class="current-date" id="current-date">02. gru.</div>
-
-            <div class="dial-wrapper"> <!-- NOWY WRAPPER DLA SLIDERA I IKONY -->
-                <div class="dial-container" id="dial-container">
-                    <div class="dial-ring"></div>
-                    <!-- Znacznik słońca/pozycji na okręgu -->
-                    <div class="dial-knob" id="dial-knob"></div>
+                <div class="theme-row">
+                    <div class="theme-subject">Experience</div>
+                    <div class="theme-answer">Motion Art, Web Design</div>
                 </div>
-                <!-- NOWA IKONA RESETU -->
-                <div class="reset-icon" id="reset-icon">
-                     <!-- Zakładam, że img/use_/reset.png istnieje -->
-                     <img src="img/use_/reset.png" alt="Reset Time">
+
+                <div class="theme-row">
+                    <div class="theme-subject">Tools</div>
+                    <div class="theme-answer">
+                        WebGL, JavaScript, SQL, HTML / CSS
+                    </div>
                 </div>
+
+                <div class="theme-row">
+                    <div class="theme-subject">Values</div>
+                    <div class="theme-answer">
+                        Authenticity<br>
+                        Clarity<br>
+                        Transparency<br>
+                        Connection
+                    </div>
+                </div>
+
+                <div class="theme-row">
+                    <div class="theme-subject">Education</div>
+                    <div class="theme-answer"> High School of Software Engineering<br>Art History, Faculty of Fine Arts</div>
+                </div>
+
             </div>
         </div>
+    </section>
 
-
-
-        <div class="portfolio-title">OLAF M. | PORTFOLIO</div>
-        <div class="portfolio-subtitle">graphics designer & web designer</div>
-        <div class="portfolio-buttons">
-            <a href="#about" class="portfolio-btn">About me</a>
-            <a href="#contact" class="portfolio-btn">Contact</a>
-            <a href="#works" class="portfolio-btn">Works</a>
-        </div>
-        <div class="burned-text">
-            <span id="typed-text"></span><span id="cursor">|</span>
-        </div>
-        <div id="webgl-notice" class="webgl-notice">This effect was built using WebGL.</div>
-        
-        <!-- START: NOWY ELEMENT ZAPISU ZDJĘCIA -->
-         <a href="#" id="capture-canvas" class="capture-canvas-link">
-            <img src="img/use_/camera.png" alt="Zapisz zrzut" class="capture-icon">
-            <span class="capture-text">Save Sky</span>
-        </a>
-        <!-- END: NOWY ELEMENT ZAPISU ZDJĘCIA -->
-
-         <a href="https://www.instagram.com/solendz_caravan/" target="_blank" class="insta-link">
-            <img src="img/use_/insta.png" alt="Instagram">
-            <span>@solendz_caravan</span>
-        </a>
-
-    </div>
-</section>
-
-<section class="about-section" id="about">
-    <div class="theme-switch-icons">
-
-        <img src="img/use_/light.png" alt="Light Mode" id="light-icon" class="mode-icon active-mode-icon">
-
-        <img src="img/use_/dark.png" alt="Dark Mode" id="dark-icon" class="mode-icon">
-    </div>
-    <div class="about-top-row">
-        <div class="about-header">
-            <h1 class="hk-title">SEEING PEOPLE THRIVE IN WHAT TRULY IGNITES THEM IS WHAT DRIVES ME FORWARD</h1>
-            <p class="hk-subtitle">AFTER BURNING OUT CREATING WORK I DIDN’T TRULY BELIEVE IN, FACING THE HARD QUESTION OF WHAT I ACTUALLY WANT FROM LIFE MADE ME REALIZE THAT HELPING PEOPLE CHASE WHAT THEY DEEPLY AND PASSIONATELY BELIEVE IN IS WHAT GIVES ME A TRUE SENSE OF PURPOSE.</p>
-        </div>
-        <div class="about-image-container fade-in-on-scroll">
-            <div class="about-image"></div>
-        </div>
-    </div>
-
-    <div class="about-content">
-        <div class="about-text-wrapper">
-           <div class="about-column fade-in-on-scroll">
-               <h2 class="about-label">who am I?</h2>
-            </div>
-            <div class="about-column fade-in-on-scroll">
-                <p class="hk-text-body">I am a programmer by training and an artist by vocation, endlessly inspired by the world around me. Through photography, art, and the creation of digital experiences — websites and services alike — I distill its essence into modernist minimalism, where space, light, and narrative intertwine in subtle harmony. Every project I undertake is both an exercise in precision and a meditation on the nuanced beauty of everyday life.</p>
-            </div>
-            <div class="about-column fade-in-on-scroll">
-                <p class="hk-text-body">I develop websites that go beyond functionality, giving them a subtle, artistic character. I enjoy designing for artists and small brands, creating spaces where their ideas and products can shine. Each project is a blend of simplicity, elegance, and a touch of creative storytelling.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="gallery-section" id="works">
-    <div class="gallery-label">GALLERY</div>
-    <div class="gallery-note" id="gallery-text">
-    I work with both analog and digital photography, using my visual experience to design meaningful, atmospheric spaces for brands. By combining original imagery with thoughtful web design, I create online experiences that feel cohesive, authentic, and visually engaging.
-    </div>
-    <button id="mode-switch">mode: mono</button>
-
-    <div class="gallery-track">
-        <img src="img/gallery_/sea.jpg" alt="Sea" ondragstart="return false;">
-        <img src="img/gallery_/field.jpg" alt="Field" ondragstart="return false;">
-        <img src="img/gallery_/sea.jpg" alt="Sea Loop" ondragstart="return false;">
-        <img src="img/gallery_/field.jpg" alt="Field Loop" ondragstart="return false;">
-    </div>
-</section>
-
-
-<script src="sky.js"></script>
-<script src="gallery.js"></script>
-
-<script src="preloader.js"></script>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-        const captureLink = document.getElementById('capture-canvas');
-        const webglCanvas = document.getElementById('webglCanvas'); // Cel: nasz canvas
-
-        if (captureLink && webglCanvas) {
-            captureLink.addEventListener('click', function(e) {
-                e.preventDefault(); // Zatrzymaj domyślne działanie linku (przejście do #)
-
-                // 1. Pobierz dane z canvasu jako URL obrazu (PNG)
-                // Upewnij się, że serwer obsługuje CORS dla toDataURL, jeśli pliki są z innego źródła.
-                // W tym przypadku (WebGL) to nie powinno być problemem.
-                try {
-                    const dataURL = webglCanvas.toDataURL('image/png');
+    <div class="full-width-image-container fade-in-on-scroll hover-reveal-container">
+    <img src="img/use_/3me.jpg" alt="Atmospheric Shot - Hungary">
     
-                    // 2. Utwórz tymczasowy element <a>
-                    const tempLink = document.createElement('a');
-                    tempLink.href = dataURL;
-                    tempLink.download = 'sky_capture.png'; // Nazwa pliku do pobrania
+    <div class="photo-caption">
+        <p class="caption-text">
+            Another moment from the trip: a breakdown somewhere in Hungary. Our patched-up radiator started leaking again, and because the temperature gauge I had ‘repaired’ wasn’t working properly, the engine came close to overheating. Luckily, we managed to fix the leak once more, refill the coolant, and cool the car down before any real damage was done. Good thing I’m much better at designing and programming websites than repairing old naturally aspirated diesels.
+        </p>
+    </div>
+</div>
+
+    <section class="contact-section" id="contact">
+        <div class="contact-content-wrapper">
+            
+            <!-- LEWA STRONA: TYTUŁ -->
+            <div class="contact-left">
+            <h2 class="hk-title fade-in-on-scroll">Get in Touch</h2>
+            
+            <!-- NOWY ELEMENT: KARTY -->
+            <div class="cards-wrapper fade-in-on-scroll">
+                <!-- Dolna karta (tło) -->
+                <img src="img/use_/cardsback.png" alt="Card Back" class="card-img card-back">
+                
+                <!-- Górna karta (aktywna) -->
+                <img src="img/use_/card.png" alt="Business Card" class="card-img card-front">
+            </div>
+        </div>
+
+            <!-- PRAWA STRONA: FORMULARZ -->
+            <div class="contact-right">
     
-                    // 3. Wymuś kliknięcie
-                    document.body.appendChild(tempLink);
-                    tempLink.click();
-                    document.body.removeChild(tempLink);
+    <!-- Kontener formularza -->
+    <div id="form-container">
+        <form id="contact-form" action="https://formsubmit.co/olo.marcinkowski@gmail.com" method="POST" class="minimal-form">
+            
+            <!-- Ważne ustawienia dla AJAX -->
+            <input type="hidden" name="_captcha" value="false">
+            <input type="text" name="_honey" style="display:none">
+
+            <div class="form-row fade-in-on-scroll">
+                <input type="text" name="name" placeholder="Name" required>
+            </div>
+
+            <div class="form-row fade-in-on-scroll">
+                <input type="email" name="email" placeholder="Email" required>
+            </div>
+
+            <div class="form-row fade-in-on-scroll">
+                <textarea name="message" placeholder="Your Message" rows="4" required></textarea>
+            </div>
+
+            <div class="form-row button-row fade-in-on-scroll">
+                <button type="submit" id="submit-btn" class="submit-btn">SEND MESSAGE</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Ukryty komunikat sukcesu (pojawia się po wysłaniu) -->
+    <div id="success-message" style="display: none; opacity: 0;">
+        <h3 class="hk-title" style="font-size: 1.5rem; margin-bottom: 10px;">Message Sent.</h3>
+        <p class="hk-text-body">Thank you for reaching out. I'll get back to you shortly.</p>
+    </div>
+
+</div>
+    </section>
+
+    <!-- NOWA STOPKA (FOOTER) -->
+    <footer class="site-footer">
+        <div class="footer-divider"></div>
+        <div class="footer-content">
+            <div class="footer-container">
+                
+                <!-- LEWA STRONA STOPKI -->
+                <div class="footer-left">
+                    <p class="footer-cta">
+                        Ready to elevate your digital presence? Feel free to reach out — I’m open to inquiries and collaboration opportunities!
+                    </p>
+                    <p class="copyright">All right reserved 2025 ©</p>
+                </div>
+
+                <!-- PRAWA STRONA STOPKI -->
+                <div class="footer-right">
                     
-                } catch (error) {
-                    console.error("Błąd podczas próby zapisu obrazu z canvas: ", error);
-                    alert("Nie udało się zapisać zrzutu. Upewnij się, że WebGL działa poprawnie.");
-                }
-            });
-        }
-    });
-</script>
+                    <!-- Kolumna 1: Contents -->
+                    <div class="footer-col">
+                        <div class="footer-subject">Contents</div>
+                        <a href="#sky-section">Home</a>
+                        <a href="#about">About me</a>
+                        <a href="works.html" id="footer-works-link">Works</a>
+                    </div>
 
-<script>
+                    <!-- Kolumna 2: Contact -->
+                    <div class="footer-col">
+                        <div class="footer-subject">Contact</div>
+                        <a href="https://www.instagram.com/solendz_caravan/" target="_blank">@solendz_caravan</a>
+                        <a href="mailto:olo.marcinkowski@gmail.com">olo.marcinkowski@gmail.com</a>
+                    </div>
+
+                    <!-- Kolumna 3: Me -->
+                    <div class="footer-col">
+                        <div class="footer-subject">Me</div>
+                        <span>Olaf Marcinkowski</span>
+                        <span>Grudziądz, 86-300, PL</span>
+                        <span style="margin-top: 5px;">graphics designer &<br>web designer</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="sky.js"></script>
+    <script src="preloader.js"></script>
+
+    <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const aboutSection = document.getElementById('about');
-    const skySection = document.getElementById('sky-section'); 
-    const lightIcon = document.getElementById('light-icon');
-    const darkIcon = document.getElementById('dark-icon');
-    const customCursor = document.getElementById('custom-cursor'); 
-    const body = document.body;
+    gsap.registerPlugin(ScrollTrigger);
 
-    if (!aboutSection || !skySection || !lightIcon || !darkIcon) return;
+    // 1. Animacja tytułu "Self Theme"
+    gsap.from("#self-theme .hk-title", {
+        scrollTrigger: {
+            trigger: "#self-theme",
+            start: "top 80%", 
+        },
+        y: 60,
+        opacity: 0,
+        duration: 1.2,
+        ease: "power3.out"
+    });
 
-    // Ustawienie początkowe: sekcja jest ciemna, więc pokazujemy ikonę do przełączenia na jasny tryb
-    lightIcon.classList.add('active-mode-icon');
-    darkIcon.classList.remove('active-mode-icon');
-
-    // --- FUNKCJA ANIMACJI LITER (JUMP EFFECT) ---
-    function jumpText() {
-        // Celujemy we wszystkie elementy liter w sekcji about-section, które mają klasę .char-reveal
-        const allAboutChars = document.querySelectorAll("#about .char-reveal");
-        
-        if (allAboutChars.length === 0) return;
-
-        gsap.killTweensOf(allAboutChars); // Zabezpieczenie przed kumulacją animacji
-
-        // Animacja 'skoku'
-        gsap.fromTo(allAboutChars, 
-            { y: 0, scaleY: 1 }, 
-            {
-                y: -10, // Skok w górę
-                scaleY: 1.1, // Delikatne rozciągnięcie
-                duration: 0.15,
-                ease: "power2.out",
-                stagger: 0.0025,
-                onComplete: () => {
-                    // Powrót w dół z efektem sprężyny
-                    gsap.to(allAboutChars, {
-                        y: 0,
-                        scaleY: 1,
-                        duration: 0.3,
-                        ease: "bounce.out",
-                        stagger: 0.009,
-                        delay: 0.03 
-                    });
-                }
-            }
-        );
-    }
-    // --- KONIEC FUNKCJI ANIMACJI LITER ---
-
-
-    function toggleTheme() {
-        // 1. Przełączanie klasy w obu sekcjach i na BODY
-        aboutSection.classList.toggle('light-mode');
-        skySection.classList.toggle('light-mode');
-        body.classList.toggle('light-mode-active'); // Nowa klasa do zmiany backgroundu body
-
-        // 2. Przełączanie widoczności ikon i kolor kursora
-        if (aboutSection.classList.contains('light-mode')) {
-            lightIcon.classList.remove('active-mode-icon');
-            darkIcon.classList.add('active-mode-icon');
-            
-            // Kursor przełączony na ciemny na jasnym tle (jeśli mix-blend-mode to za mało)
-            // Jeśli zostawisz mix-blend-mode: difference na kursorze, ta linia nie jest konieczna
-            // customCursor.style.backgroundColor = '#000'; 
-        } else {
-            lightIcon.classList.add('active-mode-icon');
-            darkIcon.classList.remove('active-mode-icon');
-            // customCursor.style.backgroundColor = 'white'; 
-        }
-        
-        // 3. Uruchomienie animacji "skoku" liter
-        // Uruchamiamy po małym opóźnieniu, aby animacja pasowała do płynnego przejścia tła
-        setTimeout(jumpText, 200);
-    }
-
-    // Dodanie nasłuchiwania na kliknięcia obu ikon
-    lightIcon.addEventListener('click', toggleTheme);
-    darkIcon.addEventListener('click', toggleTheme);
+    // 2. Animacja listy (wierszy) - efekt kaskady (stagger)
+    gsap.from(".theme-row", {
+        scrollTrigger: {
+            trigger: ".theme-right",
+            start: "top 85%", 
+        },
+        y: 40,            
+        opacity: 0,       
+        duration: 0.8,    
+        stagger: 0.15,    
+        ease: "power2.out",
+        clearProps: "all" 
+    });
 });
 </script>
 
 <script>
-    (function() {
-        if (history.scrollRestoration) {
-            history.scrollRestoration = 'manual';
-        }
+        document.addEventListener("DOMContentLoaded", function() {
+            // Dodano obsługę linku 'Work' również ze stopki
+            const worksLinks = document.querySelectorAll('#works-link, #footer-works-link');
+            const overlay = document.getElementById('transition-overlay');
 
-        window.onbeforeunload = function () {
-            window.scrollTo(0, 0);
-        }
+            if (overlay) {
+                worksLinks.forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault(); 
+                        const targetUrl = this.getAttribute('href');
 
-        window.addEventListener('load', function() {
-            window.scrollTo(0, 0);
-            
-            const preloader = document.getElementById('preloader');
-            const body = document.body;
-            
-            if (preloader) {
-                const observer = new MutationObserver(function(mutations) {
-                    mutations.forEach(function(mutation) {
-                        if (mutation.type === "attributes" && mutation.attributeName === "style") {
-                            const style = window.getComputedStyle(preloader);
-                            
-                            // Sprawdź czy element zniknął
-                            if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') {
-                                
-                                // 1. Odblokuj przewijanie
-                                body.classList.remove('stop-scrolling');
-                                
-                                // 2. URUCHOM ANIMACJĘ ZEGARA (NOWE)
-                                if (window.startClockAnimation) {
-                                    window.startClockAnimation();
-                                }
+                        gsap.set(overlay, { visibility: 'visible', pointerEvents: 'all' });
 
-                                observer.disconnect();
+                        gsap.to(overlay, {
+                            opacity: 1,
+                            duration: 0.8, 
+                            ease: "power2.in", 
+                            onComplete: () => {
+                                window.location.href = targetUrl;
                             }
+                        });
+                    });
+                });
+            }
+        });
+    </script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const aboutSection = document.getElementById('about');
+        const skySection = document.getElementById('sky-section'); 
+        
+        // DODANO: Pobieranie sekcji Contact i Self Theme
+        const contactSection = document.getElementById('contact');
+        const selfThemeSection = document.getElementById('self-theme');
+
+        const lightIcon = document.getElementById('light-icon');
+        const darkIcon = document.getElementById('dark-icon');
+        const body = document.body;
+
+        if (!aboutSection || !skySection || !lightIcon || !darkIcon) return;
+
+        lightIcon.classList.add('active-mode-icon');
+        darkIcon.classList.remove('active-mode-icon');
+
+        function jumpText() {
+            const allAboutChars = document.querySelectorAll("#about .char-reveal");
+            if (allAboutChars.length === 0) return;
+            gsap.killTweensOf(allAboutChars); 
+
+            gsap.fromTo(allAboutChars, 
+                { y: 0, scaleY: 1 }, 
+                {
+                    y: -10, 
+                    scaleY: 1.1, 
+                    duration: 0.15,
+                    ease: "power2.out",
+                    stagger: 0.0025,
+                    onComplete: () => {
+                        gsap.to(allAboutChars, {
+                            y: 0,
+                            scaleY: 1,
+                            duration: 0.3,
+                            ease: "bounce.out",
+                            stagger: 0.009,
+                            delay: 0.03 
+                        });
+                    }
+                }
+            );
+        }
+
+        function toggleTheme() {
+            // Przełączanie klasy na wszystkich sekcjach
+            aboutSection.classList.toggle('light-mode');
+            skySection.classList.toggle('light-mode');
+            
+            // DODANO: Przełączanie klas dla Contact i Self Theme
+            if(contactSection) contactSection.classList.toggle('light-mode');
+            if(selfThemeSection) selfThemeSection.classList.toggle('light-mode');
+
+            body.classList.toggle('light-mode-active'); 
+
+            if (aboutSection.classList.contains('light-mode')) {
+                lightIcon.classList.remove('active-mode-icon');
+                darkIcon.classList.add('active-mode-icon');
+            } else {
+                lightIcon.classList.add('active-mode-icon');
+                darkIcon.classList.remove('active-mode-icon');
+            }
+            
+            setTimeout(jumpText, 200);
+        }
+
+        lightIcon.addEventListener('click', toggleTheme);
+        darkIcon.addEventListener('click', toggleTheme);
+    });
+    </script>
+
+    <script>
+        (function() {
+            if (history.scrollRestoration) {
+                history.scrollRestoration = 'manual';
+            }
+
+            window.onbeforeunload = function () {
+                window.scrollTo(0, 0);
+            }
+
+            window.addEventListener('load', function() {
+                window.scrollTo(0, 0);
+                
+                const preloader = document.getElementById('preloader');
+                const body = document.body;
+                
+                if (preloader) {
+                    const observer = new MutationObserver(function(mutations) {
+                        mutations.forEach(function(mutation) {
+                            if (mutation.type === "attributes" && mutation.attributeName === "style") {
+                                const style = window.getComputedStyle(preloader);
+                                if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') {
+                                    body.classList.remove('stop-scrolling');
+                                    if (window.startClockAnimation) {
+                                        window.startClockAnimation();
+                                    }
+                                    observer.disconnect();
+                                }
+                            }
+                        });
+                    });
+
+                    observer.observe(preloader, { attributes: true });
+                } else {
+                    body.classList.remove('stop-scrolling');
+                    if (window.startClockAnimation) window.startClockAnimation();
+                }
+            });
+        })();
+    </script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const cursor = document.getElementById('custom-cursor');
+        let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0;
+        const speed = 0.15; 
+
+        document.addEventListener('mousemove', function(e) {
+            mouseX = e.clientX; mouseY = e.clientY;
+        });
+
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * speed;
+            cursorY += (mouseY - cursorY) * speed;
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        document.addEventListener('mousedown', () => cursor.classList.add('click-active'));
+        document.addEventListener('mouseup', () => cursor.classList.remove('click-active'));
+
+        const links = document.querySelectorAll('a, button, .portfolio-btn, input');
+        links.forEach(link => {
+            link.addEventListener('mouseenter', () => cursor.classList.add('hover-active'));
+            link.addEventListener('mouseleave', () => cursor.classList.remove('hover-active'));
+        });
+    });
+    </script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const noticeElement = document.getElementById('webgl-notice');
+        const text1 = "This effect was built using WebGL.";
+        const text2 = "It’s just a small taste of what I’m capable of.";
+        let isFirstText = true;
+
+        function toggleText() {
+            if (!noticeElement) return;
+            noticeElement.classList.add('blur-out');
+            setTimeout(() => {
+                noticeElement.textContent = isFirstText ? text2 : text1;
+                isFirstText = !isFirstText;
+                noticeElement.classList.remove('blur-out');
+            }, 800); 
+        }
+        setInterval(toggleText, 5000);
+    });
+    </script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const typedTextElement = document.getElementById('typed-text');
+        const cursorElement = document.getElementById('cursor');
+        
+        if (typedTextElement && cursorElement) {
+            const firstText = "Take Your Brand to New Heights.";
+            const secondText = "With me. Enjoy my Portfolio.";
+            let currentText = '', currentIndex = 0, isDeleting = false, isFirstTextComplete = false;
+            
+            setInterval(() => cursorElement.style.opacity = cursorElement.style.opacity === '0' ? '1' : '0', 500);
+
+            function typeWriter() {
+                let text = isFirstTextComplete ? secondText : firstText;
+                if (!isDeleting && currentIndex < text.length) {
+                    currentText += text[currentIndex++];
+                    typedTextElement.textContent = currentText;
+                    setTimeout(typeWriter, 80);
+                } else if (!isDeleting && currentIndex === text.length) {
+                    setTimeout(() => { isDeleting = true; typeWriter(); }, 2000);
+                } else if (isDeleting && currentIndex > 0) {
+                    currentText = currentText.slice(0, -1);
+                    currentIndex--;
+                    typedTextElement.textContent = currentText;
+                    setTimeout(typeWriter, 40);
+                } else {
+                    isDeleting = false;
+                    isFirstTextComplete = !isFirstTextComplete;
+                    setTimeout(typeWriter, 1500);
+                }
+            }
+            setTimeout(typeWriter, 1000);
+        }
+
+        const burnedText = document.querySelector('.burned-text');
+        const skySection = document.getElementById('sky-section');
+
+        if (burnedText && skySection) {
+            window.addEventListener('scroll', function() {
+                const sectionHeight = skySection.offsetHeight;
+                const scrollY = window.scrollY;
+                if (scrollY > sectionHeight) return;
+
+                const progress = scrollY / sectionHeight;
+                const isMobile = window.innerWidth <= 1279;
+                const textStart = isMobile ? 0.05 : 0.03;
+                const textEnd = isMobile ? 0.7 : 0.9;
+
+                let textProgress = 0;
+                if (progress > textStart) {
+                    textProgress = (progress - textStart) / (textEnd - textStart);
+                    textProgress = Math.min(Math.max(textProgress, 0), 1);
+                }
+                const easeOut = 1 - Math.pow(1 - textProgress, 3);
+                burnedText.style.opacity = 1 - easeOut;
+                burnedText.style.filter = `url(#burn-effect) blur(${easeOut * (isMobile ? 4 : 8)}px)`;
+                burnedText.style.transform = `translate(-50%, -50%) scale(${1 - easeOut * (isMobile ? -0.2 : -0.5)})`;
+            });
+        }
+    });
+    </script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const animatedElements = document.querySelectorAll('.fade-in-on-scroll');
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.05 });
+        animatedElements.forEach(el => observer.observe(el));
+    });
+    </script>
+
+    <!-- ZMODYFIKOWANA CZĘŚĆ SKRYPTU DLA NAWIGACJI (Obejmuje teraz też stopkę) -->
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        gsap.registerPlugin(ScrollTrigger, ScrollToPlugin); 
+
+        // Zmiana: Łapiemy linki z nawigacji głównej ORAZ ze stopki (te w .footer-col)
+        const scrollLinks = document.querySelectorAll('.portfolio-buttons a[href^="#"], .footer-col a[href^="#"]');
+        
+        scrollLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault(); 
+                const targetId = this.getAttribute("href");
+                const targetElement = document.querySelector(targetId);
+
+                if (targetElement) {
+                    gsap.to(window, {
+                        duration: 1.5, 
+                        scrollTo: {
+                            y: targetElement, 
+                            offsetY: 0 
+                        },
+                        ease: "power2.inOut" 
+                    });
+                }
+            });
+        });
+
+        function splitTextToSpans(element) {
+            const text = element.textContent.trim();
+            const words = text.split(" ");
+            element.innerHTML = "";
+
+            words.forEach((word, index) => {
+                const wordSpan = document.createElement("span");
+                wordSpan.className = "word-wrapper";
+                
+                const chars = word.split("");
+                chars.forEach(char => {
+                    const charSpan = document.createElement("span");
+                    charSpan.textContent = char;
+                    charSpan.className = "char-reveal";
+                    wordSpan.appendChild(charSpan);
+                });
+
+                element.appendChild(wordSpan);
+
+                if (index < words.length - 1) {
+                    element.appendChild(document.createTextNode(" "));
+                }
+            });
+            
+            return element.querySelectorAll(".char-reveal");
+        }
+
+        const title = document.querySelector(".hk-title");
+        if (title) {
+            const titleChars = splitTextToSpans(title);
+            gsap.fromTo(titleChars, 
+                { opacity: 0, y: 30, filter: "blur(10px)" },
+                {
+                    opacity: 1, y: 0, filter: "blur(0px)",
+                    duration: 0.8, stagger: 0.02, ease: "power2.out",
+                    scrollTrigger: { trigger: ".about-header", start: "top 80%" }
+                }
+            );
+        }
+
+        const subtitle = document.querySelector(".hk-subtitle");
+        if (subtitle) {
+            const subtitleChars = splitTextToSpans(subtitle);
+            gsap.fromTo(subtitleChars, 
+                { opacity: 0, y: 20 },
+                {
+                    opacity: 1, y: 0,
+                    duration: 0.6, stagger: 0.005, ease: "power1.out", delay: 0.2,
+                    scrollTrigger: { trigger: ".about-header", start: "top 80%" }
+                }
+            );
+        }
+
+        const bodyTexts = document.querySelectorAll(".hk-text-body, .about-label");
+        
+        bodyTexts.forEach(textBlock => {
+            const chars = splitTextToSpans(textBlock);
+            
+            gsap.fromTo(chars,
+                { opacity: 0, y: 10 },
+                {
+                    opacity: 1, y: 0,
+                    duration: 0.4, 
+                    stagger: 0.006, 
+                    ease: "power1.out",
+                    scrollTrigger: { 
+                        trigger: textBlock, 
+                        start: "top 90%" 
+                    }
+                }
+            );
+        });
+    });
+    </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const skySection = document.getElementById('sky-section');
+    const canvas = document.getElementById('webglCanvas');
+
+    // Obserwator, który sprawdza czy sekcja nieba jest widoczna
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) {
+                // Jeśli nieba nie widać -> ukryj canvas (to zatrzymuje rysowanie GPU w większości przeglądarek)
+                if(canvas) canvas.style.visibility = 'hidden';
+            } else {
+                // Jeśli niebo widać -> pokaż z powrotem
+                if(canvas) canvas.style.visibility = 'visible';
+            }
+        });
+    }, { rootMargin: "10px" }); // Mały margines, żeby włączyło się tuż przed przewinięciem
+
+    if (skySection) observer.observe(skySection);
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const form = document.getElementById('contact-form');
+    const formContainer = document.getElementById('form-container');
+    const successMessage = document.getElementById('success-message');
+    const submitBtn = document.getElementById('submit-btn');
+
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // Zatrzymuje przekierowanie strony
+
+            // Zmiana tekstu przycisku na "Wysyłanie..."
+            const originalBtnText = submitBtn.textContent;
+            submitBtn.textContent = "SENDING...";
+            submitBtn.style.opacity = "0.6";
+            submitBtn.disabled = true;
+
+            const formData = new FormData(form);
+
+            // Wysyłanie danych w tle (Fetch API)
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json' // To mówi serwerowi: "nie przekierowuj mnie, daj mi odpowiedź JSON"
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Animacja sukcesu (GSAP)
+                    gsap.to(formContainer, {
+                        opacity: 0,
+                        y: -20,
+                        duration: 0.5,
+                        onComplete: () => {
+                            formContainer.style.display = 'none';
+                            successMessage.style.display = 'block';
+                            
+                            gsap.fromTo(successMessage, 
+                                { opacity: 0, y: 20 },
+                                { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }
+                            );
                         }
                     });
-                });
-
-                observer.observe(preloader, { attributes: true });
-            } else {
-                body.classList.remove('stop-scrolling');
-                // Jeśli nie ma preloadera, uruchom zegar od razu
-                if (window.startClockAnimation) window.startClockAnimation();
-            }
-        });
-    })();
-</script>
-
-<script>
-
-    document.addEventListener("DOMContentLoaded", function() {
-    const modeSwitch = document.getElementById('mode-switch');
-    const gallerySection = document.querySelector('.gallery-section');
-
-    if (modeSwitch && gallerySection) {
-        modeSwitch.addEventListener('click', function() {
-            // Przełącz klasę w sekcji galerii
-            gallerySection.classList.toggle('color-mode');
-
-            // Zmień tekst w zależności od stanu
-            if (gallerySection.classList.contains('color-mode')) {
-                modeSwitch.textContent = 'mode: color';
-            } else {
-                modeSwitch.textContent = 'mode: mono';
-            }
-        });
-    }
-});
-
-</script>
-
-<script>
-    
-document.addEventListener("DOMContentLoaded", function() {
-    const cursor = document.getElementById('custom-cursor');
-    let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0;
-    const speed = 0.15; 
-
-    document.addEventListener('mousemove', function(e) {
-        mouseX = e.clientX; mouseY = e.clientY;
-    });
-
-    function animateCursor() {
-        cursorX += (mouseX - cursorX) * speed;
-        cursorY += (mouseY - cursorY) * speed;
-        cursor.style.left = cursorX + 'px';
-        cursor.style.top = cursorY + 'px';
-        requestAnimationFrame(animateCursor);
-    }
-    animateCursor();
-
-    document.addEventListener('mousedown', () => cursor.classList.add('click-active'));
-    document.addEventListener('mouseup', () => cursor.classList.remove('click-active'));
-
-    const links = document.querySelectorAll('a, button, .portfolio-btn, input');
-    links.forEach(link => {
-        link.addEventListener('mouseenter', () => cursor.classList.add('hover-active'));
-        link.addEventListener('mouseleave', () => cursor.classList.remove('hover-active'));
-    });
-});
-</script>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const noticeElement = document.getElementById('webgl-notice');
-    const text1 = "This effect was built using WebGL.";
-    const text2 = "It’s just a small taste of what I’m capable of.";
-    let isFirstText = true;
-
-    function toggleText() {
-        if (!noticeElement) return;
-        noticeElement.classList.add('blur-out');
-        setTimeout(() => {
-            noticeElement.textContent = isFirstText ? text2 : text1;
-            isFirstText = !isFirstText;
-            noticeElement.classList.remove('blur-out');
-        }, 800); 
-    }
-    setInterval(toggleText, 5000);
-});
-</script>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const galleryTextElement = document.getElementById('gallery-text');
-    
-    // Treść tekstów
-    const textOriginal = "I work with both analog and digital photography, using my visual experience to design meaningful, atmospheric spaces for brands. By combining original imagery with thoughtful web design, I create online experiences that feel cohesive, authentic, and visually engaging.";
-    const textReplacement = "Investing in originality is ultimately an investment in your brand. Unique, thoughtfully crafted visuals don’t just elevate the look of a project — they shape how a brand is felt, remembered, and trusted. When every element is genuinely yours, the experience becomes unmistakably distinctive and emotionally resonant.";
-
-    let isOriginal = true;
-
-    function swapGalleryText() {
-        // 1. Aktywuj klasę rozmycia i znikania
-        galleryTextElement.classList.add('blur-out');
-
-        setTimeout(() => {
-            galleryTextElement.textContent = isOriginal ? textReplacement : textOriginal;
-            isOriginal = !isOriginal;
-            
-            galleryTextElement.classList.remove('blur-out');
-        }, 1000);
-    }
-
-    // Uruchom interwał co 10 sekund (10000 ms)
-    setInterval(swapGalleryText, 10000);
-});
-</script>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const typedTextElement = document.getElementById('typed-text');
-    const cursorElement = document.getElementById('cursor');
-    
-    if (typedTextElement && cursorElement) {
-        const firstText = "Take Your Brand to New Heights.";
-        const secondText = "With me. Enjoy my Portfolio.";
-        let currentText = '', currentIndex = 0, isDeleting = false, isFirstTextComplete = false;
-        
-        setInterval(() => cursorElement.style.opacity = cursorElement.style.opacity === '0' ? '1' : '0', 500);
-
-        function typeWriter() {
-            let text = isFirstTextComplete ? secondText : firstText;
-            if (!isDeleting && currentIndex < text.length) {
-                currentText += text[currentIndex++];
-                typedTextElement.textContent = currentText;
-                setTimeout(typeWriter, 80);
-            } else if (!isDeleting && currentIndex === text.length) {
-                setTimeout(() => { isDeleting = true; typeWriter(); }, 2000);
-            } else if (isDeleting && currentIndex > 0) {
-                currentText = currentText.slice(0, -1);
-                currentIndex--;
-                typedTextElement.textContent = currentText;
-                setTimeout(typeWriter, 40);
-            } else {
-                isDeleting = false;
-                isFirstTextComplete = !isFirstTextComplete;
-                setTimeout(typeWriter, 1500);
-            }
-        }
-        setTimeout(typeWriter, 1000);
-    }
-
-    const burnedText = document.querySelector('.burned-text');
-    const skySection = document.getElementById('sky-section');
-
-    if (burnedText && skySection) {
-        window.addEventListener('scroll', function() {
-            const sectionHeight = skySection.offsetHeight;
-            const scrollY = window.scrollY;
-            if (scrollY > sectionHeight) return;
-
-            const progress = scrollY / sectionHeight;
-            const isMobile = window.innerWidth <= 1279;
-            const textStart = isMobile ? 0.05 : 0.03;
-            const textEnd = isMobile ? 0.7 : 0.9;
-
-            let textProgress = 0;
-            if (progress > textStart) {
-                textProgress = (progress - textStart) / (textEnd - textStart);
-                textProgress = Math.min(Math.max(textProgress, 0), 1);
-            }
-            const easeOut = 1 - Math.pow(1 - textProgress, 3);
-            burnedText.style.opacity = 1 - easeOut;
-            burnedText.style.filter = `url(#burn-effect) blur(${easeOut * (isMobile ? 4 : 8)}px)`;
-            burnedText.style.transform = `translate(-50%, -50%) scale(${1 - easeOut * (isMobile ? -0.2 : -0.5)})`;
-        });
-    }
-});
-</script>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const animatedElements = document.querySelectorAll('.fade-in-on-scroll');
-    const observer = new IntersectionObserver((entries, obs) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                obs.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.05 });
-    animatedElements.forEach(el => observer.observe(el));
-});
-</script>
-
-
-<script>
-
-
-document.addEventListener("DOMContentLoaded", function() {
-
-    // 1. Zarejestruj ScrollToPlugin
-    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin); // Dodano ScrollToPlugin
-
-    // 2. Znajdź link "About me"
-    const aboutLink = document.querySelector('.portfolio-buttons a[href="#about"]');
-    
-    if (aboutLink) {
-        aboutLink.addEventListener('click', function(e) {
-            e.preventDefault(); // Zablokuj domyślne, sztywne przeniesienie
-
-            // Znajdź sekcję docelową (w tym przypadku #about)
-            const targetId = this.getAttribute("href");
-            const targetElement = document.querySelector(targetId);
-
-            if (targetElement) {
-                // Użyj GSAP do płynnego przewijania
-                gsap.to(window, {
-                    duration: 1.5, // Czas trwania animacji (1.5 sekundy daje ładny efekt)
-                    scrollTo: {
-                        y: targetElement, // Przewiń do elementu docelowego
-                        offsetY: 0 // Możesz dodać offset, jeśli masz stały nagłówek
-                    },
-                    ease: "power2.inOut" // Płynna krzywa animacji
-                });
-            }
-        });
-    }
-
-    // ----------------------------------------------------
-    // PONIŻEJ ZOSTAWIAM CAŁY TWÓJ ISTNIEJĄCY KOD GSAP Z ANIMACJĄ LITER
-    // ----------------------------------------------------
-
-    function splitTextToSpans(element) {
-        // ... (Twój istniejący kod splitTextToSpans)
-        const text = element.textContent.trim();
-        const words = text.split(" ");
-        element.innerHTML = "";
-
-        words.forEach((word, index) => {
-            const wordSpan = document.createElement("span");
-            wordSpan.className = "word-wrapper";
-            
-            const chars = word.split("");
-            chars.forEach(char => {
-                const charSpan = document.createElement("span");
-                charSpan.textContent = char;
-                charSpan.className = "char-reveal";
-                wordSpan.appendChild(charSpan);
-            });
-
-            element.appendChild(wordSpan);
-
-            if (index < words.length - 1) {
-                element.appendChild(document.createTextNode(" "));
-            }
-        });
-        
-        return element.querySelectorAll(".char-reveal");
-    }
-
-    const title = document.querySelector(".hk-title");
-    if (title) {
-        const titleChars = splitTextToSpans(title);
-        gsap.fromTo(titleChars, 
-            { opacity: 0, y: 30, filter: "blur(10px)" },
-            {
-                opacity: 1, y: 0, filter: "blur(0px)",
-                duration: 0.8, stagger: 0.02, ease: "power2.out",
-                scrollTrigger: { trigger: ".about-header", start: "top 80%" }
-            }
-        );
-    }
-
-    const subtitle = document.querySelector(".hk-subtitle");
-    if (subtitle) {
-        const subtitleChars = splitTextToSpans(subtitle);
-        gsap.fromTo(subtitleChars, 
-            { opacity: 0, y: 20 },
-            {
-                opacity: 1, y: 0,
-                duration: 0.6, stagger: 0.005, ease: "power1.out", delay: 0.2,
-                scrollTrigger: { trigger: ".about-header", start: "top 80%" }
-            }
-        );
-    }
-
-    const bodyTexts = document.querySelectorAll(".hk-text-body, .about-label");
-    
-    bodyTexts.forEach(textBlock => {
-        const chars = splitTextToSpans(textBlock);
-        
-        gsap.fromTo(chars,
-            { opacity: 0, y: 10 },
-            {
-                opacity: 1, y: 0,
-                duration: 0.4, 
-                stagger: 0.006, 
-                ease: "power1.out",
-                scrollTrigger: { 
-                    trigger: textBlock, 
-                    start: "top 90%" 
+                } else {
+                    // Błąd wysyłania
+                    alert("Something went wrong. Please try again.");
+                    submitBtn.textContent = originalBtnText;
+                    submitBtn.style.opacity = "1";
+                    submitBtn.disabled = false;
                 }
-            }
-        );
-    });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Connection error. Please check your internet.");
+                submitBtn.textContent = originalBtnText;
+                submitBtn.style.opacity = "1";
+                submitBtn.disabled = false;
+            });
+        });
+    }
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const cardFront = document.querySelector('.card-front');
+    const customCursor = document.getElementById('custom-cursor');
+
+    if (cardFront && customCursor) {
+        
+        // 1. Obsługa Custom Cursora (powiększanie)
+        cardFront.addEventListener('mouseenter', () => {
+            customCursor.classList.add('hover-active');
+        });
+
+        cardFront.addEventListener('mouseleave', () => {
+            customCursor.classList.remove('hover-active');
+        });
+
+        // 2. Kliknięcie - powrót na górę strony (GSAP Smooth Scroll)
+        cardFront.addEventListener('click', () => {
+            gsap.to(window, { 
+                duration: 2,           // Czas trwania (możesz zmienić np. na 1.5)
+                scrollTo: { y: 0 },    // Przewiń do Y: 0
+                ease: "power4.inOut"   // Bardzo elegancki easing (szybki start/stop, wolny środek)
+            });
+        });
+
+        // 3. Blokada prawego przycisku myszy na karcie
+        cardFront.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            return false;
+        });
+    }
 });
 </script>
 

@@ -1,700 +1,369 @@
+/* =========================================
+   GLOBAL RESET & BASE STYLES
+   ========================================= */
 * {
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            box-sizing: border-box;
-        }
-
-        *::-webkit-scrollbar {
-            display: none;
-            width: 0;
-            height: 0;
-        }
-
-        body, html {
-            margin: 0;
-            padding: 0;
-            background-color: #000;
-            color: white;
-            overflow-x: hidden;
-        }
-
-        body::-webkit-scrollbar, 
-        html::-webkit-scrollbar {
-            display: none;
-        }
-
-        body, a, button, input, textarea, .portfolio-btn {
-            cursor: none !important;
-        }
-
-        #custom-cursor {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 20px;
-            height: 20px;
-            background-color: white;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 10000;
-            mix-blend-mode: difference;
-            transform: translate(-50%, -50%) scale(1);
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        #custom-cursor.click-active,
-        #custom-cursor.hover-active {
-            transform: translate(-50%, -50%) scale(3.5);
-            background-color: white;
-        }
-
-        @media (hover: none) and (pointer: coarse) {
-            #custom-cursor {
-                display: none;
-            }
-            body {
-                cursor: auto;
-            }
-        }
-
-        .word-wrapper {
-            display: inline-block;
-            white-space: nowrap;
-        }
-        
-        .char-reveal {
-            display: inline-block;
-        }
-
-        #sky-section.bordered-section {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            background-color: #000;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .sky-container {
-            position: relative;
-            width: calc(100% - 40px);
-            height: 100%;
-            padding-top: 15px;
-            margin: 0 auto;
-            border: 10px solid #000;
-            border-bottom: none;
-            box-sizing: border-box;
-            overflow: hidden;
-        }
-
-        canvas {
-            display: block;
-            width: 100%;
-            height: 100%;
-        }
-
-        .portfolio-title {
-            position: absolute;
-            top: 30px;
-            left: 30px;
-            font-family: 'Cascadia Mono ExtraLight', monospace;
-            font-size: clamp(1.5rem, 3vw, 2.5rem);
-            font-weight: 200;
-            color: rgb(255, 255, 255);
-            letter-spacing: 2px;
-            z-index: 10;
-            pointer-events: none;
-            white-space: nowrap;
-        }
-
-        .portfolio-subtitle {
-            position: absolute;
-            top: 85px;
-            left: 32px;
-            font-family: 'Cascadia Mono ExtraLight', monospace;
-            font-size: clamp(0.5em, 0.8vw, 1rem);
-            font-weight: 200;
-            color: rgb(255, 255, 255);
-            letter-spacing: 1px;
-            z-index: 10;
-            pointer-events: none;
-            line-height: 1.3;
-            white-space: nowrap;
-        }
-
-        .portfolio-buttons {
-            position: absolute;
-            top: 35px;
-            right: 30px;
-            display: flex;
-            gap: 30px;
-            z-index: 10;
-            pointer-events: all;
-        }
-
-        .portfolio-btn {
-            font-family: 'Cascadia Mono ExtraLight', monospace;
-            font-size: clamp(0.8rem, 1.2vw, 1rem);
-            font-weight: 200;
-            color: rgba(255, 255, 255, 0.7);
-            background: transparent;
-            border: none;
-            padding: 12px 26px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            text-decoration: none;
-            display: inline-block;
-            letter-spacing: 2px;
-        }
-
-        .portfolio-btn:hover {
-            color: rgba(255, 255, 255, 0.9);
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
-            transform: translateY(-2px);
-        }
-
-        .portfolio-btn:active {
-            transform: translateY(0);
-        }
-
-        .burned-text {
-            position: absolute;
-            top: 55%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2rem, 4vw, 5rem);
-            font-weight: 500;
-            color: rgb(255, 255, 255);
-            letter-spacing: 2px;
-            pointer-events: none;
-            z-index: 6;
-            filter: url(#burn-effect);
-            mix-blend-mode: soft-light;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.4), 0 0 30px rgba(255, 255, 255, 0.2), 0 0 45px rgba(255, 255, 255, 0.1);
-            white-space: nowrap;
-            padding: 0 20px;
-        }
-
-        #cursor {
-            animation: blink 1s infinite;
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
-        }
-
-        .webgl-notice {
-            position: absolute;
-            bottom: 15px;
-            right: 15px;
-            font-family: 'Cascadia Mono ExtraLight', monospace;
-            font-size: 10px;
-            color: rgb(255, 255, 255);
-            text-align: right;
-            max-width: 300px;
-            z-index: 20;
-            pointer-events: none;
-            transition: filter 1.4s ease, opacity 1.2s ease, transform 0.8s ease;
-            filter: blur(0px);
-            opacity: 1;
-            transform: translateY(0);
-            mix-blend-mode: soft-light;
-        }
-
-        .webgl-notice.blur-out {
-            filter: blur(6px);
-            opacity: 0;
-            transform: translateY(8px);
-        }
-
-        .about-section {
-            width: 100%;
-            background: #000;
-            position: relative;
-            padding-bottom: 50px;
-        }
-
-        .about-top-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            width: 95%;
-            margin: 0 auto;
-            padding-top: 30px;
-            padding-bottom: 20px;
-        }
-
-        .about-header {
-            width: 60%;
-            padding-right: 40px;
-        }
-
-        .hk-title {
-            font-family: 'HK Grotesk', sans-serif;
-            font-weight: 400;
-            font-size: clamp(1.6rem, 3.2vw, 3.5rem);
-            line-height: 1.2;
-            word-spacing: 10px;
-            color: white;
-            margin: 0 0 16px 10px;
-            text-align: justify; 
-            letter-spacing: 0px;
-        }
-
-        .hk-subtitle {
-            font-family: 'HK Grotesk', sans-serif;
-            font-weight: 100;
-            font-size: clamp(0.75rem, 0.3vw, 0.95rem);
-            line-height: 1.8;
-            color: #b0b0b0;
-            word-spacing: 10px;
-            margin: 0 0 16px 10px;
-            max-width: 60%;
-            
-        }
-
-        .about-image-container {
-            width: auto;
-            margin: 0;
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: row; 
-            align-items: flex-end; 
-        }
-
-            #gallery-text {
-                transition: opacity 1s ease, filter 1s ease;
-                filter: blur(0px);
-                opacity: 1;
-            }
-
-            #gallery-text.blur-out {
-                opacity: 0;
-                filter: blur(8px); 
-            }
-
-        .about-image {
-            width: 300px;
-            height: 300px;
-            max-width: 300px;
-            background-image: url('img/use_/me.jpg');
-            background-size: cover;
-            background-position: center;
-        }
-
-
-        .about-content {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            position: relative;
-        }
-
-        .about-text-wrapper {
-            width: 95%;
-            max-width: 95%;
-            border-top: 1px solid rgba(255, 255, 255, 0.4);
-            margin: auto auto 0;
-            display: grid;
-            grid-template-columns: 0.5fr 0.7fr 0.6fr;
-            column-gap: 30px;
-            padding-top: 20px;
-        }
-
-        .about-text-wrapper .about-column:nth-child(2) {
-            margin-left: 60px;
-        }
-
-        .about-label {
-    font-family: 'HK Grotesk', sans-serif; 
-    font-size: 13px;
-    color: #ccccccbd;
-    margin-bottom: 18px;
-    font-weight: 300;
-
-    margin-top: 0;       
-    line-height: 1.6;    
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    box-sizing: border-box;
 }
 
-        .hk-text-body {
-            font-family: 'HK Grotesk', sans-serif;
-            font-weight: 100;
-            font-size: 13px;
-            line-height: 1.6;
-            color: #d1d1d1;
-            margin: 0 0 15px 0;
-            text-align: justify;
-        }
+*::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+}
 
-        .gallery-section {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            overflow: hidden;
-            background-color: #000;
-            z-index: 2;
-        }
+body, html {
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    color: white;
+    overflow-x: hidden;
+}
 
-        .gallery-label {
-            position: absolute;
-            top: 2%;
-            right: 2%;
-            font-family: 'Cascadia Mono Light', monospace;
-            font-size: 34px;
-            font-weight: 300;
-            color: rgb(0, 0, 0);
-            z-index: 10;
-            pointer-events: none;
-            letter-spacing: 2px;
-        }
+body::-webkit-scrollbar, 
+html::-webkit-scrollbar {
+    display: none;
+}
 
-        .gallery-note {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            width: 100%;
-            max-width: 350px;
-            mix-blend-mode: luminosity;
-            font-family: 'HK Grotesk', sans-serif;
-            font-size: 12px;
-            font-weight: 400;
-            line-height: 1.6;
-            color: rgb(216, 216, 216);
-            z-index: 10;
-            pointer-events: none;
-        }
+body, a, button, input, textarea, .portfolio-btn {
+    cursor: none !important;
+}
 
-        #mode-switch {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            background: transparent;
-            border: none;
-            font-weight: 400;
-            font-family: 'Cascadia Mono ExtraLight', monospace; /* Pasuje do stylu portfolio */
-            font-size: 11px;
-            color: rgb(255, 255, 255);
-            z-index: 20;
-            cursor: none; /* Żeby działał Twój custom cursor */
-            letter-spacing: 1px;
-            padding: 0;
-            opacity: 0.8;
-            transition: opacity 0.3s ease;
-        }
+::selection {
+    background-color: #ffffff;
+    color: #000000;
+    text-shadow: none;
+}
 
-        #mode-switch:hover {
-            opacity: 1;
-            text-shadow: 0 0 8px rgb(255, 255, 255);
-        }
+::-moz-selection {
+    background-color: #ffffff;
+    color: #000000;
+    text-shadow: none;
+}
 
+/* Light Mode Selection */
+body.light-mode-active ::selection {
+    background-color: #000000;
+    color: #ffffff;
+}
 
-        .gallery-track {
-            display: flex;
-            width: 400vw;
-            height: 100%;
-            animation: gallerySlide 12s cubic-bezier(0.65, 0, 0.35, 1) infinite;
-        }
+body.light-mode-active ::-moz-selection {
+    background-color: #000000;
+    color: #ffffff;
+}
 
-        .gallery-track img {
-            width: 100vw;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            flex-shrink: 0;
-            user-select: none;
-            -webkit-user-drag: none;
-            pointer-events: none;
-            -webkit-touch-callout: none;
-            filter: grayscale(100%); 
-            transition: filter 0.8s ease; /* Płynne przejście koloru */
-        }
+/* =========================================
+   UTILITIES & OVERLAYS
+   ========================================= */
+#transition-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    opacity: 0; 
+    visibility: hidden; 
+    z-index: 100000; 
+    pointer-events: none;
+}
 
-        .gallery-section.color-mode .gallery-track img {
-            filter: grayscale(0%);
-        }
+.word-wrapper {
+    display: inline-block;
+    white-space: nowrap;
+}
 
-        @keyframes gallerySlide {
-            0%, 40% { transform: translateX(0); }
-            45%, 85% { transform: translateX(-100vw); }
-            90%, 100% { transform: translateX(-200vw); }
-        }
+.char-reveal {
+    display: inline-block;
+}
 
+.fade-in-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1.2s ease-out, transform 1.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+    will-change: opacity, transform;
+}
 
-        @media (max-width: 1279px) {
-            .portfolio-buttons {
-                top: 25px; right: 20px; gap: 20px;
-            }
-            .portfolio-btn {
-                font-size: clamp(0.7rem, 1vw, 0.9rem); padding: 18px 12px;
-            }
-        }
+.fade-in-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
 
-        @media (max-width: 1024px) {
-            .about-top-row {
-                flex-direction: column-reverse;
-                align-items: flex-start;
-            }
-            
-            .about-header {
-                width: 100%;
-                padding-right: 0;
-                margin-top: 30px;
-            }
+/* =========================================
+   CUSTOM CURSOR
+   ========================================= */
+#custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10000;
+    mix-blend-mode: difference;
+    transform: translate(-50%, -50%) scale(1);
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
 
-            .about-image-container {
-                width: 100%;
-                margin-bottom: 20px;
-                flex-direction: row;
-                align-items: center;
-                gap: 15px;
-            }
+#custom-cursor.click-active,
+#custom-cursor.hover-active {
+    transform: translate(-50%, -50%) scale(3.5);
+    background-color: white;
+}
 
+.full-width-image-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    
+    /* BLOKADA INTERAKCJI */
+    pointer-events: none;       /* Wyłącza klikanie i hover */
+    user-select: none;          /* Wyłącza zaznaczanie tekstu/obrazu */
+    -webkit-user-drag: none;    /* Wyłącza przeciąganie (Chrome/Safari) */
+    -moz-user-select: none;     /* Firefox */
+    -ms-user-select: none;      /* IE/Edge */
+}
 
-
-            .hk-title {
-                width: 95%;
-                text-align: left;
-               
-            }
-
-            .hk-subtitle {
-                max-width: 95%; 
-                width: 95%;
-                text-align: justify; 
-                word-spacing: 6px;
-            } 
-            .about-text-wrapper {
-             
-                display: flex;
-                flex-direction: column;
-                width: 95%; 
-                gap: 20px;
-            }
-
-            .about-text-wrapper .about-column:nth-child(2) {
-                margin-left: 0; 
-            }
-
-            .hk-text-body {
-                width: 100%;
-                text-align: justify; 
-            }
-            
-            .about-label {
-                margin-bottom: 5px; 
-            }
-
-            .about-image {
-                display: none;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .portfolio-buttons {
-                top: 20px; right: 15px; gap: 15px;
-            }
-            .portfolio-btn {
-                font-size: clamp(0.6rem, 0.9vw, 0.8rem); padding: 18px 10px;
-            }
-            .portfolio-title {
-                padding-top: 15px; top: 15px; left: 15px;
-                font-size: clamp(1rem, 4vw, 1.5rem);
-            }
-            .portfolio-subtitle {
-                top: 65px; left: 15px;
-                font-size: clamp(0.5rem, 1vw, 0.8rem);
-            }
-            .burned-text {
-                font-size: clamp(1.5rem, 6vw, 2.5rem);
-                white-space: normal;
-                padding: 0 10px;
-                width: 90%;
-            }
-            .about-image {
-                max-width: 160px; height: 160px;
-                margin-right: 5%; margin-bottom: 20px;
-            }
-            .about-text-wrapper {
-                grid-template-columns: 1fr;
-                column-gap: 0; row-gap: 10px;
-                width: 90%;
-            }
-            .about-text-wrapper .about-column:nth-child(2) {
-                margin-left: 0;
-            }
-            .gallery-label {
-                top: 20px; left: 20px; font-size: 18px;
-            }
-            .gallery-note {
-                right: 20px; width: auto; max-width: 80%;
-                font-size: 11px;
-            }
-
-            #mode-switch {
-                bottom: 4px;
-                right: 5px;
-                font-size: 10.2px;
-                
-            }
-
-            .webgl-notice {
-                display: none;
-            }
-            .top-left { top: 40px; left: 20px; }
-            .bottom-left { bottom: 120px; left: 20px; }
-            .top-right { top: 130px; right: 20px; text-align: right; }
-            .bottom-right { bottom: 20px; right: 20px; text-align: right; }
-        }
-
-        @media (max-width: 630px) {
-            .portfolio-buttons {
-                top: 15px; right: 10px; gap: 10px;
-            }
-            .portfolio-btn {
-                display: none;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .portfolio-title {
-                top: 10px; left: 10px;
-                font-size: clamp(0.9rem, 3.5vw, 1.3rem);
-            }
-            .portfolio-subtitle {
-                top: 55px; left: 10px;
-                font-size: clamp(0.4rem, 0.9vw, 0.7rem);
-                white-space: normal;
-                max-width: 150px;
-            }
-            .portfolio-subtitle br {
-                display: block;
-            }
-            .about-image-container {
-                gap: 10px;
-            }
-
-        }
-
-        @media (max-width: 360px) {
-            .portfolio-buttons { display: none; }
-        }
-
-        @media (min-width: 2500px) {
-            .portfolio-title {
-                font-size: 3.5rem; top: 40px; left: 40px;
-            }
-            .portfolio-subtitle {
-                font-size: 1.2rem; top: 115px; left: 42px;
-            }
-            .portfolio-buttons {
-                top: 50px; right: 40px;
-            }
-            .portfolio-btn {
-                font-size: 1.2rem;
-            }
-            .burned-text {
-                font-size: 6rem;
-            }
-        }
-
-        .insta-link {
-            position: absolute;
-            bottom: 15px;
-            left: 15px; /* Wyrównanie do lewej krawędzi (jak subtitle) */
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            z-index: 20;
-            text-decoration: none;
-            pointer-events: auto;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        .insta-link img {
-            width: 18px; /* "Malutka" wielkość ikony */
-            height: auto;
-            display: block;
-            opacity: 0.8;
-            transition: opacity 0.3s ease;
-        }
-
-        .insta-link span {
-            font-family: 'Cascadia Mono ExtraLight', monospace;
-            font-size: 10px;
-            color: rgba(255, 255, 255, 0.7);
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-        }
-
-        /* Efekt hover */
-        .insta-link:hover {
-            transform: translateY(-2px);
-        }
-
-        .insta-link:hover span {
-            color: #fff;
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
-        }
-
-        .insta-link:hover img {
-            opacity: 1;
-        }
-
-        #star-labels-container {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none; 
-        overflow: hidden;
-        z-index: 5; 
+@media (hover: none) and (pointer: coarse) {
+    #custom-cursor {
+        display: none;
     }
-
-    .star-label {
-        position: absolute;
-        display: flex;
-        align-items: center;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        transform: translate(10px, -50%); 
+    body {
+        cursor: auto;
     }
+}
 
-    .star-label.visible {
-        opacity: 1;
-    }
+/* =========================================
+   SKY SECTION (HERO)
+   ========================================= */
+#sky-section.bordered-section {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Możesz spróbować zmienić na min-height: 100vh */
+    background-color: #000;
+    z-index: 1;
+    transition: background-color 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
 
-    .star-line {
-        width: 60px;
-        height: 1px;
-        background-color: rgba(255, 255, 255, 0.6);
-        margin-right: 20px;
-        transform-origin: left center;
-        transform: rotate(-20deg); /
-    }
+#sky-section.light-mode {
+    background-color: #fcfcfc !important;
+}
 
-    .star-text {
-        font-family: 'Cascadia Code', monospace;
-        font-size: 12px;
-        color: #fff;
-        text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
-        background: rgba(0, 0, 0, 0.4);
-        padding: 2px 6px;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        backdrop-filter: blur(2px);
-        margin-bottom: 40px;
-    }
+.sky-container {
+    position: relative;
+    width: calc(100% - 40px);
+    height: 100%;
+    padding-top: 15px;
+    margin: 0 auto;
+    border: 10px solid #000;
+    border-bottom: none;
+    box-sizing: border-box;
+    overflow: hidden;
+    transition: border-color 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
 
+#sky-section.light-mode .sky-container {
+    border-color: #fcfcfc !important;
+}
 
-    .theme-switch-icons {
+canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* --- UI ELEMENTS IN SKY SECTION --- */
+.portfolio-title {
     position: absolute;
-    bottom: 20px; /* Prawy dolny róg sekcji */
+    top: 30px;
+    left: 30px;
+    font-family: 'Cascadia Mono ExtraLight', monospace;
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 200;
+    color: rgb(255, 255, 255);
+    letter-spacing: 2px;
+    z-index: 10;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.portfolio-subtitle {
+    position: absolute;
+    top: 85px;
+    left: 32px;
+    font-family: 'Cascadia Mono ExtraLight', monospace;
+    font-size: clamp(0.5em, 0.8vw, 1rem);
+    font-weight: 200;
+    color: rgb(255, 255, 255);
+    letter-spacing: 1px;
+    z-index: 10;
+    pointer-events: none;
+    line-height: 1.3;
+    white-space: nowrap;
+}
+
+.portfolio-buttons {
+    position: absolute;
+    top: 35px;
+    right: 30px;
+    display: flex;
+    gap: 30px;
+    z-index: 10;
+    pointer-events: all;
+}
+
+.portfolio-btn {
+    font-family: 'Cascadia Mono ExtraLight', monospace;
+    font-size: clamp(0.8rem, 1.2vw, 1rem);
+    font-weight: 200;
+    color: rgba(255, 255, 255, 0.7);
+    background: transparent;
+    border: none;
+    padding: 12px 26px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    display: inline-block;
+    letter-spacing: 2px;
+}
+
+.portfolio-btn:hover {
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+    transform: translateY(-2px);
+}
+
+.burned-text {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 5rem);
+    font-weight: 500;
+    color: rgb(255, 255, 255);
+    letter-spacing: 2px;
+    pointer-events: none;
+    z-index: 6;
+    filter: url(#burn-effect);
+    mix-blend-mode: soft-light;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.4), 0 0 30px rgba(255, 255, 255, 0.2), 0 0 45px rgba(255, 255, 255, 0.1);
+    white-space: nowrap;
+    padding: 0 20px;
+}
+
+#cursor {
+    animation: blink 1s infinite;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+.webgl-notice {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    font-family: 'Cascadia Mono ExtraLight', monospace;
+    font-size: 10px;
+    color: rgb(255, 255, 255);
+    text-align: right;
+    max-width: 300px;
+    z-index: 20;
+    pointer-events: none;
+    transition: filter 1.4s ease, opacity 1.2s ease, transform 0.8s ease;
+    filter: blur(0px);
+    opacity: 1;
+    transform: translateY(0);
+    mix-blend-mode: soft-light;
+}
+
+.webgl-notice.blur-out {
+    filter: blur(6px);
+    opacity: 0;
+    transform: translateY(8px);
+}
+
+/* --- WIDGETS & ICONS --- */
+.lang-link {
+    position: absolute;
+    bottom: 110px; 
+    left: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 20;
+    text-decoration: none;
+    pointer-events: auto;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.lang-icon {
+    width: 20px; 
+    height: auto;
+    opacity: 0.8;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.lang-text {
+    font-family: 'Cascadia Mono ExtraLight', monospace;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.7);
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.lang-link:hover { transform: translateY(-2px); }
+.lang-link:hover .lang-icon { opacity: 1; }
+.lang-link:hover .lang-text {
+    color: #fff;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+}
+
+.insta-link {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 20;
+    text-decoration: none;
+    pointer-events: auto;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.insta-link img {
+    width: 18px;
+    height: auto;
+    display: block;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.insta-link span {
+    font-family: 'Cascadia Mono ExtraLight', monospace;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.7);
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.insta-link:hover { transform: translateY(-2px); }
+.insta-link:hover span { color: #fff; text-shadow: 0 0 8px rgba(255, 255, 255, 0.6); }
+.insta-link:hover img { opacity: 1; }
+
+.theme-switch-icons {
+    position: absolute;
+    bottom: 20px;
     right: 30px; 
     z-index: 50;
     display: flex;
@@ -705,124 +374,16 @@
 .mode-icon {
     width: 25px; 
     height: 25px;
-    cursor: none; /* Działa z custom-cursor */
+    cursor: none;
     opacity: 0.7;
     transition: opacity 0.3s ease, transform 0.3s ease;
-    display: none; /* Domyślnie ukryte, JS pokaże aktywną */
+    display: none;
 }
 
-.mode-icon.active-mode-icon {
-    display: block; /* Pokazujemy tylko aktywną ikonę */
-}
+.mode-icon.active-mode-icon { display: block; }
+.mode-icon:hover { opacity: 1; transform: scale(1.25) rotate(45deg); }
 
-.mode-icon:hover {
-    opacity: 1;
-    transform: scale(1.25)  rotate(45deg);
-}
-
-/* --- Style dla sekcji "About" i jej elementów z transition --- */
-
-/* Dodajemy transition do ogólnych stylów about-section */
-.about-section {
-    /* Płynne przejście tła z ciekawą krzywą */
-    transition: background-color 1.5s cubic-bezier(0.65, 0, 0.35, 1); 
-}
-
-/* Dodajemy transition do wszystkich elementów tekstowych i linii w sekcji */
-.hk-title,
-.hk-subtitle,
-.about-text-wrapper,
-.about-label,
-.hk-text-body {
-    /* Płynne przejście kolorów i koloru obramowania */
-    transition: color 1.5s cubic-bezier(0.65, 0, 0.35, 1), border-color 1.5s cubic-bezier(0.65, 0, 0.35, 1);
-}
-
-.about-section.light-mode {
-    background: #fcfcfc; /* Jasne tło */
-}
-
-.about-section.light-mode .hk-title {
-    color: #111; /* Bardzo ciemny tekst */
-}
-
-.about-section.light-mode .hk-subtitle {
-    color: #555; /* Ciemniejszy szary */
-}
-
-.about-section.light-mode .about-text-wrapper {
-    border-top: 1px solid rgba(0, 0, 0, 0.2); /* Ciemniejsza linia */
-}
-
-.about-section.light-mode .about-label {
-    color: #333; /* Ciemniejszy label */
-}
-
-.about-section.light-mode .hk-text-body {
-    color: #444; /* Ciemniejszy tekst */
-}
-
-/* Zdjęcie (about-image) ma pozostać bez zmian, ale dodajemy subtelny cień na jasnym tle */
-.about-section.light-mode .about-image {
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
-}
-
-/* --- Aktualizacja istniejących stylów dla SKY-SECTION (dodanie transition) --- */
-/* Zapewnia płynne przejście tła sekcji i kontenera */
-#sky-section {
-    transition: background-color 1.5s cubic-bezier(0.65, 0, 0.35, 1);
-}
-
-.sky-container {
-    transition: border-color 1.5s cubic-bezier(0.65, 0, 0.35, 1);
-}
-
-#sky-section.light-mode {
-    background-color: #fcfcfc !important; /* Jasne tło dla całej sekcji */
-}
-
-#sky-section.light-mode .sky-container {
-    border-color: #fcfcfc !important; /* Jasna ramka/marginesy */
-}
-
-
-/* Upewnienie się, że tło body jest jasne */
-body.light-mode-active {
-    background-color: #fcfcfc !important;
-}
-
-::selection {
-    background-color: #ffffff; /* Białe tło zaznaczenia */
-    color: #000000;            /* Czarny tekst */
-    text-shadow: none;
-}
-
-::-moz-selection { /* Wsparcie dla Firefoxa */
-    background-color: #ffffff;
-    color: #000000;
-    text-shadow: none;
-}
-
-/* 2. Tryb jasny (Jasne tło -> Czarne zaznaczenie) */
-/* Używamy klasy light-mode-active, którą Twój JS dodaje do body */
-body.light-mode-active ::selection {
-    background-color: #000000; /* Czarne tło zaznaczenia */
-    color: #ffffff;            /* Biały tekst */
-}
-
-body.light-mode-active ::-moz-selection {
-    background-color: #000000;
-    color: #ffffff;
-}
-
-/* Responsywność dla przełącznika */
-@media (max-width: 768px) {
-    .theme-switch-icons {
-        bottom: 10px;
-        right: 10px;
-    }
-}
-
+/* Clock Widget */
 .time-widget {
     position: absolute;
     top: 50%; 
@@ -831,12 +392,11 @@ body.light-mode-active ::-moz-selection {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px; /* Zmniejszony gap, aby zmieścić datę */
+    gap: 5px;
     z-index: 50; 
     pointer-events: auto; 
 }
 
-/* Nowy styl dla daty */
 .current-date {
     font-family: 'Cascadia Mono ExtraLight', monospace;
     font-size: 11px;
@@ -844,230 +404,110 @@ body.light-mode-active ::-moz-selection {
     letter-spacing: 1.5px;
     text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
     user-select: none;
-    margin-bottom: 10px; /* Odstęp od clock */
+    margin-bottom: 10px;
 }
 
-/* Nowy wrapper, który ustawi ikonę obok dial */
 .dial-wrapper {
     display: flex;
     align-items: center;
-    gap: 10px; /* Odstęp między sliderem a ikoną */
+    gap: 10px;
 }
 
-/* Ikona resetu */
 .reset-icon {
     width: 20px;
     height: 20px;
     opacity: 0.6;
     transition: opacity 0.3s ease, transform 0.3s ease;
-    cursor: none; /* Działa z custom-cursor */
+    cursor: none;
 }
 
-.reset-icon img {
-    width: 100%;
-    height: 100%;
-    display: block;
-}
+.reset-icon img { width: 100%; height: 100%; display: block; }
+.reset-icon:hover { opacity: 1; transform: rotate(30deg) scale(1.1); }
 
-.reset-icon:hover {
-    opacity: 1;
-    transform: rotate(30deg) scale(1.1);
-}
-
-        .digital-clock {
-            font-family: 'Cascadia Mono ExtraLight', monospace;
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.9);
-            letter-spacing: 2px;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-            user-select: none;
-        }
-
-        .dial-container {
-            position: relative;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            /* Tło pierścienia */
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            cursor: none;
-        }
-
-        .dial-container:active {
-                cursor: none;
-        }
-
-        .dial-ring {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            border-radius: 50%;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
-        }
-
-        .dial-knob {
-            position: absolute;
-            top: 50%; left: 50%;
-            width: 8px;
-            height: 8px;
-            background-color: white;
-            border-radius: 50%;
-            transform: translate(-50%, -50%); /* To centruje knob względem jego własnej osi */
-            box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
-            pointer-events: none; /* Klikamy w container, knob tylko wizualizuje */
-        }
-
-        .fade-in-on-scroll {
-            opacity: 0;
-            transform: translateY(30px); /* Przesunięcie w dół o 40px */
-            transition: opacity 1.2s ease-out, transform 1.2s cubic-bezier(0.215, 0.61, 0.355, 1);
-            will-change: opacity, transform;
-        }
-
-        /* Styl końcowy - gdy JS doda klasę .is-visible */
-        .fade-in-on-scroll.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Opcjonalnie: opóźnienie dla zdjęcia, żeby wyłoniło się chwile po tytule (jeśli chcesz) */
-        .about-image-container.fade-in-on-scroll {
-            transition-delay: 0.2s;
-        }
-
-        /* Responsywność dla widgetu */
-        @media (max-width: 768px) {
-            .time-widget {
-                top: auto;
-                bottom: 60px; /* Przesuwamy na dół na mobilkach */
-                right: 20px;
-                transform: none;
-            }
-        }
-
-        
-
-        @media (max-width: 768px) {
-            .insta-link {
-                left: 10px;
-                bottom: 15px;
-            }
-            .insta-link span {
-                font-size: 9px;
-            }
-        }
-
-        .capture-canvas-link {
-    position: absolute;
-    bottom: 60px; /* Lekko wyżej niż insta-link (15px) */
-    left: 17px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    z-index: 20;
-    text-decoration: none;
-    pointer-events: auto;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.capture-icon {
-    width: 18px; 
-    height: auto;
-    display: block;
-    opacity: 0.8;
-    transition: opacity 0.3s ease;
-}
-
-.capture-text {
+.digital-clock {
     font-family: 'Cascadia Mono ExtraLight', monospace;
-    font-size: 10px;
-    color: rgba(255, 255, 255, 0.7);
-    letter-spacing: 1px;
-    transition: all 0.3s ease;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.9);
+    letter-spacing: 2px;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    user-select: none;
 }
 
-/* Efekt hover (identyczny jak dla insta-link) */
-.capture-canvas-link:hover {
-    transform: translateY(-2px);
+.dial-container {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    cursor: none;
 }
 
-.capture-canvas-link:hover .capture-text {
-    color: #fff;
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+.dial-ring {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    border-radius: 50%;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
 }
 
-.capture-canvas-link:hover .capture-icon {
-    opacity: 1;
+.dial-knob {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 8px;
+    height: 8px;
+    background-color: white;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+    pointer-events: none;
 }
 
-/* Responsywność dla ikony zapisu */
-@media (max-width: 1024px) {
-    .capture-canvas-link {
-        display: none;
-    }
-    .capture-text {
-        display: none;
-    }
-}
-
+/* How? Bubble */
 .how-wrapper {
     position: absolute;
-    /* Save Sky jest na bottom: 60px, Insta na 15px (odstęp 45px). 
-       Więc 60 + 45 = 105px, aby zachować rytm */
-    bottom: 105px; 
-    left: 17px;
-    z-index: 25; /* Wyżej niż inne elementy interfejsu */
+    bottom: 60px; 
+    left: 15px;
+    z-index: 25;
     display: flex;
     align-items: center;
     pointer-events: auto;
 }
 
 .how-icon {
-    width: 20px; /* Taka sama wielkość jak camera.png i insta.png */
+    width: 20px;
     height: auto;
     opacity: 0.8;
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* Hover na samą ikonę */
-.how-wrapper:hover .how-icon {
-    opacity: 1;
-    transform: scale(1.1);
-}
+.how-wrapper:hover .how-icon { opacity: 1; transform: scale(1.1); }
 
-/* --- BOX (DYMEK) --- */
 .how-box {
     position: absolute;
-    left: 35px; /* Odsunięcie w prawo od ikony */
-    bottom: -10px; /* Lekka korekta, żeby dymek był wyśrodkowany względem ikony lub zaczynał się obok */
-    width: 420px; /* Szerokość dymka */
-    background: rgba(0, 0, 0, 0.85); /* Ciemne półprzezroczyste tło */
+    left: 35px;
+    bottom: -10px;
+    width: 420px;
+    background: rgba(0, 0, 0, 0.85);
     border: 1px solid rgba(255, 255, 255, 0.2);
     padding: 20px;
-    backdrop-filter: blur(5px); /* Rozmycie tła pod dymkiem */
-    
-    /* Ukrywanie domyślne */
+    backdrop-filter: blur(5px);
     opacity: 0;
     visibility: hidden;
-    transform: translateX(-10px); /* Lekkie przesunięcie startowe do animacji */
+    transform: translateX(-10px);
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-    
-    /* Styl dymka */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
-/* Pokazywanie dymka po najechaniu na wrapper (ikonę) */
 .how-wrapper:hover .how-box {
     opacity: 1;
     visibility: visible;
     transform: translateX(0);
 }
 
-/* Strzałeczka dymka (opcjonalna, kwadratowa) */
 .how-box::before {
     content: '';
     position: absolute;
     left: -6px;
-    bottom: 15px; /* Wysokość strzałki */
+    bottom: 15px;
     width: 10px;
     height: 10px;
     background: rgba(0, 0, 0, 0.85);
@@ -1089,7 +529,7 @@ body.light-mode-active ::-moz-selection {
 }
 
 .how-text {
-    font-family: 'HK Grotesk', sans-serif; /* Czytelniejszy font do dłuższego tekstu */
+    font-family: 'HK Grotesk', sans-serif;
     font-size: 11px;
     line-height: 1.6;
     color: #d1d1d1;
@@ -1097,7 +537,7 @@ body.light-mode-active ::-moz-selection {
     font-weight: 300;
 }
 
-/* Styl dla Light Mode (jeśli przełączysz tryb) */
+/* Light mode for bubble */
 .light-mode .how-box {
     background: rgba(255, 255, 255, 0.9);
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -1108,69 +548,907 @@ body.light-mode-active ::-moz-selection {
     border-left: 1px solid rgba(0, 0, 0, 0.1);
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
-.light-mode .how-title {
-    color: #000;
-    border-bottom-color: rgba(0, 0, 0, 0.2);
+.light-mode .how-title { color: #000; }
+.light-mode .how-text { color: #444; }
+
+
+/* Stars */
+#star-labels-container {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; overflow: hidden; z-index: 5; 
 }
-.light-mode .how-text {
-    color: #444;
+.star-label {
+    position: absolute; display: flex; align-items: center;
+    opacity: 0; transition: opacity 0.3s ease; transform: translate(10px, -50%); 
+}
+.star-label.visible { opacity: 1; }
+.star-line {
+    width: 60px; height: 1px; background-color: rgba(255, 255, 255, 0.6);
+    margin-right: 20px; transform-origin: left center; transform: rotate(-20deg);
+}
+.star-text {
+    font-family: 'Cascadia Code', monospace; font-size: 12px; color: #fff;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8); background: rgba(0, 0, 0, 0.4);
+    padding: 2px 6px; border: 1px solid rgba(255, 255, 255, 0.3); backdrop-filter: blur(2px); margin-bottom: 40px;
 }
 
-/* Ukrywanie na mobilkach (tak jak Save Sky) */
+/* =========================================
+   ABOUT SECTION
+   ========================================= */
+.about-section {
+    width: 100%;
+    background: #000;
+    position: relative;
+    padding-bottom: 50px; /* Default desktop padding */
+    transition: background-color 1.5s cubic-bezier(0.65, 0, 0.35, 1); 
+}
+
+.about-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 95%;
+    margin: 0 auto;
+    padding-top: 30px;
+    padding-bottom: 20px;
+}
+
+.about-header {
+    width: 60%;
+    padding-right: 40px;
+}
+
+.hk-title {
+    font-family: 'HK Grotesk', sans-serif;
+    font-weight: 400;
+    font-size: clamp(1.6rem, 3.2vw, 3.5rem);
+    line-height: 1.2;
+    word-spacing: 10px;
+    color: white;
+    margin: 0 0 16px 10px;
+    text-align: justify; 
+    letter-spacing: 0px;
+    transition: color 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.hk-subtitle {
+    font-family: 'HK Grotesk', sans-serif;
+    font-weight: 100;
+    font-size: clamp(0.75rem, 0.3vw, 0.95rem);
+    line-height: 1.8;
+    color: #b0b0b0;
+    word-spacing: 10px;
+    margin: 0 0 16px 10px;
+    max-width: 60%;
+    transition: color 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.about-image-container {
+    width: auto;
+    margin: 0;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row; 
+    align-items: flex-end; 
+    transition-delay: 0.2s;
+}
+
+.about-image {
+    width: 300px;
+    height: 300px;
+    max-width: 300px;
+    background-image: url('img/use_/me.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.about-content {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+}
+
+.about-text-wrapper {
+    width: 95%;
+    max-width: 95%;
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    margin: auto auto 0;
+    display: grid;
+    grid-template-columns: 0.5fr 0.7fr 0.6fr;
+    column-gap: 30px;
+    padding-top: 20px;
+    transition: border-color 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.about-text-wrapper .about-column:nth-child(2) {
+    margin-left: 60px;
+}
+
+.about-label {
+    font-family: 'HK Grotesk', sans-serif; 
+    font-size: 13px;
+    color: #ccccccbd;
+    margin-bottom: 18px;
+    font-weight: 300;
+    margin-top: 0;       
+    line-height: 1.6;
+    transition: color 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.hk-text-body {
+    font-family: 'HK Grotesk', sans-serif;
+    font-weight: 100;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #d1d1d1;
+    margin-left: 10px;
+    text-align: justify;
+    transition: color 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Light Mode About */
+.about-section.light-mode { background: #fcfcfc; }
+.about-section.light-mode .hk-title { color: #111; }
+.about-section.light-mode .hk-subtitle { color: #555; }
+.about-section.light-mode .about-text-wrapper { border-top: 1px solid rgba(0, 0, 0, 0.2); }
+.about-section.light-mode .about-label { color: #333; }
+.about-section.light-mode .hk-text-body { color: #444; }
+.about-section.light-mode .about-image { box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); }
+body.light-mode-active { background-color: #fcfcfc !important; }
+
+/* =========================================
+   FULL WIDTH IMAGE
+   ========================================= */
+.full-width-image-container {
+    width: 100%;
+    overflow: hidden;
+    line-height: 0; 
+    background-color: #000;
+}
+
+.full-width-image-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+/* =========================================
+   SELF THEME SECTION
+   ========================================= */
+.self-theme-section {
+    width: 100%;
+    min-height: 40vh; 
+    background-color: #000;
+    padding-bottom: 80px;
+    padding-top: 60px;
+    transition: background-color 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.theme-content-wrapper {
+    width: 95%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.theme-left {
+    width: 45%;
+    padding-right: 20px;
+}
+
+.theme-right {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px; 
+    padding-top: 15px; 
+}
+
+#webglCanvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    /* TO JEST KLUCZOWE: */
+    pointer-events: none !important; 
+}
+
+/* Rows & Call-n-Response */
+.theme-row {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 20px;
+    align-items: start;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 12px; 
+    margin-bottom: 5px;  
+    transition: border-color 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.theme-row:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.theme-subject {
+    font-family: 'HK Grotesk', sans-serif;
+    font-weight: 500; 
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5); 
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.theme-answer {
+    font-family: 'HK Grotesk', sans-serif;
+    font-weight: 300; 
+    font-size: 14.5px;
+    margin-left: 100px;
+    line-height: 1.6;
+    color: #ffffff;
+    transition: color 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Light Mode for Self Theme */
+.self-theme-section.light-mode,
+body.light-mode-active .self-theme-section {
+    background-color: #fcfcfc;
+}
+
+body.light-mode-active .theme-row,
+.self-theme-section.light-mode .theme-row {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+body.light-mode-active .theme-subject,
+.self-theme-section.light-mode .theme-subject {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+body.light-mode-active .theme-answer,
+.self-theme-section.light-mode .theme-answer {
+    color: #111111;
+}
+
+/* FIX: Title color in Light Mode */
+body.light-mode-active .self-theme-section .hk-title,
+.self-theme-section.light-mode .hk-title {
+    color: #111111;
+}
+
+
+/* =========================================
+   MEDIA QUERIES
+   ========================================= */
+
+@media (max-width: 1279px) {
+    .cards-wrapper {
+        display:block;
+    }
+    .portfolio-buttons { top: 25px; right: 20px; gap: 20px; }
+    .portfolio-btn { font-size: clamp(0.7rem, 1vw, 0.9rem); padding: 18px 12px; }
+}
+
 @media (max-width: 1024px) {
-    .how-wrapper {
-        display: none;
+
+    .cards-wrapper {
+        display:none;
+    }
+    .about-top-row {
+        flex-direction: column-reverse;
+        align-items: flex-start;
+    }
+    
+    .about-header {
+        width: 100%;
+        padding-right: 0;
+        margin-top: 30px;
+    }
+
+    .about-image-container {
+        width: 100%;
+        margin-bottom: 20px;
+        flex-direction: row;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .hk-title { width: 95%; text-align: left; }
+    .hk-subtitle { max-width: 95%; width: 95%; text-align: justify; word-spacing: 6px; } 
+    
+    .about-text-wrapper {
+        display: flex;
+        flex-direction: column;
+        width: 95%; 
+        gap: 20px;
+    }
+    .about-text-wrapper .about-column:nth-child(2) { margin-left: 0; }
+    .hk-text-body { width: 100%; text-align: justify; }
+    .about-label { margin-bottom: 5px; }
+    .about-image { display: none; }
+
+    /* Widgets hidden on tablet/mobile */
+    .how-wrapper { display: none; }
+    .lang-link { left: 10px; bottom: 45px; }
+    .check-album-btn { display: none; }
+
+    /* Self Theme Tablet */
+    .theme-content-wrapper { flex-direction: column; }
+    .theme-left { width: 100%; margin-bottom: 30px; }
+    .theme-right { width: 100%; padding-top: 0; }
+    .theme-row { grid-template-columns: 120px 1fr; }
+}
+
+@media (max-width: 768px) {
+    /* Main Layout */
+    .portfolio-buttons { top: 20px; right: 15px; gap: 15px; }
+    .portfolio-btn { font-size: clamp(0.6rem, 0.9vw, 0.8rem); padding: 18px 10px; }
+    .portfolio-title { padding-top: 15px; top: 15px; left: 15px; font-size: clamp(1rem, 4vw, 1.5rem); }
+    .portfolio-subtitle { top: 65px; left: 15px; font-size: clamp(0.5rem, 1vw, 0.8rem); }
+    
+    .burned-text {
+        font-size: clamp(1.5rem, 6vw, 2.5rem);
+        white-space: normal; padding: 0 10px; width: 90%;
+    }
+    .webgl-notice { display: none; }
+    
+    .time-widget { top: auto; bottom: 60px; right: 20px; transform: none; }
+    .theme-switch-icons { bottom: 10px; right: 10px; }
+    .insta-link { left: 10px; bottom: 15px; }
+    .insta-link span { font-size: 9px; }
+
+    /* --- MOBILE MARGIN FIXES (The "Agresywne" part) --- */
+    
+    /* 1. Reduce bottom space of About (above image) */
+    .about-section {
+        padding-bottom: 30px; 
+    }
+    
+    /* 2. Compact the Self Theme section (below image) */
+    .self-theme-section {
+        padding-top: 30px;    /* Much smaller gap */
+        padding-bottom: 40px; 
+        min-height: auto;     /* No forced height */
+    }
+    
+    /* 3. Tighten title-to-list gap */
+    .theme-left {
+        margin-bottom: 15px; 
+    }
+    
+    /* 4. Tighten list rows */
+    .theme-right {
+        gap: 10px; /* Rows handle their own margins */
+    }
+    
+    .theme-row {
+        margin-bottom: 0;
+        padding-bottom: 10px;
     }
 }
 
-.lang-link {
-    position: absolute;
-    bottom: 150px; 
-    left: 17px;
+@media (max-width: 630px) {
+    .portfolio-buttons { 
+        top: 15px; 
+        right: 10px; 
+        gap: 10px; 
+    }
+    .portfolio-btn { 
+        display: none; 
+    }
+
+    /* DODANA ZMIANA: Wymuszamy pokazanie tylko przycisku "Works" */
+    .portfolio-btn.works-link {
+        display: inline-block;
+        font-size: 7px; /* Opcjonalnie: lekko mniejszy font na mobile */
+    }
+
+    .theme-row {
+        grid-template-columns: 1fr; 
+        gap: 5px;
+    }
+    .theme-subject { font-size: 13px; margin-bottom: 2px; }
+    .theme-answer { font-size: 15px; }
+}
+
+@media (max-width: 480px) {
+    .portfolio-title { top: 10px; left: 10px; font-size: clamp(0.9rem, 3.5vw, 1.3rem); }
+    .portfolio-subtitle {
+        top: 55px; left: 10px; font-size: clamp(0.4rem, 0.9vw, 0.7rem);
+        white-space: normal; max-width: 150px;
+    }
+    .portfolio-subtitle br { display: block; }
+    .about-image-container { gap: 10px; }
+}
+
+@media (max-width: 360px) {
+    .portfolio-buttons { display: none; }
+}
+
+@media (min-width: 2500px) {
+    .portfolio-title { font-size: 3.5rem; top: 40px; left: 40px; }
+    .portfolio-subtitle { font-size: 1.2rem; top: 115px; left: 42px; }
+    .portfolio-buttons { top: 50px; right: 40px; }
+    .portfolio-btn { font-size: 1.2rem; }
+    .burned-text { font-size: 6rem; }
+}
+
+.contact-section {
+    width: 100%;
+    background-color: #000;
+    padding-top: 60px;
+    padding-bottom: 80px;
+    transition: background-color 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.contact-content-wrapper {
+    width: 95%;
+    margin: 0 auto;
     display: flex;
-    align-items: center;
-    gap: 10px;
-    z-index: 20;
-    text-decoration: none;
-    pointer-events: auto;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
-.lang-icon {
-    width: 20px; 
-    height: auto;
-    opacity: 0.8;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+.contact-left {
+    width: 45%;
+    padding-right: 20px;
 }
 
-.lang-text {
-    font-family: 'Cascadia Mono ExtraLight', monospace;
-    font-size: 10px;
-    color: rgba(255, 255, 255, 0.7); /* Szary, stonowany kolor */
+.contact-right {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    padding-top: 15px;
+}
+
+/* Form Styles */
+.minimal-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.form-row {
+    position: relative;
+    width: 100%;
+}
+
+.minimal-form input,
+.minimal-form textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 15px 0;
+    font-family: 'Cascadia Code', monospace; /* Spójność z resztą strony */
+    font-size: 14px;
+    color: #fff;
+    transition: border-color 0.3s ease, color 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+    border-radius: 0;
+}
+
+.minimal-form input:focus,
+.minimal-form textarea:focus {
+    outline: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.minimal-form input::placeholder,
+.minimal-form textarea::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+    font-family: 'HK Grotesk', sans-serif;
+    text-transform: uppercase;
+    font-size: 12px;
     letter-spacing: 1px;
+    transition: color 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Submit Button */
+.submit-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    padding: 15px 40px;
+    font-family: 'Cascadia Code', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    cursor: none; /* Żeby działał Twój custom cursor */
     transition: all 0.3s ease;
+    text-transform: uppercase;
+    margin-top: 10px;
+    width: fit-content;
 }
 
-
-/* Efekt hover */
-.lang-link:hover {
-    transform: translateY(-2px);
+.submit-btn:hover {
+    background: #fff;
+    color: #000;
+    border-color: #fff;
 }
 
-.lang-link:hover .lang-icon {
-    opacity: 1;
+/* --- LIGHT MODE FOR CONTACT --- */
+body.light-mode-active .contact-section .hk-title,
+.contact-section.light-mode .hk-title {
+    color: #111111;
 }
 
-.lang-link:hover .lang-text {
-    color: #fff; /* Biały po najechaniu */
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+/* Fix: Upewnienie się, że inputy są czytelne */
+body.light-mode-active .minimal-form input,
+body.light-mode-active .minimal-form textarea {
+    color: #111 !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
+body.light-mode-active .minimal-form input::placeholder, 
+body.light-mode-active .minimal-form textarea::placeholder {
+    color: rgba(0, 0, 0, 0.5);
+}
 
-/* Ukrywanie na mobilkach (do 1024px) */
+.contact-section.light-mode,
+body.light-mode-active .contact-section {
+    background-color: #fcfcfc;
+}
+
+body.light-mode-active .minimal-form input,
+body.light-mode-active .minimal-form textarea {
+    color: #111;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+body.light-mode-active .minimal-form input:focus,
+body.light-mode-active .minimal-form textarea:focus {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+}
+
+body.light-mode-active .minimal-form input::placeholder,
+body.light-mode-active .minimal-form textarea::placeholder {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+body.light-mode-active .submit-btn {
+    color: #111;
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
+body.light-mode-active .submit-btn:hover {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+}
+
+/* --- RESPONSIVE (Takie samo jak w Self Theme) --- */
 @media (max-width: 1024px) {
-    .lang-link {
-                left: 10px;
-                bottom: 45px;
+    .contact-content-wrapper { flex-direction: column; }
+    .contact-left { width: 100%; margin-bottom: 30px; }
+    .contact-right { width: 100%; padding-top: 0; }
+}
+
+@media (max-width: 768px) {
+    .contact-section { padding-top: 30px; padding-bottom: 40px; }
+    .contact-left { margin-bottom: 15px; }
+    .submit-btn { width: 100%; text-align: center; }
+}
+
+.site-footer {
+            background-color: #000;
+            color: #fff;
+            font-family: 'HK Grotesk', sans-serif;
+            padding: 0 2vw 4rem 2vw;
+            position: relative;
+            z-index: 10;
+        }
+
+        .footer-divider {
+            width: 100%;
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.2);
+            margin-bottom: 3rem;
+        }
+
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between; /* To klucz: rozpycha lewą i prawą stronę */
+            align-items: flex-start;
+            gap: 3rem;
+        }
+
+        /* Lewa strona stopki */
+        .footer-left {
+            flex: 0 1 350px; /* Nie rośnij powyżej 350px */
+            max-width: 350px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .footer-cta {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            text-align: justify;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            color: #d1d1d1;
+        }
+
+        .copyright {
+            font-size: 0.7rem;
+            opacity: 0.5;
+            margin-top: auto;
+            font-family: 'HK Grotesk', sans-serif;
+        }
+
+        /* Prawa strona stopki (kolumny) */
+        .footer-right {
+            flex: 0 1 auto; 
+            display: grid;
+            grid-template-columns: repeat(3, 250px); 
+            gap: 4rem; /* Większy odstęp między kolumnami Contents / Contact / Me */
+            
+            text-align: left;
+        }
+
+        .footer-col {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .footer-subject {
+            font-family: 'HK Grotesk', sans-serif;
+            font-weight: 500;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-col a, .footer-col span {
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: opacity 0.3s ease;
+            line-height: 1.5;
+            white-space: nowrap; /* Zapobiega łamaniu się krótkich tekstów */
+        }
+
+        .footer-col a:hover {
+            opacity: 0.6;
+        }
+
+        /* LIGHT MODE DLA STOPKI */
+        body.light-mode-active .site-footer {
+            background-color: #fcfcfc;
+            color: #111;
+        }
+        body.light-mode-active .footer-divider {
+            background-color: rgba(0, 0, 0, 0.15);
+        }
+        body.light-mode-active .footer-cta {
+            color: #444;
+        }
+        body.light-mode-active .footer-subject {
+            color: rgba(0, 0, 0, 0.5);
+        }
+        body.light-mode-active .footer-col a, 
+        body.light-mode-active .footer-col span {
+            color: #111;
+        }
+        body.light-mode-active .copyright {
+            color: #666;
+        }
+
+        /* Responsywność stopki */
+        @media (max-width: 1024px) {
+            .footer-right {
+                gap: 2rem; /* Mniejsze odstępy na tabletach */
             }
+        }
+
+        @media (max-width: 768px) {
+            .footer-container {
+                flex-direction: column;
+                gap: 3rem;
+            }
+            
+            .footer-left {
+                max-width: 100%;
+                flex: 1 1 auto;
+            }
+
+            .footer-right {
+                width: 100%;
+                grid-template-columns: 1fr; /* Na telefonie jedna kolumna pod drugą */
+                gap: 2.5rem;
+            }
+
+            .footer-col a, .footer-col span {
+                white-space: normal; /* Na telefonie pozwalamy na zawijanie */
+            }
+        }
+
+        .hover-reveal-container {
+    position: relative;
+}
+
+/* Stylizacja kontenera z tekstem */
+.photo-caption {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    max-width: 500px; /* Ograniczenie szerokości tekstu, żeby nie rozlał się na całe zdjęcie */
+    
+    background: rgba(0, 0, 0, 0.85); /* Ciemne tło dla kontrastu */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Subtelna ramka */
+    backdrop-filter: blur(4px); /* Efekt rozmycia tła pod tekstem (glassmorphism) */
+    
+    padding: 20px 25px;
+    opacity: 0; /* Domyślnie ukryte */
+    transform: translateY(10px); /* Domyślnie lekko przesunięte w dół */
+    
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1); /* Płynna animacja pojawiania się */
+    pointer-events: none; /* Tekst nie blokuje myszki, dopóki się nie pojawi */
+    z-index: 20;
+}
+
+/* Stylizacja samego tekstu */
+.caption-text {
+    font-family: 'HK Grotesk', sans-serif;
+    font-size: 12px;
+    line-height: 1.6;
+    color: #d1d1d1;
+    margin: 0;
+    text-align: justify;
+    font-weight: 300;
+}
+
+/* --- LOGIKA HOVER (Najważniejsza część) --- */
+
+/* Gdy najedziesz myszką na kontener zdjęcia (.hover-reveal-container) */
+.hover-reveal-container:hover .photo-caption {
+    opacity: 1;
+    transform: translateY(0); /* Tekst wraca na swoje miejsce */
+    pointer-events: auto; /* Teraz można zaznaczyć tekst */
+}
+
+/* --- LIGHT MODE SUPPORT --- */
+/* Jeśli włączony jest tryb jasny, zmieniamy tło notki na jasne */
+body.light-mode-active .photo-caption,
+.light-mode .photo-caption {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode-active .caption-text,
+.light-mode .caption-text {
+    color: #333;
+}
+
+/* --- RESPONSYWNOŚĆ (Mobile) --- */
+
+@media (max-width: 768px) {
+    .photo-caption {
+        bottom: 0;
+        left: 0;
+        width: 100%; /* Na telefonie tekst na całą szerokość */
+        max-width: 100%;
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.9); /* Mocniejsze tło na mobilkach dla czytelności */
+    }
+    .caption-text {
+    font-family: 'HK Grotesk', sans-serif;
+    font-size: 9px;
+    line-height: 1.6;
+    color: #d1d1d1;
+    margin: 0;
+    text-align: justify;
+    font-weight: 300;
+}
+    
+    /* Opcjonalnie: Na telefonach, gdzie nie ma myszki (hover),
+       możemy sprawić, żeby tekst był widoczny po kliknięciu w zdjęcie 
+       lub był widoczny zawsze. 
+       Tutaj zostawiam działanie na "tapnięcie" (kliknięcie palcem traktowane jako hover) */
+}
+
+.desktop-only-desc {
+    margin-top: 30px;
+    max-width: 90%;
+    display: block; /* Domyślnie widoczny (na dużych ekranach) */
+}
+
+/* Ukrywanie na tabletach i mniejszych ekranach (<= 1024px) */
+@media (max-width: 1024px) {
+    .desktop-only-desc {
+        display: none !important;
+    }
+}
+
+.cards-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 856px; /* Oryginalna szerokość grafiki */
+    /* Utrzymuje proporcje 856x388 niezależnie od szerokości ekranu */
+    aspect-ratio: 856 / 388; 
+    margin-top: 70px;
+    margin-left: 40px;
+    perspective: 1500px; /* Kluczowe dla efektu pochylenia 3D */
+    z-index: 10;
+}
+
+/* Styl dla obu obrazków */
+.card-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    pointer-events: none;       /* Domyślnie brak klikania (włączymy tylko dla frontu) */
+    user-select: none;          /* Brak zaznaczania */
+    -webkit-user-select: none;  /* Safari */
+    -moz-user-select: none;     /* Firefox */
+    -ms-user-select: none;      /* IE/Edge */
+    -webkit-user-drag: none;    /* Blokada przeciągania obrazka (ghost image) */
+    -webkit-touch-callout: none; /* Blokada menu na iOS */
+    
+    backface-visibility: hidden; 
+    -webkit-font-smoothing: antialiased;
+}
+
+.card-front {
+    z-index: 2;
+    pointer-events: auto; /* Włączamy klikanie TYLKO dla górnej karty */
+    transform-origin: center center;
+    cursor: none; /* Ważne: ukrywa systemowy kursor, żeby widać było Twój customowy */
+}
+
+/* Zachowujemy efekt hover, który chciałeś wcześniej */
+.card-front:hover {
+    filter: brightness(1.15); 
+    transform: scale(1.03) translateY(-15px) rotate(-3deg) rotateX(-8deg); 
+}
+
+/* Karta spodnia */
+.card-back {
+    z-index: 1;
+}
+
+/* Karta wierzchnia */
+.card-front {
+    z-index: 2;
+    pointer-events: auto; /* Włączamy interakcję myszką */
+    transform-origin: center center;
+    cursor: none; /* Zachowuje Twój custom cursor */
+}
+
+/* EFEKT HOVER NA KARCIE */
+.card-front:hover {
+    filter: brightness(1.15); 
+    
+    /* Transformacje: Powiększenie, Góra, Obrót w lewo, Pochylenie do przodu */
+    transform: 
+        scale(1.03) 
+        translateY(-15px) 
+        rotate(-3deg) 
+        rotateX(-8deg); 
+}
+
+
+/* RESPONSIVE FIX */
+@media (max-width: 768px) {
+    .cards-wrapper {
+        display:none;
+    }
 }
