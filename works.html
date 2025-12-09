@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Olaf M. | My Works</title>
     
-    <!-- Linki do fontów - skopiowane z index.html -->
+    <!-- Linki do fontów -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.cdnfonts.com/css/hk-grotesk" rel="stylesheet">
     <link href="https://fonts.cdnfonts.com/css/cascadia-code" rel="stylesheet">
     
-    <!-- Link do nowego pliku CSS -->
+    <!-- Link do pliku CSS -->
     <link rel="stylesheet" href="work.css">
 
-    <!-- Dodanie biblioteki GSAP do animacji przejść -->
+    <!-- Biblioteka GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 
     <style>
@@ -37,13 +37,13 @@
 
     <div class="work-page-container">
         
-        <!-- NAGŁÓWEK LEWY GÓRNY RÓG -->
+        <!-- NAGŁÓWEK -->
         <div class="work-header-title">
             OLAF M. | MY WORKS
             <span class="header-subtitle">graphics designer & web designer</span>
         </div>
 
-        <!-- ZMIANA: Przełącznik Języka i Motywu -->
+        <!-- KONTROLKI NAGŁÓWKA -->
         <div class="header-controls">
             <a href="index-pl.html" class="lang-link">
                 <img src="img/use_/lang.png" alt="Language / Język" class="lang-icon" id="lang-icon">
@@ -60,7 +60,6 @@
                 <span>Back</span>
             </a>
         </div>
-        <!-- KONIEC ZMIANY -->
         
         <section class="portfolio-section">
             
@@ -68,27 +67,18 @@
                 
                 <div class="card-stack-wrapper"> 
                     <div class="card-stack">
-                        <div class="portfolio-card" data-index="0">
-                            <img src="" alt="Document 1 Preview">
-                        </div>
-                        <div class="portfolio-card" data-index="1">
-                            <img src="" alt="Document 2 Preview">
-                        </div>
-                        <div class="portfolio-card" data-index="2">
-                            <img src="" alt="Document 3 Preview">
-                        </div>
-                        <div class="portfolio-card" data-index="3">
-                            <img src="" alt="Document 4 Preview">
-                        </div>
-                        <div class="portfolio-card" data-index="4">
-                            <img src="" alt="Document 5 Preview">
-                        </div>
+                        <!-- Karty generowane są dynamicznie przez JS, ale startowe struktury są tutaj dla bezpieczeństwa -->
+                        <div class="portfolio-card" data-index="0"><img src="" alt="Preview"></div>
+                        <div class="portfolio-card" data-index="1"><img src="" alt="Preview"></div>
+                        <div class="portfolio-card" data-index="2"><img src="" alt="Preview"></div>
+                        <div class="portfolio-card" data-index="3"><img src="" alt="Preview"></div>
+                        <div class="portfolio-card" data-index="4"><img src="" alt="Preview"></div>
                     </div>
                 </div>
 
             </div>
 
-            <!-- PRAWA STRONA (2/6: OPIS PRACY) -->
+            <!-- PRAWA STRONA (OPIS PRACY) -->
             <div class="portfolio-info">
                 <div class="info-header">
                     <h2 id="info-title" class="info-title"></h2>
@@ -116,11 +106,12 @@
 
     </div>
 
-<!-- SKRYPTY JAVASCRIPT - KLUCZ DO ZAŁADOWANIA OBRAZÓW -->
+<!-- SKRYPTY JAVASCRIPT -->
 <script>
-    // --- Dane Pracy (8 elementów) ---
+    // --- Dane Pracy ---
     const worksData = [
         { 
+            // PROJEKT 1 (Bez zmian)
             title: "UI Concept and Front-End Build", 
             date: "2025-03-12", 
             description1: "This project focused on developing a detailed custom mock-up and initial front-end scripting for a film maker and film director’s professional website.", 
@@ -128,72 +119,85 @@
             image: "document1.png" 
         },
         { 
+            // NOWY PROJEKT (DODANY - numer 2, GIF)
+            title: "Motion Homepage Prototype", 
+            date: "2025-03-01", 
+            description1: "This project showcases a motion-based homepage concept for a film studio, featuring a dynamic rotating gallery and smooth cinematic transitions. The animation demonstrates how key hero elements and visual content would behave in an interactive, real-time UI environment.", 
+            description2: "The mock-up also outlines the core front-end structure, including planned interaction logic, hover states, and navigation flow. All visual components were custom-designed to match the studio’s aesthetic and support a clean, functional user experience.",
+            image: "document2.gif" 
+        },
+        { 
+            // PROJEKT 3 (Dawny 2 -> przesunięty na document3.png)
             title: "Personal Introduction Page", 
             date: "2025-02-15", 
             description1: "A digital mockup and conversational-tech demo built to showcase a modern athlete-focused experience featuring marathon runner Jason Smith.", 
             description2: "The full visual framework — layout, branding elements, and interface components — was designed entirely by me, with all images carefully prepared and optimized for seamless display. The prototype includes a custom-crafted HTML structure, interaction logic enabling fluid conversations with Jason’s virtual agent, and tailored styling to ensure clarity, responsiveness, and an intuitive user flow.",
-            image: "document2.png" 
+            image: "document3.png" 
         },
         { 
+            // PROJEKT 4 (Dawny 3 -> przesunięty na document4.png)
             title: "Portfolio Prototype", 
             date: "2024-02-28", 
             description1: "A clean and minimalist web portfolio created to highlight the work and artistic style of a Czech photographer.", 
             description2: "The entire visual presentation — layout structure, typography, and interface elements — was crafted by me to emphasize clarity and understated elegance. All photographs were carefully prepared for web use to retain detail while ensuring fast loading. The build features a lightweight HTML foundation, subtle interface interactions, and custom styling designed to present her work in a refined, distraction-free viewing experience.",
-            image: "document3.png" 
+            image: "document4.png" 
         },
         { 
+            // PROJEKT 5 (Dawny 4 -> przesunięty na document5.png)
             title: "Community Blog Prototype", 
             date: "2025-01-11", 
             description1: "A community-oriented website concept designed to support a restoration project and provide a clean, easy-to-manage blogging platform.", 
             description2: "The entire visual layer — layouts, graphics, and interface components was handcrafted by me, with all supplied photos carefully edited and optimized for web use. The build included HTML structure, JavaScript functionality for interactive elements, and custom styling to ensure a lightweight and responsive user experience.",
-            image: "document4.png" 
+            image: "document5.png" 
         },
-
-                { 
+        { 
+            // PROJEKT 6 (Dawny 5 -> przesunięty na document6.png)
             title: "Personal Portfolio", 
             date: "2025-12-17", 
             description1: "A compact showcase of my design prototypes, interfaces, and technical experiments. I created the full visual structure of the site, keeping it clean, lightweight, and consistent across all featured projects.", 
             description2: "One highlight is my custom WebGL2 engine, where the sky, ocean and celestial elements are generated procedurally in GLSL. Rendering runs on a single fullscreen quad with most calculations handled on the GPU, while JavaScript manages only camera and time controls.",
-            image: "document5.png" 
+            image: "document6.png" 
         },
-
         { 
+            // PROJEKT 7 (Dawny 6 -> przesunięty na document7.png)
             title: "Urban Fashion E-commerce", 
             date: "2024-11-20", 
             description1: "A bold and dynamic storefront concept designed for an emerging streetwear brand, focusing on high-impact imagery and fluid navigation.", 
             description2: "I designed the complete user interface, including custom product grids and a streamlined checkout flow. The front-end build incorporates smooth page transitions, interactive product previews, and a responsive layout ensuring a premium shopping experience across all devices.",
-            image: "document6.png" 
-        },
-        { 
-            title: "FinTech Dashboard Interface", 
-            date: "2024-10-05", 
-            description1: "A complex data visualization platform created for a mock cryptocurrency exchange, prioritizing data legibility and user control.", 
-            description2: "The visual system—including dark-mode specific color palettes and custom chart components—was developed entirely from scratch. The prototype demonstrates a responsive grid layout and interaction states for real-time data updates, built with clean, semantic HTML and CSS.",
             image: "document7.png" 
         },
-        { 
-            title: "Music Festival Landing Page", 
-            date: "2024-09-15", 
-            description1: "An immersive promotional website for a fictional electronic music festival, designed to capture the event's atmosphere and drive ticket sales.", 
-            description2: "All graphical assets, including the typographic composition and background treatments, were artistically directed by me. The technical implementation features scroll-triggered animations and a video-heavy layout optimized for performance without compromising visual fidelity.",
-            image: "document8.png" 
-        },
         {
+            // PROJEKT 8 (Dawny 7 -> przesunięty na document8.png)
             title: "Cozy virtual space - Catchin' Club", 
             date: "in production since 2025-01-05", 
             description1: "Catching Club is a solo-developed, relaxing concept project for an anonymous MMO. The game focuses on social interactions, fishing, and building acquaintances. All pixel-art visual assets were personally designed and created by me.", 
             description2:"It utilizes an advanced, custom P2P architecture built on WebRTC and the PeerJS library, with all server logic and synchronization managed by my original dedicated Game Host Worker, eliminating the need for traditional server infrastructure.",
             image: "document8.png" 
         },
+        { 
+            // PROJEKT 9 (Dawny 8 -> przesunięty na document9.png)
+            title: "FinTech Dashboard Interface", 
+            date: "2024-10-05", 
+            description1: "A complex data visualization platform created for a mock cryptocurrency exchange, prioritizing data legibility and user control.", 
+            description2: "The visual system—including dark-mode specific color palettes and custom chart components—was developed entirely from scratch. The prototype demonstrates a responsive grid layout and interaction states for real-time data updates, built with clean, semantic HTML and CSS.",
+            image: "document9.png" 
+        },
+        { 
+            // PROJEKT 10 (Dawny 9 -> przesunięty na document10.png)
+            title: "Music Festival Landing Page", 
+            date: "2024-09-15", 
+            description1: "An immersive promotional website for a fictional electronic music festival, designed to capture the event's atmosphere and drive ticket sales.", 
+            description2: "All graphical assets, including the typographic composition and background treatments, were artistically directed by me. The technical implementation features scroll-triggered animations and a video-heavy layout optimized for performance without compromising visual fidelity.",
+            image: "document10.png" 
+        },
     ];
 
     // --- Ustawienia Animacji i Kart ---
-    const CARD_COUNT = worksData.length; // Teraz to jest 8
+    const CARD_COUNT = worksData.length; 
     const TRANSITION_DURATION = 0.8; 
     let isAnimating = false;
     
-    // NOWA ZMIENNA: Definiuje ile kart ma unikalne pozycje (0-4). 
-    // Wszystkie dalsze karty (5,6,7) będą brały pozycję ostatniej (4).
+    // Definiuje ile kart ma unikalne pozycje (0-4). 
     const VISIBLE_LIMIT = 4; 
 
     const isMobile = window.innerWidth <= 1024; 
@@ -220,7 +224,6 @@
     // Funkcja do inicjalizacji i aktualizacji stanów kart
     function updateCardState(cards) {
         cards.forEach((card, index) => {
-            // POPRAWKA: Jeśli index > 4, użyj propsów z indexu 4 (VISIBLE_LIMIT)
             const props = CARD_PROPS[index] || CARD_PROPS[VISIBLE_LIMIT]; 
             
             const workIndex = parseInt(card.dataset.workIndex);
@@ -228,7 +231,6 @@
                 card.querySelector('img').src = `img/work_/${worksData[workIndex].image}`; 
             }
 
-            // Ukrywamy karty, które są "daleko" w stosie (np. 6., 7., 8. karta) żeby nie migały
             const finalOpacity = index > VISIBLE_LIMIT ? 0 : props.opacity;
 
             gsap.to(card, {
@@ -237,7 +239,7 @@
                 y: 0, 
                 rotationY: props.rotationY,
                 scale: props.scale,
-                opacity: finalOpacity, // Używamy poprawionego opacity
+                opacity: finalOpacity,
                 zIndex: props.zIndex,
                 ease: "power3.inOut"
             });
@@ -248,7 +250,6 @@
     function initialCardLoadAnimation(cards) {
          
         cards.forEach((card, index) => {
-            // POPRAWKA: Zabezpieczenie przed brakiem propsów dla indexu > 4
             const props = CARD_PROPS[index] || CARD_PROPS[VISIBLE_LIMIT];
             card.style.zIndex = props.zIndex;
             
@@ -275,7 +276,6 @@
         
         for (let i = cards.length - 1; i >= 0; i--) {
             const card = cards[i];
-            // POPRAWKA: Używamy VISIBLE_LIMIT zamiast błędu
             const props = CARD_PROPS[i] || CARD_PROPS[VISIBLE_LIMIT];
             const finalOpacity = i > VISIBLE_LIMIT ? 0 : props.opacity;
             
@@ -345,14 +345,13 @@
                     firstCard.dataset.workIndex = nextWorkIndex;
                     cardStack.appendChild(firstCard);
                     
-                    // POPRAWKA: Reset pozycji na pozycję ostatnią (VISIBLE_LIMIT)
                     const lastProps = CARD_PROPS[VISIBLE_LIMIT];
                     
                     gsap.set(firstCard, {
                         x: lastProps.x, 
                         rotationY: lastProps.rotationY,
                         scale: lastProps.scale,
-                        opacity: 0, // Zaczyna jako niewidoczny
+                        opacity: 0, 
                         zIndex: lastProps.zIndex
                     });
 
@@ -382,7 +381,6 @@
             });
 
             cards.forEach((card, index) => {
-                 // POPRAWKA: Zabezpieczenie propsów przy przesuwaniu Z-index
                  const nextProps = CARD_PROPS[index+1] || CARD_PROPS[VISIBLE_LIMIT];
                  gsap.set(card, { zIndex: nextProps ? nextProps.zIndex : 0 });
             });
@@ -405,7 +403,6 @@
         }
     }
 
-    // --- Reszta funkcji (Theme, Cursor itp.) bez zmian ---
     function toggleTheme() {
         const body = document.body;
         const overlay = document.getElementById('transition-overlay');
@@ -439,7 +436,6 @@
             }
         });
     }
-
 
     document.addEventListener("DOMContentLoaded", function() {
         const cursor = document.getElementById('custom-cursor');
@@ -516,7 +512,6 @@
         }
 
         if (cardStack) {
-            // Generowanie dodatkowych divów dla nowych kart
             while (cardStack.children.length < CARD_COUNT) {
                 const newCard = document.createElement('div');
                 newCard.classList.add('portfolio-card');
@@ -531,12 +526,11 @@
                 card.dataset.workIndex = index; 
             });
 
-            // Uruchomienie z poprawioną logiką
             updateCardState(cards); 
             initialCardLoadAnimation(cards); 
             
             updateText(worksData[0]); 
-            totalWorksEl.textContent = CARD_COUNT; // To zmieni "1/5" na "1/8"
+            totalWorksEl.textContent = CARD_COUNT;
 
             if(nextBtnDesktop) nextBtnDesktop.addEventListener('click', () => handleTransition('next'));
             if(prevBtnDesktop) prevBtnDesktop.addEventListener('click', () => handleTransition('prev'));
@@ -545,7 +539,6 @@
 
             cards.forEach(card => {
                 card.addEventListener('mouseenter', function() {
-                    // Efekt hover działa tylko na pierwszej karcie
                     if (this === document.querySelector('.card-stack').children[0] && !isAnimating) {
                         gsap.to(this, { duration: 0.3, scale: 1.01, rotationY: isMobile ? -1 : -1.5, ease: "power2.out" });
                     }
@@ -561,8 +554,6 @@
         }
     });
 </script>
-
-
 
 </body>
 </html>

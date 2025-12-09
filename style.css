@@ -1361,6 +1361,72 @@ body.light-mode-active .caption-text,
        Tutaj zostawiam działanie na "tapnięcie" (kliknięcie palcem traktowane jako hover) */
 }
 
+.iframe-showcase-section {
+    width: 100%;
+    background-color: #000;
+    padding: 0 0 80px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.iframe-container {
+    width: 95%; /* Szerokość taka jak innych sekcji */
+    height: 70vh; /* Wysokość okna z przykładem */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    position: relative;
+    transition: border-color 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.iframe-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+}
+
+.iframe-caption {
+    margin-top: 15px;
+    font-family: 'Cascadia Code', monospace;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.caption-icon {
+    font-size: 12px;
+    animation: blink 2s infinite;
+}
+
+/* --- LIGHT MODE SUPPORT --- */
+.iframe-showcase-section.light-mode,
+body.light-mode-active .iframe-showcase-section {
+    background-color: #fcfcfc;
+}
+
+body.light-mode-active .iframe-container {
+    border-color: rgba(0, 0, 0, 0.15);
+}
+
+body.light-mode-active .iframe-caption {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+/* --- RESPONSIVE LOGIC (Ukrywanie na tabletach i mobile) --- */
+@media (max-width: 1024px) {
+    .iframe-showcase-section {
+        display: none !important;
+    }
+}
+
 .desktop-only-desc {
     margin-top: 30px;
     max-width: 90%;

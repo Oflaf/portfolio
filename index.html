@@ -271,6 +271,17 @@
 
 </div>
     </section>
+<section class="iframe-showcase-section fade-in-on-scroll" id="showcase">
+        <div class="iframe-container">
+            <!-- Tutaj ładuje się Twój przykład -->
+            <iframe src="example/example.html" title="Interactive Work Example" loading="lazy"></iframe>
+        </div>
+        
+        <div class="iframe-caption">
+            <span class="caption-icon">*</span>
+            INTERACTIVE PREVIEW // This is a live example demonstrating a fraction of my development capabilities.
+        </div>
+    </section>
 
     <!-- NOWA STOPKA (FOOTER) -->
     <footer class="site-footer">
@@ -380,15 +391,15 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     </script>
-
-    <script>
+<script>
     document.addEventListener("DOMContentLoaded", function() {
         const aboutSection = document.getElementById('about');
         const skySection = document.getElementById('sky-section'); 
-        
-        // DODANO: Pobieranie sekcji Contact i Self Theme
         const contactSection = document.getElementById('contact');
         const selfThemeSection = document.getElementById('self-theme');
+        
+        // DODANO: Pobieranie nowej sekcji
+        const showcaseSection = document.getElementById('showcase');
 
         const lightIcon = document.getElementById('light-icon');
         const darkIcon = document.getElementById('dark-icon');
@@ -396,10 +407,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if (!aboutSection || !skySection || !lightIcon || !darkIcon) return;
 
+        // Ustawienie początkowe ikon
         lightIcon.classList.add('active-mode-icon');
         darkIcon.classList.remove('active-mode-icon');
 
         function jumpText() {
+            // ... (Twoja funkcja jumpText bez zmian) ...
             const allAboutChars = document.querySelectorAll("#about .char-reveal");
             if (allAboutChars.length === 0) return;
             gsap.killTweensOf(allAboutChars); 
@@ -407,20 +420,9 @@ document.addEventListener("DOMContentLoaded", function() {
             gsap.fromTo(allAboutChars, 
                 { y: 0, scaleY: 1 }, 
                 {
-                    y: -10, 
-                    scaleY: 1.1, 
-                    duration: 0.15,
-                    ease: "power2.out",
-                    stagger: 0.0025,
+                    y: -10, scaleY: 1.1, duration: 0.15, ease: "power2.out", stagger: 0.0025,
                     onComplete: () => {
-                        gsap.to(allAboutChars, {
-                            y: 0,
-                            scaleY: 1,
-                            duration: 0.3,
-                            ease: "bounce.out",
-                            stagger: 0.009,
-                            delay: 0.03 
-                        });
+                        gsap.to(allAboutChars, { y: 0, scaleY: 1, duration: 0.3, ease: "bounce.out", stagger: 0.009, delay: 0.03 });
                     }
                 }
             );
@@ -430,10 +432,11 @@ document.addEventListener("DOMContentLoaded", function() {
             // Przełączanie klasy na wszystkich sekcjach
             aboutSection.classList.toggle('light-mode');
             skySection.classList.toggle('light-mode');
-            
-            // DODANO: Przełączanie klas dla Contact i Self Theme
             if(contactSection) contactSection.classList.toggle('light-mode');
             if(selfThemeSection) selfThemeSection.classList.toggle('light-mode');
+            
+            // DODANO: Przełączanie klasy dla nowej sekcji
+            if(showcaseSection) showcaseSection.classList.toggle('light-mode');
 
             body.classList.toggle('light-mode-active'); 
 

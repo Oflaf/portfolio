@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modernist Archive</title>
+    
+    <!-- Import unikalnych fontów -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Anton&family=Bebas+Neue&family=Cinzel:wght@400;900&family=Cormorant+Garamond:ital,wght@1,300&family=DM+Serif+Display&family=Fjalla+One&family=Gloria+Hallelujah&family=Indie+Flower&family=Lobster&family=Major+Mono+Display&family=Monoton&family=Orbitron:wght@900&family=Playfair+Display:ital@1&family=Righteous&family=Shadows+Into+Light&family=Syncopate:wght@700&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+
+    <!-- Import Ikon Social Media (Font Awesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --total-img-width: 400px; 
+            --img-height: 300px;
+            --slices-per-img: 5; 
+            --slice-width: calc(var(--total-img-width) / var(--slices-per-img));
+            
+            /* Modernistyczne kolory - monochromatyczne */
+            --color-text: #e0e0e0;
+            --color-accent: #ffffff; 
+            --color-dim: #666666;
+            --bg-overlay: rgba(10, 10, 10, 0.85);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #050505;
+            background-image: url('back.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', sans-serif;
+            color: var(--color-text);
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle, rgba(0,0,0,0) 20%, rgba(0,0,0,0.95) 100%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* --- LOGO (Lewy Górny) --- */
+        #logo-container {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            z-index: 100;
+            mix-blend-mode: exclusion;
+        }
+        #logo-container img {
+            width: 120px;
+            height: auto;
+            display: block;
+        }
+
+        /* --- MENU (Prawy Górny) --- */
+        .top-nav {
+            position: fixed;
+            top: 35px;
+            right: 40px;
+            z-index: 100;
+            display: flex;
+            gap: 40px;
+        }
+
+        .top-nav a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            transition: color 0.3s ease, letter-spacing 0.3s ease;
+        }
+
+        .top-nav a:hover {
+            color: var(--color-accent);
+            letter-spacing: 3px;
+        }
+
+        /* --- SOCIAL SIDEBAR (Prawy Bok) --- */
+        .social-sidebar {
+            position: fixed;
+            top: 100px; /* Zaraz pod menu nawigacyjnym */
+            right: 40px; /* W jednej linii z menu */
+            display: flex;
+            flex-direction: column;
+            gap: 25px; /* Odstępy między ikonami */
+            z-index: 100;
+            align-items: center;
+        }
+
+        .social-sidebar a {
+            color: var(--color-dim);
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-sidebar a:hover {
+            color: var(--color-accent);
+            transform: translateX(-3px); /* Lekkie przesunięcie w lewo */
+        }
+
+        /* --- SCENE 3D --- */
+        .scene {
+            width: var(--slice-width);
+            height: var(--img-height);
+            perspective: 2000px; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            will-change: transform;
+        }
+
+        .shape-3d {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform-style: preserve-3d;
+        }
+
+        .slice {
+            position: absolute;
+            width: var(--slice-width);
+            height: var(--img-height);
+            background-repeat: no-repeat;
+            background-size: var(--total-img-width) var(--img-height); 
+            background-color: #0a0a0a; 
+            backface-visibility: visible; 
+            
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 15px rgba(0,0,0,0.7); 
+            image-rendering: -webkit-optimize-contrast; 
+            
+            transition: filter 0.3s ease-out, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        /* Hover Effect - Zimny, biały blask */
+        .slice.hovered-group {
+            filter: brightness(1.4) !important;
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.6);
+            z-index: 10; 
+        }
+
+        /* --- INFO PANEL (Lewy Dolny) --- */
+        #details-panel {
+            position: fixed;
+            bottom: 40px;
+            left: 40px;
+            width: 320px;
+            z-index: 100;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            pointer-events: none;
+        }
+
+        #details-panel.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .meta-header {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            color: var(--color-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 5px;
+        }
+        
+        .meta-header span.highlight {
+            color: var(--color-accent);
+        }
+
+        .meta-title {
+            font-size: 2.5rem;
+            line-height: 1.1;
+            margin: 0 0 10px 0;
+            color: #fff;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.8);
+        }
+
+        .meta-director {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            color: #bbb;
+        }
+        
+        .meta-director span {
+            font-weight: 300;
+            opacity: 0.6;
+            font-size: 0.8em;
+            margin-right: 5px;
+        }
+
+        .meta-desc {
+            font-size: 0.8rem;
+            line-height: 1.6;
+            color: #999;
+            background: linear-gradient(90deg, rgba(20,20,20,0.8) 0%, rgba(0,0,0,0) 100%);
+            padding: 12px;
+            border-left: 1px solid var(--color-accent);
+        }
+
+        /* --- PREVIEW IMAGE (Prawy Dolny - WIĘKSZY) --- */
+        #preview-container {
+            position: fixed;
+            bottom: 40px;
+            right: 80px;
+            width: 300px; /* Powiększony rozmiar */
+            height: auto;
+            z-index: 90;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: #000;
+            padding: 5px;
+            box-shadow: -10px -10px 30px rgba(0,0,0,0.5);
+            
+            /* KURSOR WSKAZUJĄCY */
+            cursor: pointer;
+        }
+
+        #preview-container.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #preview-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: grayscale(100%); 
+            transition: filter 0.3s;
+        }
+        
+        #preview-container:hover #preview-img {
+            filter: grayscale(0%);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- LOGO -->
+    <div id="logo-container">
+        <img src="logo.png" alt="Logo">
+    </div>
+
+    <!-- MENU NAWIGACYJNE -->
+    <nav class="top-nav">
+        <a href="#">About Us</a>
+        <a href="#">Films</a>
+        <a href="#">Contact</a>
+        <a href="#">Gallery</a>
+    </nav>
+
+    <!-- SOCIAL MEDIA SIDEBAR -->
+    <div class="social-sidebar">
+        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#" aria-label="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+    </div>
+
+    <!-- SCENA 3D -->
+    <div class="scene">
+        <div class="shape-3d" id="shape"></div>
+    </div>
+
+    <!-- PANEL SZCZEGÓŁÓW (LEWY DÓŁ) -->
+    <div id="details-panel">
+        <div class="meta-header">
+            <span id="meta-year" class="highlight">2023</span> // <span id="meta-month">MARCH</span>
+        </div>
+        <h1 class="meta-title" id="meta-title">TITLE</h1>
+        <div class="meta-director"><span>DIR.</span> <b id="meta-director-name">NAME</b></div>
+        <div class="meta-desc" id="meta-desc">
+            Description placeholder.
+        </div>
+    </div>
+
+    <!-- PODGLĄD ZDJĘCIA (PRAWY DÓŁ) -->
+    <div id="preview-container">
+        <img id="preview-img" src="" alt="Frame Preview">
+    </div>
+
+    <script>
+        const shape = document.getElementById('shape');
+        const detailsPanel = document.getElementById('details-panel');
+        const previewContainer = document.getElementById('preview-container');
+        const previewImg = document.getElementById('preview-img');
+        
+        // --- DANE GENEROWANE (ENGLISH) ---
+        const totalImages = 17;
+        const directors = ["Jonas K. Rifter", "Alea V. Thorne", "Marek S. Void"];
+        const months = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
+        
+        const fontList = [
+            "'Abril Fatface', cursive", "'Anton', sans-serif", "'Bebas Neue', cursive", 
+            "'Cinzel', serif", "'Cormorant Garamond', serif", "'DM Serif Display', serif", 
+            "'Fjalla One', sans-serif", "'Gloria Hallelujah', cursive", "'Indie Flower', cursive", 
+            "'Lobster', cursive", "'Major Mono Display', monospace", "'Monoton', cursive", 
+            "'Orbitron', sans-serif", "'Playfair Display', serif", "'Righteous', cursive", 
+            "'Shadows Into Light', cursive", "'Syncopate', sans-serif", "'UnifrakturMaguntia', cursive"
+        ];
+
+        const imageMetadata = [];
+        
+        const titlesPool = ["NEON SOLITUDE", "CONCRETE BREATH", "DIGITAL DECAY", "ECHOES OF SILICON", "VELVET NOISE", "CHROME HEART", "STATIC DREAMS", "VOID STRUCTURE", "URBAN GHOSTS", "GLITCH PARADISE", "SYNTHETIC SOUL", "GLASS HORIZON", "BINARY SUNSET", "ACID RAIN", "FRAGMENTED REALITY", "ZERO POINT", "LUCID WIRES"];
+        
+        const descPool = [
+            "A study of solitude in a world saturated with LED light. The protagonist gets lost in a labyrinth of their own reflections.",
+            "Brutalist architecture collides with the fragility of human tissue. A story of survival within concrete.",
+            "Digital corrosion eats away at memories. Visual poetry about the loss of data and identity.",
+            "The sound of silence in a server room. A psychological thriller set in the year 2049.",
+            "The soft touch of velvet in a world of hard steel. A contrast that defines a new era of fashion.",
+            "The machine's heart beats faster than a human's. An existential drama of a high-class robot.",
+            "Dreams interrupted by white noise. A surreal journey through the subconscious of the network.",
+            "The void has its own structure. The director explores the geometric aspects of nothingness.",
+            "Ghosts do not haunt castles, but abandoned subway stations. Modernist horror.",
+            "A system error becomes a gateway to paradise. A utopia built on source code.",
+            "Can a soul be synthetic? A philosophical treatise dressed in the form of an action movie."
+        ];
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        for (let i = 1; i <= totalImages; i++) {
+            const year = getRandomInt(2019, 2025);
+            const month = months[getRandomInt(0, 11)];
+            const director = directors[getRandomInt(0, 2)];
+            const title = titlesPool[(i - 1) % titlesPool.length];
+            const font = fontList[(i - 1) % fontList.length];
+            const desc = descPool[getRandomInt(0, descPool.length - 1)];
+
+            imageMetadata[i] = {
+                title: title,
+                year: year,
+                month: month,
+                director: director,
+                desc: desc,
+                font: font
+            };
+        }
+
+        // --- KONFIGURACJA GALERII ---
+        const slicesPerImage = 5; 
+        const totalImageWidth = 400; 
+        const sliceWidth = totalImageWidth / slicesPerImage;
+        const totalSlices = totalImages * slicesPerImage; 
+        const angleStep = 360 / totalSlices;
+        const radius = Math.round((sliceWidth / 2) / Math.tan(Math.PI / totalSlices)) + 2;
+
+        const allImageGroups = []; 
+
+        // --- GENEROWANIE ---
+        for (let i = 0; i < totalImages; i++) {
+            const groupSlices = [];
+            const imgUrl = `url('kadr${i + 1}.jpg')`;
+
+            for (let j = 0; j < slicesPerImage; j++) {
+                const slice = document.createElement('div');
+                slice.className = 'slice';
+                slice.style.backgroundImage = imgUrl;
+                slice.dataset.bgUrl = imgUrl; 
+                
+                slice.dataset.cleanSrc = `kadr${i + 1}.jpg`; 
+
+                const bgPosX = -(j * sliceWidth);
+                slice.style.backgroundPosition = `${bgPosX}px center`;
+
+                if (j === 0) {
+                    slice.style.borderTopLeftRadius = '24px';
+                    slice.style.borderBottomLeftRadius = '24px';
+                    slice.style.borderLeft = '1px solid rgba(255,255,255,0.1)';
+                }
+                if (j === slicesPerImage - 1) {
+                    slice.style.borderTopRightRadius = '24px';
+                    slice.style.borderBottomRightRadius = '24px';
+                    slice.style.borderRight = '1px solid rgba(255,255,255,0.1)';
+                }
+
+                const globalSliceIndex = (i * slicesPerImage) + j;
+                const angle = angleStep * globalSliceIndex;
+                slice.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
+                
+                slice.addEventListener('mouseenter', () => handleGroupHover(i, true));
+                slice.addEventListener('mouseleave', () => handleGroupHover(i, false));
+                slice.addEventListener('click', () => handleSliceClick(slice));
+
+                shape.appendChild(slice);
+                groupSlices.push({
+                    element: slice,
+                    angle: angle
+                });
+            }
+            allImageGroups.push(groupSlices);
+        }
+
+        const flatSlicesList = allImageGroups.flat();
+
+        function handleGroupHover(groupIndex, isHovering) {
+            const group = allImageGroups[groupIndex];
+            group.forEach(item => {
+                if (isHovering) {
+                    item.element.classList.add('hovered-group');
+                } else {
+                    item.element.classList.remove('hovered-group');
+                }
+            });
+        }
+
+        function handleSliceClick(clickedSlice) {
+            const currentStyleBg = clickedSlice.style.backgroundImage; 
+            const match = currentStyleBg.match(/kadr(\d+)\.jpg/);
+            
+            if (match && match[1]) {
+                const id = parseInt(match[1], 10);
+                const data = imageMetadata[id];
+                const cleanSrc = `kadr${id}.jpg`;
+                
+                if (data) {
+                    document.getElementById('meta-year').innerText = data.year;
+                    document.getElementById('meta-month').innerText = data.month;
+                    const titleEl = document.getElementById('meta-title');
+                    titleEl.innerText = data.title;
+                    titleEl.style.fontFamily = data.font; 
+                    document.getElementById('meta-director-name').innerText = data.director;
+                    document.getElementById('meta-desc').innerText = data.desc;
+                    detailsPanel.classList.add('visible');
+
+                    previewImg.src = cleanSrc;
+                    previewContainer.classList.add('visible');
+                }
+            }
+        }
+
+        // --- GLITCH / SWAP ---
+        function triggerHighSpeedSwap() {
+            let idx1 = Math.floor(Math.random() * totalImages);
+            let idx2 = Math.floor(Math.random() * totalImages);
+            while (idx1 === idx2) idx2 = Math.floor(Math.random() * totalImages);
+
+            const group1 = allImageGroups[idx1];
+            const group2 = allImageGroups[idx2];
+
+            const fadeStyle = "brightness(0.3) blur(8px)";
+            
+            group1.forEach(item => item.element.style.filter = fadeStyle);
+            group2.forEach(item => item.element.style.filter = fadeStyle);
+
+            setTimeout(() => {
+                const url1 = group1[0].element.style.backgroundImage;
+                const url2 = group2[0].element.style.backgroundImage;
+
+                group1.forEach(item => item.element.style.backgroundImage = url2);
+                group2.forEach(item => item.element.style.backgroundImage = url1);
+
+                group1.forEach(item => item.element.style.filter = "");
+                group2.forEach(item => item.element.style.filter = "");
+
+            }, 300);
+
+            const nextDelay = Math.random() * 100 + 50; 
+            setTimeout(triggerHighSpeedSwap, nextDelay);
+        }
+
+        setTimeout(triggerHighSpeedSwap, 1000);
+
+
+        // --- FIZYKA ---
+        let currentRotX = -6;
+        let currentRotY = 0;
+        let velocityX = 0; 
+        let velocityY = 0;
+        const friction = 0.95; 
+
+        let currentScale = 0.17;
+        let targetScale = 0.17;
+        const minScale = 0.05;
+        const maxScale = 1.4;
+        const zoomLerp = 0.08; 
+
+        const mouseSensitivity = 0.07; 
+        const scrollSensitivity = 0.0004;
+
+        let isDragging = false;
+        let lastMouseX, lastMouseY;
+
+        function animate() {
+            if (!isDragging) {
+                currentRotY += velocityX;
+                currentRotX -= velocityY;
+                velocityX *= friction;
+                velocityY *= friction;
+                if (Math.abs(velocityX) < 0.0001) velocityX = 0;
+                if (Math.abs(velocityY) < 0.0001) velocityY = 0;
+            }
+
+            if (Math.abs(targetScale - currentScale) > 0.00001) {
+                currentScale += (targetScale - currentScale) * zoomLerp;
+            }
+
+            shape.style.transform = `
+                translateZ(0) 
+                scale(${currentScale}) 
+                rotateX(${currentRotX}deg) 
+                rotateY(${currentRotY}deg)
+            `;
+
+            const rotYRad = currentRotY * (Math.PI / 180);
+            
+            for (let i = 0; i < flatSlicesList.length; i++) {
+                const item = flatSlicesList[i];
+                if (item.element.style.filter !== "" || item.element.classList.contains('hovered-group')) {
+                    item.element.style.opacity = 1;
+                    continue;
+                }
+                let rad = (item.angle * (Math.PI / 180)) + rotYRad;
+                let zComp = Math.cos(rad);
+                let normalized = (zComp + 1) / 2; 
+                let curve = normalized * normalized; 
+                let opacity = 0.15 + (0.85 * curve);
+                item.element.style.opacity = opacity.toFixed(2);
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // --- MOUSE EVENTS ---
+        document.addEventListener('mousedown', (e) => {
+            // Blokada dragowania, jeśli klikamy w elementy interfejsu
+            if (detailsPanel.contains(e.target) || previewContainer.contains(e.target) || e.target.closest('a')) return;
+            isDragging = true;
+            lastMouseX = e.clientX;
+            lastMouseY = e.clientY;
+            document.body.style.cursor = 'grabbing';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            const deltaX = e.clientX - lastMouseX;
+            const deltaY = e.clientY - lastMouseY;
+            lastMouseX = e.clientX; lastMouseY = e.clientY;
+            currentRotY += deltaX * mouseSensitivity;
+            currentRotX -= deltaY * mouseSensitivity;
+            velocityX = deltaX * mouseSensitivity;
+            velocityY = deltaY * mouseSensitivity;
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            document.body.style.cursor = 'default';
+        });
+
+        document.addEventListener('wheel', (e) => {
+            targetScale -= e.deltaY * scrollSensitivity;
+            if (targetScale < minScale) targetScale = minScale;
+            if (targetScale > maxScale) targetScale = maxScale;
+            e.preventDefault();
+        }, { passive: false });
+
+        document.addEventListener('dragstart', (e) => e.preventDefault());
+
+    </script>
+</body>
+</html>
