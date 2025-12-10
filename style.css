@@ -105,7 +105,12 @@ body.light-mode-active ::-moz-selection {
     z-index: 10000;
     mix-blend-mode: difference;
     transform: translate(-50%, -50%) scale(1);
-    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+
+}
+
+.cursor-hidden {
+    opacity: 0 !important;
 }
 
 #custom-cursor.click-active,
@@ -869,7 +874,7 @@ body.light-mode-active .self-theme-section .hk-title,
         gap: 20px;
     }
     .about-text-wrapper .about-column:nth-child(2) { margin-left: 0; }
-    .hk-text-body { width: 100%; text-align: justify; }
+    .hk-text-body { width: 95%; text-align: justify; }
     .about-label { margin-bottom: 5px; }
     .about-image { display: none; }
 
@@ -886,6 +891,11 @@ body.light-mode-active .self-theme-section .hk-title,
 }
 
 @media (max-width: 768px) {
+
+    .mode-icon {
+    width: 15px; 
+    height: 15px;
+}
     /* Main Layout */
     .portfolio-buttons { top: 20px; right: 15px; gap: 15px; }
     .portfolio-btn { font-size: clamp(0.6rem, 0.9vw, 0.8rem); padding: 18px 10px; }
@@ -899,7 +909,7 @@ body.light-mode-active .self-theme-section .hk-title,
     .webgl-notice { display: none; }
     
     .time-widget { top: auto; bottom: 60px; right: 20px; transform: none; }
-    .theme-switch-icons { bottom: 10px; right: 10px; }
+    .theme-switch-icons { bottom: 10px; right: 10px;}
     .insta-link { left: 10px; bottom: 15px; }
     .insta-link span { font-size: 9px; }
 
@@ -1274,92 +1284,22 @@ body.light-mode-active .submit-btn:hover {
             }
         }
 
-        .hover-reveal-container {
-    position: relative;
-}
+
 
 /* Stylizacja kontenera z tekstem */
-.photo-caption {
-    position: absolute;
-    bottom: 15px;
-    left: 15px;
-    max-width: 500px; /* Ograniczenie szerokości tekstu, żeby nie rozlał się na całe zdjęcie */
-    
-    background: rgba(0, 0, 0, 0.85); /* Ciemne tło dla kontrastu */
-    border: 1px solid rgba(255, 255, 255, 0.2); /* Subtelna ramka */
-    backdrop-filter: blur(4px); /* Efekt rozmycia tła pod tekstem (glassmorphism) */
-    
-    padding: 20px 25px;
-    opacity: 0; /* Domyślnie ukryte */
-    transform: translateY(10px); /* Domyślnie lekko przesunięte w dół */
-    
-    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1); /* Płynna animacja pojawiania się */
-    pointer-events: none; /* Tekst nie blokuje myszki, dopóki się nie pojawi */
-    z-index: 20;
-}
+
 
 /* Stylizacja samego tekstu */
-.caption-text {
-    font-family: 'HK Grotesk', sans-serif;
-    font-size: 12px;
-    line-height: 1.6;
-    color: #d1d1d1;
-    margin: 0;
-    text-align: justify;
-    font-weight: 300;
-}
+
 
 /* --- LOGIKA HOVER (Najważniejsza część) --- */
 
-/* Gdy najedziesz myszką na kontener zdjęcia (.hover-reveal-container) */
-.hover-reveal-container:hover .photo-caption {
-    opacity: 1;
-    transform: translateY(0); /* Tekst wraca na swoje miejsce */
-    pointer-events: auto; /* Teraz można zaznaczyć tekst */
-}
 
 /* --- LIGHT MODE SUPPORT --- */
 /* Jeśli włączony jest tryb jasny, zmieniamy tło notki na jasne */
-body.light-mode-active .photo-caption,
-.light-mode .photo-caption {
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-}
 
-body.light-mode-active .caption-text,
-.light-mode .caption-text {
-    color: #333;
-}
 
-/* --- RESPONSYWNOŚĆ (Mobile) --- */
 
-@media (max-width: 768px) {
-    .photo-caption {
-        bottom: 0;
-        left: 0;
-        width: 100%; /* Na telefonie tekst na całą szerokość */
-        max-width: 100%;
-        border-left: none;
-        border-right: none;
-        border-bottom: none;
-        padding: 20px;
-        background: rgba(0, 0, 0, 0.9); /* Mocniejsze tło na mobilkach dla czytelności */
-    }
-    .caption-text {
-    font-family: 'HK Grotesk', sans-serif;
-    font-size: 9px;
-    line-height: 1.6;
-    color: #d1d1d1;
-    margin: 0;
-    text-align: justify;
-    font-weight: 300;
-}
-    
-    /* Opcjonalnie: Na telefonach, gdzie nie ma myszki (hover),
-       możemy sprawić, żeby tekst był widoczny po kliknięciu w zdjęcie 
-       lub był widoczny zawsze. 
-       Tutaj zostawiam działanie na "tapnięcie" (kliknięcie palcem traktowane jako hover) */
-}
 
 .iframe-showcase-section {
     width: 100%;
@@ -1387,6 +1327,8 @@ body.light-mode-active .caption-text,
     border: none;
     display: block;
 }
+
+
 
 .iframe-caption {
     margin-top: 15px;

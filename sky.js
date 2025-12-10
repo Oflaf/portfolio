@@ -170,29 +170,31 @@ window.addEventListener('mousemove', (e) => {
 });
 
 window.addEventListener('mouseup', handleInputEnd);
+if (window.innerWidth > 1024) {
 
-// --- Event Listeners Dotyk (Mobile) ---
-window.addEventListener('touchstart', e => {
-    if(e.target.closest('#dial-container') || e.target.closest('#reset-icon')) return;
-    handleInputStart(e.touches[0].clientX, e.touches[0].clientY);
-}, {passive: false});
+    window.addEventListener('touchstart', e => {
+        if(e.target.closest('#dial-container') || e.target.closest('#reset-icon')) return;
+        handleInputStart(e.touches[0].clientX, e.touches[0].clientY);
+    }, {passive: false});
 
-window.addEventListener('touchmove', e => {
-    if(isDragging) {
-        // Blokujemy przewijanie strony podczas przesuwania nieba
-        if(e.cancelable) e.preventDefault(); 
-    }
+    window.addEventListener('touchmove', e => {
+        if(isDragging) {
+            // Blokujemy przewijanie strony TYLKO na desktopach z dotykiem (np. hybrydy),
+            // ale na zwykłych telefonach ten kod się w ogóle nie wykona dzięki warunkowi if.
+            if(e.cancelable) e.preventDefault(); 
+        }
 
-    if(!mouseTicking) {
-        window.requestAnimationFrame(() => {
-            handleInputMove(e.touches[0].clientX, e.touches[0].clientY, true);
-            mouseTicking = false;
-        });
-        mouseTicking = true;
-    }
-}, {passive: false});
+        if(!mouseTicking) {
+            window.requestAnimationFrame(() => {
+                handleInputMove(e.touches[0].clientX, e.touches[0].clientY, true);
+                mouseTicking = false;
+            });
+            mouseTicking = true;
+        }
+    }, {passive: false});
 
-window.addEventListener('touchend', handleInputEnd);
+    window.addEventListener('touchend', handleInputEnd);
+}
 
 let timeOfDay = 12.0; 
 let worldSpeed = 1.0;       

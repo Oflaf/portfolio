@@ -146,12 +146,7 @@
     <!-- NOWE ZDJĘCIE (szerokość 100%) -->
     <div class="full-width-image-container fade-in-on-scroll hover-reveal-container">
     <img src="img/use_/2me.jpg" alt="Atmospheric Shot - Vienna">
-    
-    <div class="photo-caption">
-        <p class="caption-text">
-            This photograph was taken during my road trip across Europe with one of my closest friends. It captures a late-night moment in Vienna, where I’m trying to call home from a classic phone booth to wish my girlfriend goodnight after my phone had died. The journey took us through many European countries in my first car — a Mercedes W124 with the OM602 diesel engine — which we had lovingly brought back to life together, servicing and preparing it for the adventure.
-        </p>
-    </div>
+
 </div>
 
     <section class="self-theme-section" id="self-theme">
@@ -210,11 +205,7 @@
     <div class="full-width-image-container fade-in-on-scroll hover-reveal-container">
     <img src="img/use_/3me.jpg" alt="Atmospheric Shot - Hungary">
     
-    <div class="photo-caption">
-        <p class="caption-text">
-            Another moment from the trip: a breakdown somewhere in Hungary. Our patched-up radiator started leaking again, and because the temperature gauge I had ‘repaired’ wasn’t working properly, the engine came close to overheating. Luckily, we managed to fix the leak once more, refill the coolant, and cool the car down before any real damage was done. Good thing I’m much better at designing and programming websites than repairing old naturally aspirated diesels.
-        </p>
-    </div>
+
 </div>
 
     <section class="contact-section" id="contact">
@@ -499,6 +490,25 @@ document.addEventListener("DOMContentLoaded", function() {
 
     <script>
     document.addEventListener("DOMContentLoaded", function() {
+
+            const iframeContainer = document.querySelector('.iframe-container');
+    const customCursor = document.getElementById('custom-cursor');
+
+    if (iframeContainer && customCursor) {
+        // Gdy myszka wjeżdża na obszar iframe
+        iframeContainer.addEventListener('mouseenter', () => {
+            // Ukrywamy customowy kursor
+            customCursor.classList.add('cursor-hidden');
+        });
+
+        // Gdy myszka wyjeżdża z obszaru iframe
+        iframeContainer.addEventListener('mouseleave', () => {
+            // Pokazujemy customowy kursor z powrotem
+            customCursor.classList.remove('cursor-hidden');
+        });
+    }
+
+
         const cursor = document.getElementById('custom-cursor');
         let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0;
         const speed = 0.15; 
