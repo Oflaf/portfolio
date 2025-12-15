@@ -128,6 +128,159 @@ body, a, button, input, textarea {
 /* --- 2. Zwiększenie odstępu między kartami a tekstem --- */
 
 
+.methodology-section {
+    width: 100%;
+    max-width: 1200px;
+    margin: 2vh auto 5vh auto; /* Odstęp od sekcji kart */
+    padding: 0;
+    color: white;
+    position: relative;
+    border-top: 1px solid rgba(255, 255, 255, 0.2); /* Subtelna linia oddzielająca */
+    padding-top: 30px;
+    transition: border-color 0.4s ease;
+}
+
+body.light-mode-active .methodology-section {
+    color: #111;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* NAGŁÓWEK SEKCJI */
+.methodology-header {
+    margin-bottom: 60px;
+}
+
+.section-label {
+    font-family: 'Cascadia Code', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: #888;
+    display: block;
+    margin-bottom: 15px;
+    transition: color 0.4s ease;
+}
+
+body.light-mode-active .section-label {
+    color: #666;
+}
+
+.methodology-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 400; /* Lżejsza waga wygląda bardziej "premium" */
+    margin: 0;
+    letter-spacing: -1px;
+}
+
+/* SIATKA 3 KOLUMN */
+.methodology-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    margin-bottom: 80px;
+}
+
+/* POJEDYNCZY ELEMENT */
+.method-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.method-number {
+    font-family: 'Cascadia Code', monospace;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: 20px;
+    transition: color 0.4s ease;
+}
+
+body.light-mode-active .method-number {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+.method-name {
+    font-family: 'HK Grotesk', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0 20px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Podkreślenie tytułu */
+    transition: border-color 0.4s ease;
+}
+
+body.light-mode-active .method-name {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.method-desc {
+    font-family: 'HK Grotesk', sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: #ccc;
+    margin: 0;
+    transition: color 0.4s ease;
+}
+
+body.light-mode-active .method-desc {
+    color: #444;
+}
+
+/* CYTAT NA DOLE */
+.methodology-footer {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+.methodology-footer p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.4rem;
+    color: #fff;
+    opacity: 0.8;
+    margin-bottom: 25px;
+    transition: color 0.4s ease;
+}
+
+body.light-mode-active .methodology-footer p {
+    color: #111;
+}
+
+
+/* ========================================================= */
+/* RESPONSYWNOŚĆ DLA NOWEJ SEKCJI */
+/* ========================================================= */
+
+@media (max-width: 1024px) {
+    .methodology-section {
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-top: 5vh;
+    }
+    
+    .methodology-grid {
+        grid-template-columns: 1fr; /* Jedna kolumna na tablecie/mobile */
+        gap: 50px;
+    }
+
+    .method-item {
+        border-left: 1px solid rgba(255, 255, 255, 0.2); /* Ozdobna linia z boku na mobile */
+        padding-left: 20px;
+        transition: border-color 0.4s ease;
+    }
+
+    body.light-mode-active .method-item {
+        border-left: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .method-name {
+        border-bottom: none; /* Usuwamy podkreślenie na mobile, bo mamy linię z boku */
+    }
+}
+
 
 body.light-mode-active .work-header-title {
     color: #111;

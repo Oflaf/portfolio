@@ -5,6 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Olaf M. Portfolio</title>
     
+    <!-- FAVICON -->
+    <link rel="icon" href="img/use_/fav.png" type="image/png">
+
+    <!-- FACEBOOK / MESSENGER / OPEN GRAPH -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Olaf M. Portfolio">
+    <meta property="og:description" content="Graphics designer & web designer. Explore my interactive WebGL portfolio.">
+    
+    <!-- ZMIEŃ ADRES PONIŻEJ NA SWOJĄ DOMENĘ (np. https://olafm.com) -->
+    <meta property="og:url" content="https://twoja-strona.pl/">
+    <meta property="og:image" content="https://twoja-strona.pl/img/use_/preview.jpg">
+    
+    <!-- Opcjonalnie wymiary dla pewności -->
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
@@ -25,10 +41,17 @@
         }
     </script>
 
+    <!-- CRITICAL CSS: BLOKADA SCROLLOWANIA -->
+    <style>
+        body.stop-scrolling {
+            height: 100vh !important;
+            overflow: hidden !important;
+        }
+    </style>
     
 </head>
 
-<!-- Dodajemy klasę stop-scrolling od razu na start -->
+<!-- Klasa stop-scrolling dodana od razu na start -->
 <body class="stop-scrolling">
     
     <!-- ELEMENT PRZEJŚCIA Z FADE-TO-BLACK -->
@@ -447,29 +470,41 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     </script>
 
+    <!-- ZMODYFIKOWANY SCRIPT PRELOADERA I BLOKADY SCROLLA -->
     <script>
         (function() {
+            // 1. Zablokuj przywracanie pozycji scrolla przez przeglądarkę
             if (history.scrollRestoration) {
                 history.scrollRestoration = 'manual';
             }
 
+            // 2. Wymuś powrót na górę przy przeładowaniu
             window.onbeforeunload = function () {
                 window.scrollTo(0, 0);
             }
 
-            window.addEventListener('load', function() {
+            // 3. Funkcja startowa
+            document.addEventListener('DOMContentLoaded', function() {
+                // Jeszcze raz dla pewności scroll do góry
                 window.scrollTo(0, 0);
                 
                 const preloader = document.getElementById('preloader');
                 const body = document.body;
                 
                 if (preloader) {
+                    // Obserwator zmian w stylach preloadera
                     const observer = new MutationObserver(function(mutations) {
                         mutations.forEach(function(mutation) {
                             if (mutation.type === "attributes" && mutation.attributeName === "style") {
                                 const style = window.getComputedStyle(preloader);
-                                if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') {
+                                
+                                // Jeśli preloader zaczyna znikać (opacity spada) lub znika całkowicie
+                                // Zmieniono warunek na < 0.9, żeby odblokować scroll chwilę wcześniej dla płynności
+                                if (style.display === 'none' || style.visibility === 'hidden' || parseFloat(style.opacity) < 0.9) {
+                                    
+                                    // TUTAJ ZDEJMUJEMY BLOKADĘ SCROLLA
                                     body.classList.remove('stop-scrolling');
+                                    
                                     if (window.startClockAnimation) {
                                         window.startClockAnimation();
                                     }
@@ -481,6 +516,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                     observer.observe(preloader, { attributes: true });
                 } else {
+                    // Jeśli nie ma preloadera, od razu zdejmij blokadę
                     body.classList.remove('stop-scrolling');
                     if (window.startClockAnimation) window.startClockAnimation();
                 }
@@ -634,7 +670,6 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     </script>
 
-    <!-- ZMODYFIKOWANA CZĘŚĆ SKRYPTU DLA NAWIGACJI (Obejmuje teraz też stopkę) -->
     <script>
     document.addEventListener("DOMContentLoaded", function() {
         gsap.registerPlugin(ScrollTrigger, ScrollToPlugin); 

@@ -1,11 +1,10 @@
-/* =========================================
-   GLOBAL RESET & BASE STYLES
-   ========================================= */
+
 * {
     scrollbar-width: none;
     -ms-overflow-style: none;
     box-sizing: border-box;
 }
+
 
 *::-webkit-scrollbar {
     display: none;
@@ -72,6 +71,33 @@ body.light-mode-active ::-moz-selection {
 .word-wrapper {
     display: inline-block;
     white-space: nowrap;
+}
+
+.lens-flare {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none; /* Kliknięcia przenikają */
+    opacity: 0;
+    transform-origin: center center;
+    will-change: transform, opacity; /* Optymalizacja przeglądarki */
+    z-index: 100; /* Nad canvasem */
+}
+
+#flare-1 {
+    width: 600px;  /* Dostosuj wielkość */
+    height: 600px;
+    margin-left: -325px; /* Centrowanie */
+    margin-top: -300px;
+    mix-blend-mode: screen; /* Ładne mieszanie ze słońcem */
+}
+
+#flare-2 {
+    width: 300px; /* Większa, centralna flara */
+    height: 300px;
+    margin-left: 20px;
+    margin-top: 0px;
+    mix-blend-mode: screen;
 }
 
 .char-reveal {

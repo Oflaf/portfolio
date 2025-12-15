@@ -148,6 +148,8 @@ function handleInputMove(x, y, isTouch) {
     }
 }
 
+
+
 function handleInputEnd() {
     isDragging = false;
 }
@@ -266,6 +268,109 @@ if (resetIcon) {
         updateDate(); // Przy resecie też upewniamy się, że data jest aktualna
         if(hasGsap) gsap.to(window, { worldSpeed: 1.0, duration: 1.0 });
     });
+}
+
+function createFlare(id, src) {
+    const img = document.createElement('img');
+    img.id = id;
+    img.src = src;
+    img.className = 'lens-flare';
+    // Pobieramy kontener, który ma overflow: hidden
+    const container = document.querySelector('.sky-container'); 
+    if (container) {
+        container.appendChild(img);
+    } else {
+        // Fallback w razie błędu
+        document.body.appendChild(img);
+    }
+    return img;
+}
+
+const flare1 = createFlare('flare-1', 'img/use_/flare.png');
+const flare2 = createFlare('flare-2', 'img/use_/flare2.png');
+
+// 2. Funkcja aktualizująca pozycję flar
+function updateSunFlares(yaw, pitch) {
+    // Jeśli jest noc (słońce pod horyzontem w shaderze to mniej więcej te godziny), ukryj
+    // (Możesz dostosować godziny zależnie od logiki shadera)
+    if (timeOfDay < 6.40 || timeOfDay > 17.50) {
+        flare1.style.opacity = 0;
+        flare2.style.opacity = 0;
+        return;
+    }
+
+    // A. Oblicz wektor kamery (tak samo jak w updateLabels)
+    const cy = Math.cos(yaw), sy = Math.sin(yaw);
+    const cp = Math.cos(pitch), sp = Math.sin(pitch);
+    
+    // Wektor "Forward" kamery
+    const f = [cp * sy, sp, cp * cy];
+
+    // B. Oblicz wektor Słońca (zgodnie z logiką shadera)
+    const sunAngle = ((timeOfDay - 6.0) / 24.0) * Math.PI * 2.0;
+    // W shaderze: vec3(0.0, sin(sunAngle), cos(sunAngle))
+    const sunPos = [0.0, Math.sin(sunAngle), Math.cos(sunAngle)];
+
+    // C. Sprawdź, czy patrzymy w stronę słońca (Iloczyn skalarny)
+    // Dot product > 0 oznacza, że słońce jest przed kamerą
+    const dotF = sunPos[0]*f[0] + sunPos[1]*f[1] + sunPos[2]*f[2];
+
+    if (dotF <= 0.0) {
+        // Słońce za plecami
+        flare1.style.opacity = 0;
+        flare2.style.opacity = 0;
+        return;
+    }
+
+    // D. Projekcja 3D -> 2D (Gdzie na ekranie jest słońce?)
+    // Obliczamy wektory pomocnicze kamery (Right i Up)
+    let rx = f[2], rz = -f[0]; // Uproszczony cross product z WorldUp(0,1,0)
+    let rLen = Math.sqrt(rx*rx + rz*rz);
+    rx /= rLen; rz /= rLen; // Normalizacja Right
+    
+    // Wektor Up kamery
+    const ux = f[1]*rz, uy = f[2]*rx - f[0]*rz, uz = -f[1]*rx;
+
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+
+    // Rzutowanie perspektywiczne
+    const screenX = ((sunPos[0]*rx + sunPos[1]*0 + sunPos[2]*rz) / dotF) * h + w / 2;
+    const screenY = ((sunPos[0]*ux + sunPos[1]*uy + sunPos[2]*uz) / dotF) * h + h / 2;
+
+    // E. Logika animacji
+    const centerX = w / 2;
+    const centerY = h / 2;
+    
+    // Odległość słońca od środka ekranu (w pikselach)
+    const distToCenter = Math.sqrt((screenX - centerX)**2 + (screenY - centerY)**2);
+    // Maksymalna odległość od środka, przy której widać flary (np. połowa szerokości ekranu)
+    const maxDist = Math.max(w, h) * 0.4; 
+
+    // 1. FLARE 1 (Główna flara - widoczna gdy słońce na ekranie)
+    // Pozycja: podąża za słońcem
+    // Opacity: zanika przy krawędziach
+    const visibility1 = Math.max(0, 1.0 - (distToCenter / (maxDist * 0.8)));
+    
+    // Kąt pochylenia flary (zależny od pozycji słońca)
+    const angleRad = Math.atan2(screenY - centerY, screenX - centerX);
+    const angleDeg = angleRad * (180 / Math.PI);
+
+    flare1.style.transform = `translate3d(${screenX}px, ${h - screenY}px, 0) rotate(${angleDeg}deg) scale(${0.8 + visibility1 * 0.4})`;
+    flare1.style.opacity = visibility1;
+
+    // 2. FLARE 2 (Centralna - widoczna tylko gdy patrzysz PROSTO w słońce)
+    // Ta flara pojawia się na środku ekranu (lub przesuwa się lekko przeciwnie do słońca - efekt soczewki)
+    
+    // Bardziej restrykcyjna widoczność (tylko środek)
+    const visibility2 = Math.pow(Math.max(0, 1.0 - (distToCenter / (maxDist * 0.3))), 3.0); 
+
+    // Efekt "Ghost" - przesuwa się w przeciwną stronę niż słońce względem środka
+    const ghostX = centerX + (centerX - screenX) * 0.4;
+    const ghostY = centerY + (centerY - (h - screenY)) * 0.4;
+
+    flare2.style.transform = `translate3d(${ghostX}px, ${ghostY}px, 0) rotate(${-angleDeg}deg) scale(${1.0 + visibility2})`;
+    flare2.style.opacity = visibility2;
 }
 
 function updateClockUI() {
@@ -732,7 +837,12 @@ function render(t){
 
   gl.drawArrays(gl.TRIANGLES, 0, 6);
 
+  // --- ISTNIEJĄCE: Aktualizacja gwiazd ---
   updateLabels(currentMouseX * 3.5, -currentMouseY * 1.5);
+
+
+  updateSunFlares(currentMouseX * 3.5, -currentMouseY * 1.5); 
+
   requestAnimationFrame(render);
 }
 requestAnimationFrame(render);
