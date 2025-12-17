@@ -883,6 +883,7 @@ body.light-mode-active .self-theme-section .hk-title,
     .portfolio-subtitle { top: 65px; left: 15px; font-size: clamp(0.5rem, 1vw, 0.8rem); }
     
     .burned-text {
+        top: 45%;
         font-size: clamp(1.5rem, 6vw, 2.5rem);
         white-space: normal; padding: 0 10px; width: 90%;
     }
@@ -1015,6 +1016,61 @@ body.light-mode-active .self-theme-section .hk-title,
     color: #fff;
     transition: border-color 0.3s ease, color 1.5s cubic-bezier(0.65, 0, 0.35, 1);
     border-radius: 0;
+}
+
+.works-cta-container {
+    position: absolute;
+    top: 80%; 
+    left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 7;
+    pointer-events: all;
+    opacity: 0; 
+    will-change: opacity, transform;
+}
+
+.works-cta-btn {
+    font-family: 'Cascadia Mono ExtraLight', monospace;
+    font-size: clamp(0.5rem, 0.8vw, 0.8rem);
+    font-weight: 200;
+    color: rgba(255, 255, 255, 0.9);
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 12px 30px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.works-cta-btn:hover {
+    color: #000;
+    background-color: #fff;
+    border-color: #fff;
+    transform: translateY(-2px);
+}
+
+
+#sky-section.light-mode .works-cta-btn {
+    color: #000;
+    border-color: rgba(0, 0, 0, 0.4);
+}
+
+#sky-section.light-mode .works-cta-btn:hover {
+    color: #fff;
+    background-color: #000;
+    border-color: #000;
+}
+
+@media (max-width: 768px) {
+    .works-cta-container {
+        top: 65%; 
+    }
+    .works-cta-btn {
+        font-size: clamp(0.6rem, 0.8vw, 0.8rem);
+        padding: 10px 20px;
+    }
 }
 
 .minimal-form input:focus,

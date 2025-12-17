@@ -119,6 +119,11 @@
             <div class="burned-text">
                 <span id="typed-text"></span><span id="cursor">|</span>
             </div>
+
+            <div class="works-cta-container" id="works-cta-container">
+                <a href="works_PL.html" class="works-cta-btn">Moje Prace</a>
+            </div>
+
             <div id="webgl-notice" class="webgl-notice">Ten efekt został stworzony przy użyciu WebGL.</div>
             
              <a href="https://www.instagram.com/solendz_caravan/" target="_blank" class="insta-link">
@@ -349,7 +354,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const worksLinks = document.querySelectorAll('#works-link, #footer-works-link');
+           const worksLinks = document.querySelectorAll('#works-link, #footer-works-link, .works-cta-btn');
             const overlay = document.getElementById('transition-overlay');
 
             if (overlay) {
@@ -625,6 +630,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const scrollLinks = document.querySelectorAll('.portfolio-buttons a[href^="#"], .footer-col a[href^="#"]');
         
+        const worksCtaContainer = document.getElementById('works-cta-container');
+        if (worksCtaContainer) {
+            gsap.to(worksCtaContainer, {
+                opacity: 1,
+                duration: 4.5,
+                delay: 3, 
+                ease: "power2.out"
+            });
+        }
+
         scrollLinks.forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault(); 
