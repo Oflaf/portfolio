@@ -5,12 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modernist Archive</title>
     
-    <!-- Import unikalnych fontów -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Anton&family=Bebas+Neue&family=Cinzel:wght@400;900&family=Cormorant+Garamond:ital,wght@1,300&family=DM+Serif+Display&family=Fjalla+One&family=Gloria+Hallelujah&family=Indie+Flower&family=Lobster&family=Major+Mono+Display&family=Monoton&family=Orbitron:wght@900&family=Playfair+Display:ital@1&family=Righteous&family=Shadows+Into+Light&family=Syncopate:wght@700&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
 
-    <!-- Import Ikon Social Media (Font Awesome) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
@@ -20,7 +18,6 @@
             --slices-per-img: 5; 
             --slice-width: calc(var(--total-img-width) / var(--slices-per-img));
             
-            /* Modernistyczne kolory - monochromatyczne */
             --color-text: #e0e0e0;
             --color-accent: #ffffff; 
             --color-dim: #666666;
@@ -53,7 +50,6 @@
             z-index: -1;
         }
 
-        /* --- LOGO (Lewy Górny) --- */
         #logo-container {
             position: fixed;
             top: 30px;
@@ -67,7 +63,6 @@
             display: block;
         }
 
-        /* --- MENU (Prawy Górny) --- */
         .top-nav {
             position: fixed;
             top: 35px;
@@ -91,14 +86,13 @@
             letter-spacing: 3px;
         }
 
-        /* --- SOCIAL SIDEBAR (Prawy Bok) --- */
         .social-sidebar {
             position: fixed;
-            top: 100px; /* Zaraz pod menu nawigacyjnym */
-            right: 40px; /* W jednej linii z menu */
+            top: 100px;
+            right: 40px;
             display: flex;
             flex-direction: column;
-            gap: 25px; /* Odstępy między ikonami */
+            gap: 25px;
             z-index: 100;
             align-items: center;
         }
@@ -112,10 +106,9 @@
 
         .social-sidebar a:hover {
             color: var(--color-accent);
-            transform: translateX(-3px); /* Lekkie przesunięcie w lewo */
+            transform: translateX(-3px);
         }
 
-        /* --- SCENE 3D --- */
         .scene {
             width: var(--slice-width);
             height: var(--img-height);
@@ -151,7 +144,6 @@
             cursor: pointer;
         }
 
-        /* Hover Effect - Zimny, biały blask */
         .slice.hovered-group {
             filter: brightness(1.4) !important;
             box-shadow: 0 0 25px rgba(255, 255, 255, 0.25);
@@ -159,7 +151,6 @@
             z-index: 10; 
         }
 
-        /* --- INFO PANEL (Lewy Dolny) --- */
         #details-panel {
             position: fixed;
             bottom: 40px;
@@ -229,12 +220,11 @@
             border-left: 1px solid var(--color-accent);
         }
 
-        /* --- PREVIEW IMAGE (Prawy Dolny - WIĘKSZY) --- */
         #preview-container {
             position: fixed;
             bottom: 40px;
             right: 80px;
-            width: 300px; /* Powiększony rozmiar */
+            width: 300px;
             height: auto;
             z-index: 90;
             opacity: 0;
@@ -245,7 +235,6 @@
             padding: 5px;
             box-shadow: -10px -10px 30px rgba(0,0,0,0.5);
             
-            /* KURSOR WSKAZUJĄCY */
             cursor: pointer;
         }
 
@@ -270,12 +259,10 @@
 </head>
 <body>
 
-    <!-- LOGO -->
     <div id="logo-container">
         <img src="logo.png" alt="Logo">
     </div>
 
-    <!-- MENU NAWIGACYJNE -->
     <nav class="top-nav">
         <a href="#">About Us</a>
         <a href="#">Films</a>
@@ -283,7 +270,6 @@
         <a href="#">Gallery</a>
     </nav>
 
-    <!-- SOCIAL MEDIA SIDEBAR -->
     <div class="social-sidebar">
         <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
         <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
@@ -291,12 +277,10 @@
         <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
     </div>
 
-    <!-- SCENA 3D -->
     <div class="scene">
         <div class="shape-3d" id="shape"></div>
     </div>
 
-    <!-- PANEL SZCZEGÓŁÓW (LEWY DÓŁ) -->
     <div id="details-panel">
         <div class="meta-header">
             <span id="meta-year" class="highlight">2023</span> // <span id="meta-month">MARCH</span>
@@ -308,7 +292,6 @@
         </div>
     </div>
 
-    <!-- PODGLĄD ZDJĘCIA (PRAWY DÓŁ) -->
     <div id="preview-container">
         <img id="preview-img" src="" alt="Frame Preview">
     </div>
@@ -319,7 +302,6 @@
         const previewContainer = document.getElementById('preview-container');
         const previewImg = document.getElementById('preview-img');
         
-        // --- DANE GENEROWANE (ENGLISH) ---
         const totalImages = 17;
         const directors = ["Jonas K. Rifter", "Alea V. Thorne", "Marek S. Void"];
         const months = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
@@ -373,7 +355,6 @@
             };
         }
 
-        // --- KONFIGURACJA GALERII ---
         const slicesPerImage = 5; 
         const totalImageWidth = 400; 
         const sliceWidth = totalImageWidth / slicesPerImage;
@@ -383,7 +364,6 @@
 
         const allImageGroups = []; 
 
-        // --- GENEROWANIE ---
         for (let i = 0; i < totalImages; i++) {
             const groupSlices = [];
             const imgUrl = `url('kadr${i + 1}.jpg')`;
@@ -465,7 +445,6 @@
             }
         }
 
-        // --- GLITCH / SWAP ---
         function triggerHighSpeedSwap() {
             let idx1 = Math.floor(Math.random() * totalImages);
             let idx2 = Math.floor(Math.random() * totalImages);
@@ -498,7 +477,6 @@
         setTimeout(triggerHighSpeedSwap, 1000);
 
 
-        // --- FIZYKA ---
         let currentRotX = -6;
         let currentRotY = 0;
         let velocityX = 0; 
@@ -557,9 +535,7 @@
         }
         animate();
 
-        // --- MOUSE EVENTS ---
         document.addEventListener('mousedown', (e) => {
-            // Blokada dragowania, jeśli klikamy w elementy interfejsu
             if (detailsPanel.contains(e.target) || previewContainer.contains(e.target) || e.target.closest('a')) return;
             isDragging = true;
             lastMouseX = e.clientX;
