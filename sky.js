@@ -100,12 +100,18 @@ let currentMouseX=0, currentMouseY=0;
 let rawMouseX=0, rawMouseY=0;
 let mouseTicking = false;
 
+// ZMIENIONY KOD DLA OBSŁUGI DOTYKU
 let isDragging = false;
+let isCameraDrag = false; // NOWA ZMIENNA: Czy wykryto ruch specyficzny dla kamery (przewaga pozioma)
 let dragStartX = 0, dragStartY = 0;
 let baseTargetX = 0, baseTargetY = 0;
 
+const DRAG_THRESHOLD = 5; // Minimalny ruch, aby uznać go za przeciąganie/przewijanie
+const SCROLL_DRAG_RATIO = 2.0; // Przewaga pozioma musi być 2x większa niż pionowa, aby uznać za przeciąganie kamery
+
 function handleInputStart(x, y) {
     isDragging = true;
+    isCameraDrag = false; // Reset flagi przy starcie
     dragStartX = x;
     dragStartY = y;
     baseTargetX = targetMouseX;
@@ -117,16 +123,38 @@ function handleInputMove(x, y, isTouch) {
     rawMouseY = y;
 
     if (isDragging) {
-        const sensitivity = 1.8; 
+        const deltaX = x - dragStartX;
+        const deltaY = y - dragStartY;
+        const dist = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-        const deltaX = -((x - dragStartX) / window.innerWidth) * sensitivity; 
-        const deltaY = -((y - dragStartY) / window.innerHeight) * sensitivity; 
+        if (dist > DRAG_THRESHOLD) { 
+            if (isTouch && !isCameraDrag) {
+                // Na dotyku, jeśli jeszcze nie określono intencji
+                if (Math.abs(deltaX) > Math.abs(deltaY) * SCROLL_DRAG_RATIO) {
+                    isCameraDrag = true; // Przewaga pozioma: to jest przeciąganie kamery
+                } else {
+                    // Przewaga pionowa: to jest przewijanie, nie ruszamy kamerą
+                    return; 
+                }
+            } else if (!isTouch && !isCameraDrag) {
+                // Na pulpicie: ruch powyżej progu to zawsze przeciąganie kamery
+                isCameraDrag = true;
+            }
+        } else {
+            return; // Ruch poniżej progu
+        }
 
-        targetMouseX = baseTargetX + deltaX;
-        
-        let rawY = baseTargetY + deltaY;
-        targetMouseY = Math.max(-0.48, Math.min(0.05, rawY));
-        
+        // Aktualizacja kamery tylko, gdy jest to przeciąganie kamery (lub przeciąganie myszą na desktopie)
+        if (isCameraDrag || !isTouch) {
+            const sensitivity = 1.8; 
+            const cameraDeltaX = -(deltaX / window.innerWidth) * sensitivity; 
+            const cameraDeltaY = -(deltaY / window.innerHeight) * sensitivity; 
+
+            targetMouseX = baseTargetX + cameraDeltaX;
+            let rawY = baseTargetY + cameraDeltaY;
+            targetMouseY = Math.max(-0.48, Math.min(0.05, rawY));
+        }
+
     } else if (!isTouch && !isMobileDevice) { 
         targetMouseX = (x / window.innerWidth) * 2 - 1;
         let rawY = (y / window.innerHeight) * 2 - 1;
@@ -137,7 +165,9 @@ function handleInputMove(x, y, isTouch) {
 
 function handleInputEnd() {
     isDragging = false;
+    isCameraDrag = false; // Reset flagi
 }
+// KONIEC ZMIENIONEGO KODU
 
 window.addEventListener('mousedown', e => {
     if(e.target.closest('#dial-container') || e.target.closest('#reset-icon')) return;
@@ -161,8 +191,10 @@ window.addEventListener('touchstart', e => {
     handleInputStart(e.touches[0].clientX, e.touches[0].clientY);
 }, {passive: false});
 
+// ZMIENIONY NASŁUCHIWACZ touchmove
 window.addEventListener('touchmove', e => {
-    if(isDragging) {
+    // Zapobiegamy domyślnemu przewijaniu TYLKO, jeśli to jest przeciąganie kamery
+    if(isDragging && isCameraDrag) { 
         if(e.cancelable) e.preventDefault(); 
     }
 
@@ -174,6 +206,7 @@ window.addEventListener('touchmove', e => {
         mouseTicking = true;
     }
 }, {passive: false});
+// KONIEC ZMIENIONEGO NASŁUCHIWACZA
 
 window.addEventListener('touchend', handleInputEnd);
 
