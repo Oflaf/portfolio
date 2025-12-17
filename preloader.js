@@ -4,39 +4,29 @@ document.addEventListener("DOMContentLoaded", function() {
     const preloaderText = preloader.querySelector('.preloader-text');
     const customCursor = document.getElementById('custom-cursor');
 
-    // 1. Zablokuj scrollowanie na czas intro
-    document.body.style.overflow = 'hidden';
-    
-    // 2. Ukryj custom cursor na start (żeby kropka nie latała po czarnym ekranie)
     if(customCursor) customCursor.style.opacity = '0';
 
-    // 3. Rozbij tekst na litery, aby animować każdą osobno
     const textContent = preloaderText.textContent.trim();
     preloaderText.innerHTML = '';
-    preloaderText.style.opacity = '1'; // Pokazujemy kontener, bo litery są w środku
+    preloaderText.style.opacity = '1';
 
     textContent.split('').forEach(char => {
         const span = document.createElement('span');
         span.textContent = char;
         span.style.opacity = '0';
         span.style.display = 'inline-block';
-        // Zachowaj spacje
         if (char === ' ') span.style.width = '10px'; 
         preloaderText.appendChild(span);
     });
 
     const letters = preloaderText.querySelectorAll('span');
 
-    // 4. Stwórz Timeline w GSAP
     const tl = gsap.timeline({
         onComplete: () => {
-            // Po zakończeniu animacji:
-            // - Odblokuj scroll
-            document.body.style.overflow = ''; 
-            // - Pokaż kursor
             if(customCursor) customCursor.style.opacity = '1';
-            // - Usuń preloader z DOM (dla wydajności)
-            preloader.remove();
+
+            preloader.style.opacity = '0';
+            preloader.style.visibility = 'hidden'; 
         }
     });
 
@@ -45,10 +35,10 @@ document.addEventListener("DOMContentLoaded", function() {
         opacity: 1,
         filter: "blur(0px)",
         startAt: { filter: "blur(15px)", opacity: 0 },
-        stagger: 0.1, // Opóźnienie między literkami
+        stagger: 0.1,
         ease: "power2.out"
     })
-    .to({}, { duration: 1.5 }) // Pauza: trzymaj napis przez 1.5s (łącznie wyjdzie ok 3-4s z animacją)
+    .to({}, { duration: 1.5 })
     .to(preloaderText, {
         duration: 0.8,
         opacity: 0,
@@ -59,6 +49,9 @@ document.addEventListener("DOMContentLoaded", function() {
     .to(preloader, {
         duration: 1,
         opacity: 0,
-        ease: "power2.inOut"
-    }, "-=0.2"); // Zacznij znikać tło chwilę przed końcem tekstu
+        ease: "power2.inOut",
+        onComplete: () => {
+             preloader.style.display = 'none';
+        }
+    }, "-=0.2"); 
 });

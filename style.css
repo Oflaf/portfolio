@@ -1,4 +1,3 @@
-
 * {
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -41,7 +40,6 @@ body, a, button, input, textarea, .portfolio-btn {
     text-shadow: none;
 }
 
-/* Light Mode Selection */
 body.light-mode-active ::selection {
     background-color: #000000;
     color: #ffffff;
@@ -52,9 +50,6 @@ body.light-mode-active ::-moz-selection {
     color: #ffffff;
 }
 
-/* =========================================
-   UTILITIES & OVERLAYS
-   ========================================= */
 #transition-overlay {
     position: fixed;
     top: 0;
@@ -77,23 +72,23 @@ body.light-mode-active ::-moz-selection {
     position: absolute;
     top: 0;
     left: 0;
-    pointer-events: none; /* Kliknięcia przenikają */
+    pointer-events: none;
     opacity: 0;
     transform-origin: center center;
-    will-change: transform, opacity; /* Optymalizacja przeglądarki */
-    z-index: 100; /* Nad canvasem */
+    will-change: transform, opacity;
+    z-index: 100;
 }
 
 #flare-1 {
-    width: 600px;  /* Dostosuj wielkość */
+    width: 600px;
     height: 600px;
-    margin-left: -325px; /* Centrowanie */
+    margin-left: -325px;
     margin-top: -300px;
-    mix-blend-mode: screen; /* Ładne mieszanie ze słońcem */
+    mix-blend-mode: screen;
 }
 
 #flare-2 {
-    width: 300px; /* Większa, centralna flara */
+    width: 300px;
     height: 300px;
     margin-left: 20px;
     margin-top: 0px;
@@ -116,9 +111,6 @@ body.light-mode-active ::-moz-selection {
     transform: translateY(0);
 }
 
-/* =========================================
-   CUSTOM CURSOR
-   ========================================= */
 #custom-cursor {
     position: fixed;
     top: 0;
@@ -151,12 +143,11 @@ body.light-mode-active ::-moz-selection {
     display: block;
     object-fit: cover;
     
-    /* BLOKADA INTERAKCJI */
-    pointer-events: none;       /* Wyłącza klikanie i hover */
-    user-select: none;          /* Wyłącza zaznaczanie tekstu/obrazu */
-    -webkit-user-drag: none;    /* Wyłącza przeciąganie (Chrome/Safari) */
-    -moz-user-select: none;     /* Firefox */
-    -ms-user-select: none;      /* IE/Edge */
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 @media (hover: none) and (pointer: coarse) {
@@ -168,13 +159,10 @@ body.light-mode-active ::-moz-selection {
     }
 }
 
-/* =========================================
-   SKY SECTION (HERO)
-   ========================================= */
 #sky-section.bordered-section {
     position: relative;
     width: 100%;
-    height: 100vh; /* Możesz spróbować zmienić na min-height: 100vh */
+    height: 100vh;
     background-color: #000;
     z-index: 1;
     transition: background-color 1.5s cubic-bezier(0.65, 0, 0.35, 1);
@@ -205,9 +193,9 @@ canvas {
     display: block;
     width: 100%;
     height: 100%;
+    pointer-events: none !important;
 }
 
-/* --- UI ELEMENTS IN SKY SECTION --- */
 .portfolio-title {
     position: absolute;
     top: 30px;
@@ -323,7 +311,6 @@ canvas {
     transform: translateY(8px);
 }
 
-/* --- WIDGETS & ICONS --- */
 .lang-link {
     position: absolute;
     bottom: 110px; 
@@ -414,7 +401,6 @@ canvas {
 .mode-icon.active-mode-icon { display: block; }
 .mode-icon:hover { opacity: 1; transform: scale(1.25) rotate(45deg); }
 
-/* Clock Widget */
 .time-widget {
     position: absolute;
     top: 50%; 
@@ -492,7 +478,6 @@ canvas {
     pointer-events: none;
 }
 
-/* How? Bubble */
 .how-wrapper {
     position: absolute;
     bottom: 60px; 
@@ -568,7 +553,6 @@ canvas {
     font-weight: 300;
 }
 
-/* Light mode for bubble */
 .light-mode .how-box {
     background: rgba(255, 255, 255, 0.9);
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -583,7 +567,6 @@ canvas {
 .light-mode .how-text { color: #444; }
 
 
-/* Stars */
 #star-labels-container {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -604,14 +587,11 @@ canvas {
     padding: 2px 6px; border: 1px solid rgba(255, 255, 255, 0.3); backdrop-filter: blur(2px); margin-bottom: 40px;
 }
 
-/* =========================================
-   ABOUT SECTION
-   ========================================= */
 .about-section {
     width: 100%;
     background: #000;
     position: relative;
-    padding-bottom: 50px; /* Default desktop padding */
+    padding-bottom: 50px;
     transition: background-color 1.5s cubic-bezier(0.65, 0, 0.35, 1); 
 }
 
@@ -720,7 +700,6 @@ canvas {
     transition: color 1.5s cubic-bezier(0.65, 0, 0.35, 1);
 }
 
-/* Light Mode About */
 .about-section.light-mode { background: #fcfcfc; }
 .about-section.light-mode .hk-title { color: #111; }
 .about-section.light-mode .hk-subtitle { color: #555; }
@@ -730,9 +709,6 @@ canvas {
 .about-section.light-mode .about-image { box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); }
 body.light-mode-active { background-color: #fcfcfc !important; }
 
-/* =========================================
-   FULL WIDTH IMAGE
-   ========================================= */
 .full-width-image-container {
     width: 100%;
     overflow: hidden;
@@ -747,9 +723,6 @@ body.light-mode-active { background-color: #fcfcfc !important; }
     object-fit: cover;
 }
 
-/* =========================================
-   SELF THEME SECTION
-   ========================================= */
 .self-theme-section {
     width: 100%;
     min-height: 40vh; 
@@ -780,15 +753,6 @@ body.light-mode-active { background-color: #fcfcfc !important; }
     padding-top: 15px; 
 }
 
-#webglCanvas {
-    display: block;
-    width: 100%;
-    height: 100%;
-    /* TO JEST KLUCZOWE: */
-    pointer-events: none !important; 
-}
-
-/* Rows & Call-n-Response */
 .theme-row {
     display: grid;
     grid-template-columns: 140px 1fr;
@@ -826,7 +790,6 @@ body.light-mode-active { background-color: #fcfcfc !important; }
     transition: color 1.5s cubic-bezier(0.65, 0, 0.35, 1);
 }
 
-/* Light Mode for Self Theme */
 .self-theme-section.light-mode,
 body.light-mode-active .self-theme-section {
     background-color: #fcfcfc;
@@ -847,16 +810,10 @@ body.light-mode-active .theme-answer,
     color: #111111;
 }
 
-/* FIX: Title color in Light Mode */
 body.light-mode-active .self-theme-section .hk-title,
 .self-theme-section.light-mode .hk-title {
     color: #111111;
 }
-
-
-/* =========================================
-   MEDIA QUERIES
-   ========================================= */
 
 @media (max-width: 1279px) {
     .cards-wrapper {
@@ -904,12 +861,10 @@ body.light-mode-active .self-theme-section .hk-title,
     .about-label { margin-bottom: 5px; }
     .about-image { display: none; }
 
-    /* Widgets hidden on tablet/mobile */
     .how-wrapper { display: none; }
     .lang-link { left: 10px; bottom: 45px; }
     .check-album-btn { display: none; }
 
-    /* Self Theme Tablet */
     .theme-content-wrapper { flex-direction: column; }
     .theme-left { width: 100%; margin-bottom: 30px; }
     .theme-right { width: 100%; padding-top: 0; }
@@ -922,7 +877,6 @@ body.light-mode-active .self-theme-section .hk-title,
     width: 15px; 
     height: 15px;
 }
-    /* Main Layout */
     .portfolio-buttons { top: 20px; right: 15px; gap: 15px; }
     .portfolio-btn { font-size: clamp(0.6rem, 0.9vw, 0.8rem); padding: 18px 10px; }
     .portfolio-title { padding-top: 15px; top: 15px; left: 15px; font-size: clamp(1rem, 4vw, 1.5rem); }
@@ -939,28 +893,22 @@ body.light-mode-active .self-theme-section .hk-title,
     .insta-link { left: 10px; bottom: 15px; }
     .insta-link span { font-size: 9px; }
 
-    /* --- MOBILE MARGIN FIXES (The "Agresywne" part) --- */
-    
-    /* 1. Reduce bottom space of About (above image) */
     .about-section {
         padding-bottom: 30px; 
     }
     
-    /* 2. Compact the Self Theme section (below image) */
     .self-theme-section {
-        padding-top: 30px;    /* Much smaller gap */
+        padding-top: 30px;
         padding-bottom: 40px; 
-        min-height: auto;     /* No forced height */
+        min-height: auto;
     }
     
-    /* 3. Tighten title-to-list gap */
     .theme-left {
         margin-bottom: 15px; 
     }
     
-    /* 4. Tighten list rows */
     .theme-right {
-        gap: 10px; /* Rows handle their own margins */
+        gap: 10px;
     }
     
     .theme-row {
@@ -979,10 +927,9 @@ body.light-mode-active .self-theme-section .hk-title,
         display: none; 
     }
 
-    /* DODANA ZMIANA: Wymuszamy pokazanie tylko przycisku "Works" */
     .portfolio-btn.works-link {
         display: inline-block;
-        font-size: 7px; /* Opcjonalnie: lekko mniejszy font na mobile */
+        font-size: 7px;
     }
 
     .theme-row {
@@ -1025,6 +972,7 @@ body.light-mode-active .self-theme-section .hk-title,
 
 .contact-content-wrapper {
     width: 95%;
+    max-width: 1200px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -1043,7 +991,6 @@ body.light-mode-active .self-theme-section .hk-title,
     padding-top: 15px;
 }
 
-/* Form Styles */
 .minimal-form {
     width: 100%;
     display: flex;
@@ -1063,7 +1010,7 @@ body.light-mode-active .self-theme-section .hk-title,
     border: none;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     padding: 15px 0;
-    font-family: 'Cascadia Code', monospace; /* Spójność z resztą strony */
+    font-family: 'Cascadia Code', monospace;
     font-size: 14px;
     color: #fff;
     transition: border-color 0.3s ease, color 1.5s cubic-bezier(0.65, 0, 0.35, 1);
@@ -1086,7 +1033,6 @@ body.light-mode-active .self-theme-section .hk-title,
     transition: color 1.5s cubic-bezier(0.65, 0, 0.35, 1);
 }
 
-/* Submit Button */
 .submit-btn {
     background: transparent;
     border: 1px solid rgba(255, 255, 255, 0.3);
@@ -1095,7 +1041,7 @@ body.light-mode-active .self-theme-section .hk-title,
     font-family: 'Cascadia Code', monospace;
     font-size: 12px;
     letter-spacing: 2px;
-    cursor: none; /* Żeby działał Twój custom cursor */
+    cursor: none;
     transition: all 0.3s ease;
     text-transform: uppercase;
     margin-top: 10px;
@@ -1108,13 +1054,11 @@ body.light-mode-active .self-theme-section .hk-title,
     border-color: #fff;
 }
 
-/* --- LIGHT MODE FOR CONTACT --- */
 body.light-mode-active .contact-section .hk-title,
 .contact-section.light-mode .hk-title {
     color: #111111;
 }
 
-/* Fix: Upewnienie się, że inputy są czytelne */
 body.light-mode-active .minimal-form input,
 body.light-mode-active .minimal-form textarea {
     color: #111 !important;
@@ -1158,7 +1102,6 @@ body.light-mode-active .submit-btn:hover {
     border-color: #000;
 }
 
-/* --- RESPONSIVE (Takie samo jak w Self Theme) --- */
 @media (max-width: 1024px) {
     .contact-content-wrapper { flex-direction: column; }
     .contact-left { width: 100%; margin-bottom: 30px; }
@@ -1190,14 +1133,13 @@ body.light-mode-active .submit-btn:hover {
         .footer-container {
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-between; /* To klucz: rozpycha lewą i prawą stronę */
+            justify-content: space-between;
             align-items: flex-start;
             gap: 3rem;
         }
 
-        /* Lewa strona stopki */
         .footer-left {
-            flex: 0 1 350px; /* Nie rośnij powyżej 350px */
+            flex: 0 1 350px;
             max-width: 350px;
             display: flex;
             flex-direction: column;
@@ -1220,12 +1162,11 @@ body.light-mode-active .submit-btn:hover {
             font-family: 'HK Grotesk', sans-serif;
         }
 
-        /* Prawa strona stopki (kolumny) */
         .footer-right {
             flex: 0 1 auto; 
             display: grid;
             grid-template-columns: repeat(3, 250px); 
-            gap: 4rem; /* Większy odstęp między kolumnami Contents / Contact / Me */
+            gap: 4rem;
             
             text-align: left;
         }
@@ -1252,14 +1193,13 @@ body.light-mode-active .submit-btn:hover {
             font-size: 0.95rem;
             transition: opacity 0.3s ease;
             line-height: 1.5;
-            white-space: nowrap; /* Zapobiega łamaniu się krótkich tekstów */
+            white-space: nowrap;
         }
 
         .footer-col a:hover {
             opacity: 0.6;
         }
 
-        /* LIGHT MODE DLA STOPKI */
         body.light-mode-active .site-footer {
             background-color: #fcfcfc;
             color: #111;
@@ -1281,10 +1221,9 @@ body.light-mode-active .submit-btn:hover {
             color: #666;
         }
 
-        /* Responsywność stopki */
         @media (max-width: 1024px) {
             .footer-right {
-                gap: 2rem; /* Mniejsze odstępy na tabletach */
+                gap: 2rem;
             }
         }
 
@@ -1301,31 +1240,14 @@ body.light-mode-active .submit-btn:hover {
 
             .footer-right {
                 width: 100%;
-                grid-template-columns: 1fr; /* Na telefonie jedna kolumna pod drugą */
+                grid-template-columns: 1fr;
                 gap: 2.5rem;
             }
 
             .footer-col a, .footer-col span {
-                white-space: normal; /* Na telefonie pozwalamy na zawijanie */
+                white-space: normal;
             }
         }
-
-
-
-/* Stylizacja kontenera z tekstem */
-
-
-/* Stylizacja samego tekstu */
-
-
-/* --- LOGIKA HOVER (Najważniejsza część) --- */
-
-
-/* --- LIGHT MODE SUPPORT --- */
-/* Jeśli włączony jest tryb jasny, zmieniamy tło notki na jasne */
-
-
-
 
 .iframe-showcase-section {
     width: 100%;
@@ -1339,8 +1261,8 @@ body.light-mode-active .submit-btn:hover {
 }
 
 .iframe-container {
-    width: 95%; /* Szerokość taka jak innych sekcji */
-    height: 70vh; /* Wysokość okna z przykładem */
+    width: 95%;
+    height: 70vh;
     border: 1px solid rgba(255, 255, 255, 0.2);
     overflow: hidden;
     position: relative;
@@ -1353,8 +1275,6 @@ body.light-mode-active .submit-btn:hover {
     border: none;
     display: block;
 }
-
-
 
 .iframe-caption {
     margin-top: 15px;
@@ -1374,7 +1294,6 @@ body.light-mode-active .submit-btn:hover {
     animation: blink 2s infinite;
 }
 
-/* --- LIGHT MODE SUPPORT --- */
 .iframe-showcase-section.light-mode,
 body.light-mode-active .iframe-showcase-section {
     background-color: #fcfcfc;
@@ -1388,7 +1307,6 @@ body.light-mode-active .iframe-caption {
     color: rgba(0, 0, 0, 0.5);
 }
 
-/* --- RESPONSIVE LOGIC (Ukrywanie na tabletach i mobile) --- */
 @media (max-width: 1024px) {
     .iframe-showcase-section {
         display: none !important;
@@ -1398,10 +1316,9 @@ body.light-mode-active .iframe-caption {
 .desktop-only-desc {
     margin-top: 30px;
     max-width: 90%;
-    display: block; /* Domyślnie widoczny (na dużych ekranach) */
+    display: block;
 }
 
-/* Ukrywanie na tabletach i mniejszych ekranach (<= 1024px) */
 @media (max-width: 1024px) {
     .desktop-only-desc {
         display: none !important;
@@ -1411,16 +1328,14 @@ body.light-mode-active .iframe-caption {
 .cards-wrapper {
     position: relative;
     width: 100%;
-    max-width: 856px; /* Oryginalna szerokość grafiki */
-    /* Utrzymuje proporcje 856x388 niezależnie od szerokości ekranu */
+    max-width: 856px;
     aspect-ratio: 856 / 388; 
     margin-top: 70px;
     margin-left: 40px;
-    perspective: 1500px; /* Kluczowe dla efektu pochylenia 3D */
+    perspective: 1500px;
     z-index: 10;
 }
 
-/* Styl dla obu obrazków */
 .card-img {
     position: absolute;
     top: 0;
@@ -1429,13 +1344,13 @@ body.light-mode-active .iframe-caption {
     height: 100%;
     object-fit: contain;
     transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-    pointer-events: none;       /* Domyślnie brak klikania (włączymy tylko dla frontu) */
-    user-select: none;          /* Brak zaznaczania */
-    -webkit-user-select: none;  /* Safari */
-    -moz-user-select: none;     /* Firefox */
-    -ms-user-select: none;      /* IE/Edge */
-    -webkit-user-drag: none;    /* Blokada przeciągania obrazka (ghost image) */
-    -webkit-touch-callout: none; /* Blokada menu na iOS */
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
     
     backface-visibility: hidden; 
     -webkit-font-smoothing: antialiased;
@@ -1443,35 +1358,30 @@ body.light-mode-active .iframe-caption {
 
 .card-front {
     z-index: 2;
-    pointer-events: auto; /* Włączamy klikanie TYLKO dla górnej karty */
+    pointer-events: auto;
     transform-origin: center center;
-    cursor: none; /* Ważne: ukrywa systemowy kursor, żeby widać było Twój customowy */
+    cursor: none;
 }
 
-/* Zachowujemy efekt hover, który chciałeś wcześniej */
 .card-front:hover {
-    filter: brightness(1.15); 
+    filter: brightness(1.15);
     transform: scale(1.03) translateY(-15px) rotate(-3deg) rotateX(-8deg); 
 }
 
-/* Karta spodnia */
 .card-back {
     z-index: 1;
 }
 
-/* Karta wierzchnia */
 .card-front {
     z-index: 2;
-    pointer-events: auto; /* Włączamy interakcję myszką */
+    pointer-events: auto;
     transform-origin: center center;
-    cursor: none; /* Zachowuje Twój custom cursor */
+    cursor: none;
 }
 
-/* EFEKT HOVER NA KARCIE */
 .card-front:hover {
     filter: brightness(1.15); 
     
-    /* Transformacje: Powiększenie, Góra, Obrót w lewo, Pochylenie do przodu */
     transform: 
         scale(1.03) 
         translateY(-15px) 
@@ -1479,8 +1389,6 @@ body.light-mode-active .iframe-caption {
         rotateX(-8deg); 
 }
 
-
-/* RESPONSIVE FIX */
 @media (max-width: 768px) {
     .cards-wrapper {
         display:none;

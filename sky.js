@@ -1,10 +1,7 @@
-/* sky.js - WERSJA HIGH-PERFORMANCE (ZMODYFIKOWANA + DATA) */
-
 const canvas = document.getElementById("webglCanvas");
 const labelsContainer = document.getElementById("star-labels-container");
 const sectionSky = document.getElementById("sky-section");
 
-// Kontekst WebGL2 z ustawieniami pod wydajność
 const gl = canvas.getContext("webgl2", { 
     alpha: false, 
     antialias: false, 
@@ -17,9 +14,6 @@ if (!gl) {
     alert("Twoja przeglądarka nie obsługuje WebGL2.");
 }
 
-// ==========================================
-// ŁADOWANIE TEKSTURY
-// ==========================================
 function loadTexture(gl, url) {
     const texture = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -39,9 +33,6 @@ function loadTexture(gl, url) {
 
 const moonTexture = loadTexture(gl, "img/sky_/moon.png");
 
-// ==========================================
-// DANE GWIAZD I SATELITÓW
-// ==========================================
 const starsData = [
     { name: "Epsilon Aurigae", pos: [0.2, 0.6, 0.7], element: null, type: 'star' },
     { name: "Capella",         pos: [-0.3, 0.7, 0.5], element: null, type: 'star' },
@@ -85,13 +76,13 @@ for(let i=0; i<2; i++) {
 }
 const satPositionsFlat = new Float32Array(satellitesData.length * 3);
 
-// ==========================================
-// OPTYMALIZACJA ROZDZIELCZOŚCI
-// ==========================================
+let isMobileDevice = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 1000;
+
 function resizeCanvas() {
-    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 1000;
+    isMobileDevice = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 1000;
+    
     const dpr = 1.0; 
-    const qualityMultiplier = isMobile ? 0.5 : 0.75;
+    const qualityMultiplier = isMobileDevice ? 0.5 : 0.75;
 
     const displayWidth = window.innerWidth * dpr;
     const displayHeight = window.innerHeight * dpr;
@@ -102,46 +93,41 @@ function resizeCanvas() {
     gl.viewport(0, 0, canvas.width, canvas.height);
 }
 window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
+resizeCanvas(); 
+
 let targetMouseX=0, targetMouseY=0;
 let currentMouseX=0, currentMouseY=0;
 let rawMouseX=0, rawMouseY=0;
 let mouseTicking = false;
 
-// Zmienne do obsługi przeciągania (drag)
 let isDragging = false;
 let dragStartX = 0, dragStartY = 0;
 let baseTargetX = 0, baseTargetY = 0;
 
-// Funkcja startu przeciągania (mysz lub dotyk)
 function handleInputStart(x, y) {
     isDragging = true;
     dragStartX = x;
     dragStartY = y;
-    // Zapamiętujemy obecną pozycję kamery jako bazę
     baseTargetX = targetMouseX;
     baseTargetY = targetMouseY;
 }
 
-// Funkcja ruchu (mysz lub dotyk)
 function handleInputMove(x, y, isTouch) {
-    // Aktualizujemy surowe koordynaty dla etykiet gwiazd
     rawMouseX = x;
     rawMouseY = y;
 
     if (isDragging) {
-        // Obliczamy przesunięcie od momentu chwycenia
-        // Zwiększamy czułość (mnożnik 2.5), żeby na małych ekranach było wygodniej
-        const sensitivity = 2.5; 
-        const deltaX = ((x - dragStartX) / window.innerWidth) * sensitivity;
-        const deltaY = ((y - dragStartY) / window.innerHeight) * sensitivity;
+        const sensitivity = 1.8; 
+
+        const deltaX = -((x - dragStartX) / window.innerWidth) * sensitivity; 
+        const deltaY = -((y - dragStartY) / window.innerHeight) * sensitivity; 
 
         targetMouseX = baseTargetX + deltaX;
         
         let rawY = baseTargetY + deltaY;
         targetMouseY = Math.max(-0.48, Math.min(0.05, rawY));
-    } else if (!isTouch) {
-        // Klasyczny efekt "śledzenia myszy" (tylko na PC, gdy nie klikamy)
+        
+    } else if (!isTouch && !isMobileDevice) { 
         targetMouseX = (x / window.innerWidth) * 2 - 1;
         let rawY = (y / window.innerHeight) * 2 - 1;
         targetMouseY = Math.max(-0.48, Math.min(0.05, rawY));
@@ -149,14 +135,11 @@ function handleInputMove(x, y, isTouch) {
 }
 
 
-
 function handleInputEnd() {
     isDragging = false;
 }
 
-// --- Event Listeners Mysz ---
 window.addEventListener('mousedown', e => {
-    // Ignorujemy kliknięcia na elementach interfejsu (np. zegar)
     if(e.target.closest('#dial-container') || e.target.closest('#reset-icon')) return;
     handleInputStart(e.clientX, e.clientY);
 });
@@ -172,31 +155,27 @@ window.addEventListener('mousemove', (e) => {
 });
 
 window.addEventListener('mouseup', handleInputEnd);
-if (window.innerWidth > 1024) {
 
-    window.addEventListener('touchstart', e => {
-        if(e.target.closest('#dial-container') || e.target.closest('#reset-icon')) return;
-        handleInputStart(e.touches[0].clientX, e.touches[0].clientY);
-    }, {passive: false});
+window.addEventListener('touchstart', e => {
+    if(e.target.closest('#dial-container') || e.target.closest('#reset-icon')) return;
+    handleInputStart(e.touches[0].clientX, e.touches[0].clientY);
+}, {passive: false});
 
-    window.addEventListener('touchmove', e => {
-        if(isDragging) {
-            // Blokujemy przewijanie strony TYLKO na desktopach z dotykiem (np. hybrydy),
-            // ale na zwykłych telefonach ten kod się w ogóle nie wykona dzięki warunkowi if.
-            if(e.cancelable) e.preventDefault(); 
-        }
+window.addEventListener('touchmove', e => {
+    if(isDragging) {
+        if(e.cancelable) e.preventDefault(); 
+    }
 
-        if(!mouseTicking) {
-            window.requestAnimationFrame(() => {
-                handleInputMove(e.touches[0].clientX, e.touches[0].clientY, true);
-                mouseTicking = false;
-            });
-            mouseTicking = true;
-        }
-    }, {passive: false});
+    if(!mouseTicking) {
+        window.requestAnimationFrame(() => {
+            handleInputMove(e.touches[0].clientX, e.touches[0].clientY, true);
+            mouseTicking = false;
+        });
+        mouseTicking = true;
+    }
+}, {passive: false});
 
-    window.addEventListener('touchend', handleInputEnd);
-}
+window.addEventListener('touchend', handleInputEnd);
 
 let timeOfDay = 12.0; 
 let worldSpeed = 1.0;       
@@ -204,7 +183,7 @@ let simulationTime = 0.0;
 let lastFrameTime = 0.0;    
 
 const clockDisplay = document.getElementById("digital-clock");
-const dateDisplay = document.getElementById("current-date"); // DODANO: Uchwyt do daty
+const dateDisplay = document.getElementById("current-date"); 
 const dialContainer = document.getElementById("dial-container");
 const dialKnob = document.getElementById("dial-knob");
 const resetIcon = document.getElementById("reset-icon");
@@ -213,19 +192,14 @@ const now = new Date();
 const targetTime = now.getHours() + now.getMinutes() / 60.0;
 const hasGsap = typeof gsap !== 'undefined';
 
-// ==========================================
-// FUNKCJA AKTUALIZACJI DATY (NOWE)
-// ==========================================
 function updateDate() {
     if (dateDisplay) {
         const d = new Date();
         const day = d.getDate().toString().padStart(2, '0');
         const month = d.toLocaleString('en-EN', { month: 'short' });
-        // Składamy tekst: "DD. MMM." (np. "02. gru.")
         dateDisplay.innerText = `${day}. ${month}.`;
     }
 }
-// Wywołujemy od razu przy starcie
 updateDate();
 
 
@@ -265,7 +239,7 @@ if (resetIcon) {
     resetIcon.addEventListener('click', () => {
         const n = new Date();
         window.animateTimeTransition(n.getHours() + n.getMinutes()/60.0, 1.5, "back.out(1.7)");
-        updateDate(); // Przy resecie też upewniamy się, że data jest aktualna
+        updateDate(); 
         if(hasGsap) gsap.to(window, { worldSpeed: 1.0, duration: 1.0 });
     });
 }
@@ -275,12 +249,10 @@ function createFlare(id, src) {
     img.id = id;
     img.src = src;
     img.className = 'lens-flare';
-    // Pobieramy kontener, który ma overflow: hidden
     const container = document.querySelector('.sky-container'); 
     if (container) {
         container.appendChild(img);
     } else {
-        // Fallback w razie błędu
         document.body.appendChild(img);
     }
     return img;
@@ -289,83 +261,57 @@ function createFlare(id, src) {
 const flare1 = createFlare('flare-1', 'img/use_/flare.png');
 const flare2 = createFlare('flare-2', 'img/use_/flare2.png');
 
-// 2. Funkcja aktualizująca pozycję flar
 function updateSunFlares(yaw, pitch) {
-    // Jeśli jest noc (słońce pod horyzontem w shaderze to mniej więcej te godziny), ukryj
-    // (Możesz dostosować godziny zależnie od logiki shadera)
     if (timeOfDay < 6.40 || timeOfDay > 17.50) {
         flare1.style.opacity = 0;
         flare2.style.opacity = 0;
         return;
     }
 
-    // A. Oblicz wektor kamery (tak samo jak w updateLabels)
     const cy = Math.cos(yaw), sy = Math.sin(yaw);
     const cp = Math.cos(pitch), sp = Math.sin(pitch);
     
-    // Wektor "Forward" kamery
     const f = [cp * sy, sp, cp * cy];
 
-    // B. Oblicz wektor Słońca (zgodnie z logiką shadera)
     const sunAngle = ((timeOfDay - 6.0) / 24.0) * Math.PI * 2.0;
-    // W shaderze: vec3(0.0, sin(sunAngle), cos(sunAngle))
     const sunPos = [0.0, Math.sin(sunAngle), Math.cos(sunAngle)];
 
-    // C. Sprawdź, czy patrzymy w stronę słońca (Iloczyn skalarny)
-    // Dot product > 0 oznacza, że słońce jest przed kamerą
     const dotF = sunPos[0]*f[0] + sunPos[1]*f[1] + sunPos[2]*f[2];
 
     if (dotF <= 0.0) {
-        // Słońce za plecami
         flare1.style.opacity = 0;
         flare2.style.opacity = 0;
         return;
     }
 
-    // D. Projekcja 3D -> 2D (Gdzie na ekranie jest słońce?)
-    // Obliczamy wektory pomocnicze kamery (Right i Up)
-    let rx = f[2], rz = -f[0]; // Uproszczony cross product z WorldUp(0,1,0)
+    let rx = f[2], rz = -f[0]; 
     let rLen = Math.sqrt(rx*rx + rz*rz);
-    rx /= rLen; rz /= rLen; // Normalizacja Right
+    rx /= rLen; rz /= rLen; 
     
-    // Wektor Up kamery
     const ux = f[1]*rz, uy = f[2]*rx - f[0]*rz, uz = -f[1]*rx;
 
     const w = window.innerWidth;
     const h = window.innerHeight;
 
-    // Rzutowanie perspektywiczne
     const screenX = ((sunPos[0]*rx + sunPos[1]*0 + sunPos[2]*rz) / dotF) * h + w / 2;
     const screenY = ((sunPos[0]*ux + sunPos[1]*uy + sunPos[2]*uz) / dotF) * h + h / 2;
 
-    // E. Logika animacji
     const centerX = w / 2;
     const centerY = h / 2;
     
-    // Odległość słońca od środka ekranu (w pikselach)
     const distToCenter = Math.sqrt((screenX - centerX)**2 + (screenY - centerY)**2);
-    // Maksymalna odległość od środka, przy której widać flary (np. połowa szerokości ekranu)
     const maxDist = Math.max(w, h) * 0.4; 
 
-    // 1. FLARE 1 (Główna flara - widoczna gdy słońce na ekranie)
-    // Pozycja: podąża za słońcem
-    // Opacity: zanika przy krawędziach
     const visibility1 = Math.max(0, 1.0 - (distToCenter / (maxDist * 0.8)));
     
-    // Kąt pochylenia flary (zależny od pozycji słońca)
     const angleRad = Math.atan2(screenY - centerY, screenX - centerX);
     const angleDeg = angleRad * (180 / Math.PI);
 
     flare1.style.transform = `translate3d(${screenX}px, ${h - screenY}px, 0) rotate(${angleDeg}deg) scale(${0.8 + visibility1 * 0.4})`;
     flare1.style.opacity = visibility1;
 
-    // 2. FLARE 2 (Centralna - widoczna tylko gdy patrzysz PROSTO w słońce)
-    // Ta flara pojawia się na środku ekranu (lub przesuwa się lekko przeciwnie do słońca - efekt soczewki)
-    
-    // Bardziej restrykcyjna widoczność (tylko środek)
     const visibility2 = Math.pow(Math.max(0, 1.0 - (distToCenter / (maxDist * 0.3))), 3.0); 
 
-    // Efekt "Ghost" - przesuwa się w przeciwną stronę niż słońce względem środka
     const ghostX = centerX + (centerX - screenX) * 0.4;
     const ghostY = centerY + (centerY - (h - screenY)) * 0.4;
 
@@ -400,9 +346,6 @@ function updateTimeFromMouse(e) {
     updateClockUI();
 }
 
-// ==========================================
-// SHADERY (MOCNO ZOPTIMALIZOWANE)
-// ==========================================
 const vertexShaderSource = `#version 300 es
 in vec4 position;
 void main() { gl_Position = position; }
@@ -421,14 +364,12 @@ uniform sampler2D uMoonTexture;
 
 out vec4 fragColor;
 
-// --- NOISE FUNCTIONS ---
 float hash12(vec2 p) {
     vec3 p3  = fract(vec3(p.xyx) * .1031);
     p3 += dot(p3, p3.yzx + 33.33);
     return fract((p3.x + p3.y) * p3.z);
 }
 
-// Simplex Noise
 vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x,289.0);}
 float snoise3(vec3 v){
   const vec2 C = vec2(1.0/6.0, 1.0/3.0);
@@ -473,7 +414,6 @@ float snoise3(vec3 v){
   return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
 }
 
-// FBM High (Clouds Main)
 float fbmHigh(vec2 uv, float t){
   float total = 0.0;
   float amplitude = 0.3;
@@ -487,7 +427,6 @@ float fbmHigh(vec2 uv, float t){
   return total*0.7 + 0.5;
 }
 
-// FBM Low (Backgrounds)
 float fbmLow(vec2 uv, float t){
   float total = 0.0;
   float amplitude = 0.3;
@@ -501,7 +440,6 @@ float fbmLow(vec2 uv, float t){
   return total*0.7 + 0.5;
 }
 
-// --- MIKRO GWIAZDKI ---
 float getStarDust(vec2 uv, float t) {
     float gridDensity = 470.0; 
     vec2 p = uv * gridDensity; 
@@ -535,14 +473,12 @@ float getStars(vec2 uv, float t) {
     return totalBrightness;
 }
 
-// --- ZMODYFIKOWANA FUNKCJA RYSOWANIA SATELITÓW ---
 float drawSatellites(vec3 rd, float t) {
     float acc = 0.0;
     for(int i=0; i<2; i++) {
         vec3 pos = uSatPos[i];
         float d = dot(rd, pos);
         if(d > 0.999) {
-            // ZMIANA: Zwiększony próg początkowy z 0.99999 na 0.999995 dla mniejszego rozmiaru
             float spot = smoothstep(0.999995, 0.999999, d);
             float pulse = 0.5 + 0.5 * sin((t + float(i) * 0.4) * 8.0);
             acc += spot * pulse * step(0.0, pos.y);
@@ -582,7 +518,6 @@ void main() {
 
   vec3 finalColor = vec3(0.0);
 
-  // 1. NIEBO
   if (rd.y >= -0.05) { 
       vec3 skyBase = mix(colorNightSky, colorDaySky, dayFactor);
       vec3 horizonBase = mix(colorHorizonNight, colorHorizonDay, dayFactor);
@@ -598,16 +533,13 @@ void main() {
           float dustVal = getStarDust(skyUV, iTime);
           skyCol += vec3(starsVal + dustVal) * vec3(0.8, 0.9, 1.0) * nightFactor * smoothstep(0.0, 0.3, rd.y);
 
-          // --- ZMODYFIKOWANE INTERAKTYWNE GWIAZDY ---
           for(int i = 0; i < 3; i++) {
               float d = dot(rd, uStarPos[i]);
               if (d > 0.9996) {
                    float core = smoothstep(0.999995, 1.0, d);
                    float glowBase = smoothstep(0.9998, 1.0, d); 
-                   // ZMIANA: pow(glowBase, 12.0) zamiast 4.0 - mniejszy zasięg smugi
                    float glow = pow(glowBase, 12.0); 
                    vec3 coreColor = vec3(1.0) * core * 4.0; 
-                   // ZMIANA: mnożnik * 0.25 zamiast 0.6 - mniejsza jasność smugi
                    vec3 glowColor = vec3(0.7, 0.8, 1.0) * glow * 0.25; 
                    skyCol += (coreColor + glowColor) * nightFactor;
               }
@@ -666,7 +598,6 @@ void main() {
       finalColor = skyCol;
   }
 
-  // 2. OCEAN
   if (rd.y < 0.0) {
       float t = -ro.y / rd.y;
       if (t > 0.0) {
@@ -789,9 +720,6 @@ function updateLabels(yaw, pitch) {
     satellitesData.forEach(process);
 }
 
-// ==========================================
-// PĘTLA RENDEROWANIA
-// ==========================================
 let isSkyVisible = true;
 if(sectionSky) {
     const observer = new IntersectionObserver((entries) => {
@@ -837,9 +765,7 @@ function render(t){
 
   gl.drawArrays(gl.TRIANGLES, 0, 6);
 
-  // --- ISTNIEJĄCE: Aktualizacja gwiazd ---
   updateLabels(currentMouseX * 3.5, -currentMouseY * 1.5);
-
 
   updateSunFlares(currentMouseX * 3.5, -currentMouseY * 1.5); 
 
